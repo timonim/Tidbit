@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-ink Display Content</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </head>
+<body>
+
+        <div class="magsafe-container" style="margin: 2em;">
+            <div class="epaper-display">
+                <div class="screen-content">
+                    <div class="status-bar">
+                        <span class="time">9:41</span>
+                        <div class="battery-status">
+                            <span class="icon battery-icon"><i class="fas fa-battery-three-quarters"></i></span>
+                            <span class="battery-level">85%</span>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <section class="widget combined-widget" role="region" aria-labelledby="combined-widget-title">
+                            <div class="calendar-section">
+                                <header class="date header" id="combined-widget-title">
+                                    <h1>15</h1>
+                                    <div class="date-container">
+                                        <span class="month subtitle">MAY</span>
+                                        <span class="weekday title">Monday</span>
+                                    </div>
+                                </header>
+                                <div class="events">
+                                    <div class="event-category">
+                                        <span class="category-label">Morning</span>
+                                        <div class="event priority-high">
+                                            <div class="priority-indicator"></div>
+                                            <span class="time">09:00</span>
+                                            <span class="text">Team Standup</span>
+                                        </div>
+                                        <div class="event priority-medium">
+                                            <div class="priority-indicator"></div>
+                                            <span class="time">11:30</span>
+                                            <span class="text">Client Meeting</span>
+                                        </div>
+                                    </div>
+                                    <div class="event-category">
+                                        <span class="category-label">Afternoon</span>
+                                        <div class="event priority-medium">
+                                            <div class="priority-indicator"></div>
+                                            <span class="time">14:30</span>
+                                            <span class="text">Project Review</span>
+                                        </div>
+                                        <div class="event priority-low">
+                                            <div class="priority-indicator"></div>
+                                            <span class="time">16:00</span>
+                                            <span class="text">Team Coffee</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="weather-section">
+                                <header class="header">
+                                    <h1>72°</h1>
+                                    <div class="date-container">
+                                        <span class="location subtitle">Tel Aviv</span>
+                                        <span class="forecast title">Rain later</span>
+                                    </div>
+                                </header>
+                                <div class="weather-details">
+                                    <div class="detail">
+                                        <span class="icon weather-icon"><i class="fas fa-cloud-sun"></i></span>
+                                        <span class="value">75°</span>
+                                        <span class="label">High</span>
+                                    </div>
+                                    <div class="detail">
+                                        <span class="icon weather-icon"><i class="fas fa-moon"></i></span>
+                                        <span class="value">65°</span>
+                                        <span class="label">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="widget notifications" role="log" aria-labelledby="notifications-title">
+                            <header class="header">
+                                <h1 class="notifications-count">03</h1>
+                                <div class="date-container">
+                                    <span class="subtitle" id="notifications-title">Notifications</span>
+                                    <span class="title">Recent</span>
+                                </div>
+                            </header>
+                            <ul class="notification-list">
+                                <li class="notification-group">
+                                    <span class="category-label">Messages</span>
+                                    <div class="notification-item">
+                                        <div class="notification-content">
+                                            <div class="icon notification-icon"><i class="fas fa-envelope"></i></div>
+                                            <span class="notification-text">Email from Alex: Project update</span>
+                                        </div>
+                                        <span class="notification-time">10m ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-group">
+                                    <span class="category-label">Reminders</span>
+                                    <div class="notification-item">
+                                        <div class="notification-content">
+                                            <div class="icon notification-icon"><i class="fas fa-clock"></i></div>
+                                            <span class="notification-text">Take medication</span>
+                                        </div>
+                                        <span class="notification-time">30m ago</span>
+                                    </div>
+                                </li>
+                                </ul>
+                        </section>
+
+                        <section class="widget media" role="region" aria-label="Media Player">
+                            <div class="media-content">
+                                <img src="midnight_city.jpeg" alt="Album cover: M83 - Midnight City" class="album-cover">
+                                <div class="track-info">
+                                    <h2 class="track-title">Midnight City</h2>
+                                    <span class="text">M83</span>
+                                </div>
+                                <div class="controls">
+                                     <button class="prev" aria-label="Previous track"><span class="icon"><i class="fas fa-step-backward"></i></span></button>
+                                    <button class="play" aria-label="Play"><span class="icon"><i class="fas fa-play"></i></span></button>
+                                    <button class="next" aria-label="Next track"><span class="icon"><i class="fas fa-step-forward"></i></span></button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="widget productivity-widget" role="region">
+                            <!-- <header class="header">
+                                <h1 id="productivity-widget-title"><i class="fas fa-brain"></i> Productivity</h1>
+                            </header> -->
+                            <div class="productivity-content">
+                                <div class="pomodoro-section">
+                                    <h2 class="productivity-section-title"><i class="fas fa-clock"></i> Pomodoro Timer</h2>
+                                    <div class="pomodoro-timer">
+                                        <div class="pomodoro-info">
+                                            <span class="pomodoro-session-type">Work</span>
+                                            <h1 class="pomodoro-time">25:00</h1>
+                                            <span class="pomodoro-sessions-completed" title="Pomodoros completed" aria-label="Pomodoros completed" style="display:inline-block;margin-top:4px;font-size:0.9em;"></span>
+                                        </div>
+                                        <div class="pomodoro-controls">
+                                            <button class="pomodoro-start" aria-label="Start timer"><i class="fas fa-play"></i></button>
+                                            <button class="pomodoro-pause" aria-label="Pause timer" style="display: none;"><i class="fas fa-pause"></i></button>
+                                            <button class="pomodoro-reset" aria-label="Reset timer"><i class="fas fa-redo"></i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <hr class="productivity-divider">
+
+                                <div class="mindfulness-section">
+                                    <h2 class="productivity-section-title ds-section-title"><i class="fas fa-leaf"></i> Mindful Moment</h2>
+                                    <div class="mindfulness-prompt-display ds-text-container">
+                                        <p class="mindfulness-prompt-text">Take a deep breath and notice your surroundings.</p>
+                                        <button class="mindfulness-new-prompt-btn" aria-label="Get new mindfulness prompt">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="notification-summary widget--hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="script.js"></script>
+</body>
+</html>
