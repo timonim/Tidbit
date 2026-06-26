@@ -4,13 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="TidBit: Your E-ink MagSafe display for digital calm. Reduce screen time & regain focus with mindful, eye-friendly technology. Join the waitlist.">
+    <meta name="theme-color" content="#050505">
     <title>TidBit - E-ink MagSafe Display | Digital Wellness & Focus</title>
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TidBit — E-ink MagSafe Display for Digital Calm">
+    <meta property="og:description" content="A MagSafe E-ink display that brings mindful focus and essential info to your iPhone, without the noise.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TidBit — E-ink MagSafe Display for Digital Calm">
+    <meta name="twitter:description" content="A MagSafe E-ink display that brings mindful focus and essential info to your iPhone, without the noise.">
+
     <link rel="stylesheet" href="product-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <noscript>
+        <style>
+            /* Ensure content is visible if JavaScript is unavailable */
+            .fade-in { opacity: 1 !important; transform: none !important; }
+        </style>
+    </noscript>
 </head>
 <body>
     <button class="button back-to-top" aria-label="Back to top">
@@ -18,23 +34,12 @@
     </button>
 
     <div class="product-container">
-        <nav class="navbar" aria-label="Main navigation">
+        <nav class="navbar" id="navbar" aria-label="Main navigation">
             <div class="navbar-container">
-                <div class="navbar-brand-container">
-                    <a href="#" class="navbar-brand" aria-label="TidBit Home">
-                        <span class="navbar-logo">TidBit</span>
-                    </a>
-                    <button 
-                        class="menu-toggle" 
-                        aria-label="Toggle navigation menu" 
-                        aria-controls="primary-navigation"
-                        aria-expanded="false"
-                    >
-                        <span class="menu-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Menu</span>
-                    </button>
-                </div>
-                
+                <a href="#" class="navbar-brand" aria-label="TidBit Home">
+                    <span class="navbar-logo">TidBit</span>
+                </a>
+
                 <div class="primary-navigation-container" data-visible="false">
                     <ul id="primary-navigation" class="primary-navigation">
                         <li class="nav-item">
@@ -43,7 +48,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#benefits" class="nav-link">
+                            <a href="#comparison" class="nav-link">
                                 <span>Why E-ink</span>
                             </a>
                         </li>
@@ -53,13 +58,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#integrations" class="nav-link">
-                                <span>Integrations</span>
+                            <a href="#testimonials" class="nav-link">
+                                <span>Testimonials</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#testimonials" class="nav-link">
-                                <span>Testimonials</span>
+                            <a href="#integrations" class="nav-link">
+                                <span>Integrations</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -68,6 +73,20 @@
                             </a>
                         </li>
                     </ul>
+                    <a href="#cta" class="button button-primary nav-cta nav-cta--drawer">Join Waitlist</a>
+                </div>
+
+                <div class="navbar-actions">
+                    <a href="#cta" class="button button-primary nav-cta nav-cta--bar">Join Waitlist</a>
+                    <button
+                        class="menu-toggle"
+                        aria-label="Toggle navigation menu"
+                        aria-controls="primary-navigation"
+                        aria-expanded="false"
+                    >
+                        <span class="menu-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Menu</span>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -76,41 +95,78 @@
             <header class="product-hero">
                 <div class="hero-content">
                     <div class="hero-badge">
-                        <i class="fas fa-bolt"></i>
-                        <span>E-ink MagSafe Display</span>
+                        <i class="fas fa-circle"></i>
+                        <span>Developer Preview</span>
                     </div>
+                    <p class="hero-eyebrow">TidBit</p>
                     <h1 class="hero-title">
-                        Digital Calm,<br>
-                        <span class="hero-highlight">Always in Sight</span>
+                        Calm lives on the back.
                     </h1>
                     <p class="hero-subtitle">
-                        Meet <strong>TidBit</strong> — the MagSafe E-ink display that brings mindful focus and essential info to your iPhone, without the noise.
+                        A paper-like MagSafe display for the essentials, so your iPhone can stay quiet until you actually need it.
                     </p>
                     <div class="hero-ctas">
                         <a href="#cta" class="button button-primary">Join Waitlist</a>
-                        <a href="#features" class="button button-secondary">See Features</a>
+                        <a href="#demo" class="button button-secondary">Watch Demo</a>
+                    </div>
+                    <div class="hero-metrics" aria-label="TidBit highlights">
+                        <div class="hero-metric">
+                            <strong>Weeks</strong>
+                            <span>between charges</span>
+                        </div>
+                        <div class="hero-metric">
+                            <strong>0</strong>
+                            <span>blue-light glow</span>
+                        </div>
+                        <div class="hero-metric">
+                            <strong>Snap</strong>
+                            <span>MagSafe attach</span>
+                        </div>
                     </div>
                 </div>
                 <div class="hero-visual">
+                    <div class="hero-device-frame">
                         <iframe class="hero-mockup-iframe" src="tidbit-only.html" title="TidBit E-ink Mockup"></iframe>
+                    </div>
+                    <div class="hero-caption" aria-hidden="true">
+                        <span>Essential widgets</span>
+                        <span>Always readable</span>
+                    </div>
                 </div>
             </header>
 
-            <section class="eink-display-section">
-                
-                <section class="eink-display-demo">
-                    <div class="section-header">
-                        <h2 class="section-title">Experience Digital Calm</h2>
-                        <p class="section-subtitle">See how TidBit offers a focused, 'dumb phone' experience for your smartphone. Explore the interactive E-ink display simulation below.</p>
-                    </div>
+            <section class="product-strip fade-in" aria-label="TidBit product highlights">
+                <div class="product-strip-item">
+                    <span>Display</span>
+                    <strong>Paper-like e-ink</strong>
+                </div>
+                <div class="product-strip-item">
+                    <span>Attach</span>
+                    <strong>MagSafe snap-on</strong>
+                </div>
+                <div class="product-strip-item">
+                    <span>Battery</span>
+                    <strong>Measured in weeks</strong>
+                </div>
+                <div class="product-strip-item">
+                    <span>Mode</span>
+                    <strong>Glance, then go</strong>
+                </div>
+            </section>
 
+            <section id="demo" class="eink-display-section fade-in">
+                <div class="section-header">
+                    <p class="section-eyebrow">Live product preview</p>
+                    <h2 class="section-title">Everything important, off the main screen.</h2>
+                    <p class="section-subtitle">Explore the interactive e-ink simulation and see how TidBit turns an iPhone into a calmer, glanceable workspace.</p>
+                </div>
                 <div class="iframe-container">
                     <iframe src="tidbit.html" class="eink-iframe" title="TidBit E-ink Display Demo"></iframe>
                     <div class="iframe-overlay">
                         <div class="overlay-text">Interactive Demo</div>
                     </div>
                 </div>
-                </section>
+            </section>
 
             <section class="quote-section">
                 <blockquote>
@@ -119,59 +175,88 @@
                 </blockquote>
             </section>
 
-            <section id="features" class="product-features">
-                <div class="section-header">
-                    <h2 class="section-title">Cultivate Digital Mindfulness</h2>
-                    <p class="section-subtitle">Technology Designed to Respect Your Attention, Not Demand It</p>
+            <section id="features" class="product-features feature-highlights">
+                <div class="feature-highlights-header">
+                    <h2 class="feature-highlights-title">Cultivate <span>Digital Mindfulness.</span></h2>
+                    <p class="feature-highlights-subtitle">Highlights designed to respect your attention, not demand it.</p>
                 </div>
 
-                <div class="features-container">
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-brain feature-icon"></i>
-                        </div>
-                        <h3>Digital Peace</h3>
-                        <p>Essential info without distractions. Stay focused and clear-minded.</p>
+                <div class="feature-carousel-shell">
+                    <div class="features-container feature-carousel" aria-label="TidBit mindfulness highlights" tabindex="0">
+                        <article class="highlight-card highlight-card--calm fade-in">
+                            <div class="highlight-copy">
+                                <p class="highlight-kicker">Digital Peace</p>
+                                <h3>Only what matters. Nothing else.</h3>
+                                <p>Essential updates stay readable without pulling you back into your phone.</p>
+                            </div>
+                            <div class="highlight-art highlight-art--calm" aria-hidden="true">
+                                <span class="highlight-glyph"><i class="fas fa-brain"></i></span>
+                            </div>
+                        </article>
+
+                        <article class="highlight-card highlight-card--dark fade-in">
+                            <div class="highlight-copy">
+                                <p class="highlight-kicker">Eye-Friendly</p>
+                                <h3>No glow, no glare, no late-night blast.</h3>
+                                <p>Paper-like e-ink keeps your glance calm in daylight, at night, and everywhere between.</p>
+                            </div>
+                            <div class="highlight-art highlight-art--eye" aria-hidden="true">
+                                <span class="highlight-glyph"><i class="fas fa-eye"></i></span>
+                            </div>
+                        </article>
+
+                        <article class="highlight-card highlight-card--blue fade-in">
+                            <div class="highlight-copy">
+                                <p class="highlight-kicker">Smart Updates</p>
+                                <h3>Refreshes quietly, only when it should.</h3>
+                                <p>Calendar shifts, weather, timers, and reminders appear without the notification spiral.</p>
+                            </div>
+                            <div class="highlight-art highlight-art--updates" aria-hidden="true">
+                                <span class="highlight-glyph"><i class="fas fa-sync-alt"></i></span>
+                            </div>
+                        </article>
+
+                        <article class="highlight-card highlight-card--light fade-in">
+                            <div class="highlight-copy">
+                                <p class="highlight-kicker">Long Battery</p>
+                                <h3>Weeks of calm between charges.</h3>
+                                <p>E-ink holds the screen without constant power, so TidBit fades into your routine.</p>
+                            </div>
+                            <div class="highlight-art highlight-art--battery" aria-hidden="true">
+                                <span class="highlight-glyph"><i class="fas fa-battery-full"></i></span>
+                            </div>
+                        </article>
+
+                        <article class="highlight-card highlight-card--magnet fade-in">
+                            <div class="highlight-copy">
+                                <p class="highlight-kicker">MagSafe</p>
+                                <h3>Snaps on cleanly. Stays out of the way.</h3>
+                                <p>Magnetic alignment makes TidBit feel like a natural extension of the phone.</p>
+                            </div>
+                            <div class="highlight-art highlight-art--magnet" aria-hidden="true">
+                                <span class="highlight-glyph"><i class="fas fa-magnet"></i></span>
+                            </div>
+                        </article>
+
+                        <article class="highlight-card highlight-card--widgets fade-in">
+                            <div class="highlight-copy">
+                                <p class="highlight-kicker">Widgets</p>
+                                <h3>A tiny dashboard for the day.</h3>
+                                <p>Calendar, weather, timers, music, quotes, and more, arranged for quick glances.</p>
+                            </div>
+                            <div class="highlight-art highlight-art--widgets" aria-hidden="true">
+                                <span class="highlight-glyph"><i class="fas fa-th-large"></i></span>
+                            </div>
+                        </article>
                     </div>
 
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-eye feature-icon"></i>
-                        </div>
-                        <h3>Eye-Friendly</h3>
-                        <p>No blue light, no glare. Read comfortably for hours.</p>
-                    </div>
-
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-sync-alt feature-icon"></i>
-                        </div>
-                        <h3>Smart Updates</h3>
-                        <p>Stay informed without interruption. Updates that respect your focus.</p>
-                    </div>
-
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-battery-full feature-icon"></i>
-                        </div>
-                        <h3>Long Battery</h3>
-                        <p>Weeks of use on a single charge. No charging anxiety.</p>
-                    </div>
-
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-magnet feature-icon"></i>
-                        </div>
-                        <h3>MagSafe</h3>
-                        <p>Perfect magnetic alignment with your iPhone. Use anywhere.</p>
-                    </div>
-
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-th-large feature-icon"></i>
-                        </div>
-                        <h3>Widgets</h3>
-                        <p>Calendar, weather, timers, quotes, and more. Your essential info at a glance.</p>
+                    <div class="feature-carousel-controls" aria-label="Feature carousel controls">
+                        <button class="feature-carousel-button" type="button" data-feature-scroll="prev" aria-label="Previous highlight">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <button class="feature-carousel-button" type="button" data-feature-scroll="next" aria-label="Next highlight">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -341,43 +426,43 @@
             </section>
 
             <section id="pricing" class="developer-program-section fade-in">
-    <div class="developer-content">
-        <div class="developer-header">
-            <div class="developer-badge">
-                <i class="fas fa-code"></i>
-                Developer Preview
-            </div>
-            <h2 class="developer-title">Join the Developer Program</h2>
-            <p class="developer-description">Get early access to our SDK, documentation, and development hardware.</p>
-        </div>
-        
-        <div class="developer-features">
-            <div class="developer-feature">
-                <i class="fas fa-code-branch"></i>
-                <span>Open SDK Access</span>
-            </div>
-            <div class="developer-feature">
-                <i class="fas fa-book"></i>
-                <span>API Documentation</span>
-            </div>
-            <div class="developer-feature">
-                <i class="fas fa-tools"></i>
-                <span>Dev Hardware Kit</span>
-            </div>
-            <div class="developer-feature">
-                <i class="fas fa-users"></i>
-                <span>Developer Community</span>
-            </div>
-        </div>
-        <form id="cta" class="developer-form" autocomplete="off">
-            <input type="email" placeholder="Enter your developer email" class="developer-input" required>
-            <button class="button button-primary developer-button" type="submit">
-                Request Access <i class="fas fa-arrow-right"></i>
-            </button>
-        </form>
-        <p class="developer-note">Limited spots available for initial developer program.</p>
-    </div>
-</section>
+                <div class="developer-content">
+                    <div class="developer-header">
+                        <div class="developer-badge">
+                            <i class="fas fa-code"></i>
+                            Developer Preview
+                        </div>
+                        <h2 class="developer-title">Join the Developer Program</h2>
+                        <p class="developer-description">Get early access to our SDK, documentation, and development hardware.</p>
+                    </div>
+
+                    <div class="developer-features">
+                        <div class="developer-feature">
+                            <i class="fas fa-code-branch"></i>
+                            <span>Open SDK Access</span>
+                        </div>
+                        <div class="developer-feature">
+                            <i class="fas fa-book"></i>
+                            <span>API Documentation</span>
+                        </div>
+                        <div class="developer-feature">
+                            <i class="fas fa-tools"></i>
+                            <span>Dev Hardware Kit</span>
+                        </div>
+                        <div class="developer-feature">
+                            <i class="fas fa-users"></i>
+                            <span>Developer Community</span>
+                        </div>
+                    </div>
+                    <form id="cta" class="developer-form" autocomplete="off">
+                        <input type="email" placeholder="Enter your developer email" class="developer-input" required>
+                        <button class="button button-primary developer-button" type="submit">
+                            Request Access <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                    <p class="developer-note">Limited spots available for initial developer program.</p>
+                </div>
+            </section>
 
             <section id="integrations" class="integrations-section">
                 <div class="section-header">
@@ -450,7 +535,7 @@
                         <h4 class="footer-heading">Product</h4>
                         <ul class="footer-links-list">
                             <li><a href="#features" class="footer-link">Features</a></li>
-                            <li><a href="#benefits" class="footer-link">Why E-ink</a></li>
+                            <li><a href="#comparison" class="footer-link">Why E-ink</a></li>
                             <li><a href="#integrations" class="footer-link">Integrations</a></li>
                             <li><a href="development-story.html" class="footer-link">Development Story</a></li>
                             <li><a href="#" class="footer-link">FAQs</a></li> </ul>

@@ -1,13 +1,54 @@
 // Enhanced interactivity for TidBit website
 document.addEventListener('DOMContentLoaded', function() {
-    // Waitlist button functionality
-    const waitlistButton = document.querySelector('.button-primary');
-    if (waitlistButton) {
-        waitlistButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('This is a concept demonstration. The product is not actually available for purchase yet. Join our waitlist coming soon!');
+    // === CONCEPT-DEMO CALL-TO-ACTION HANDLING ===
+    const CONCEPT_MESSAGE = 'Thanks for your interest! TidBit is a concept demonstration — the product isn\'t available yet. We\'ll be in touch when the waitlist opens.';
+
+    // Hero "Join Waitlist" link — scroll to the sign-up section instead of a dead alert.
+    const heroWaitlistBtn = document.querySelector('.hero-ctas .button-primary');
+    if (heroWaitlistBtn) {
+        heroWaitlistBtn.addEventListener('click', function(e) {
+            const href = heroWaitlistBtn.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    // Focus the email field so the user can act immediately.
+                    setTimeout(() => target.querySelector('input[type="email"]')?.focus(), 600);
+                }
+            }
         });
     }
+
+    // Email capture forms (developer program + newsletter) — validate and confirm
+    // without a real backend so the concept demo never reloads the page.
+    function wireEmailForm(form, button) {
+        if (!form) return;
+        const submit = (e) => {
+            e.preventDefault();
+            const input = form.querySelector('input[type="email"], .newsletter-input');
+            const email = input ? input.value.trim() : '';
+            if (input && !input.checkValidity?.()) {
+                input.reportValidity?.();
+                return;
+            }
+            if (!email) {
+                input?.focus();
+                return;
+            }
+            alert(CONCEPT_MESSAGE);
+            if (input) input.value = '';
+        };
+        if (form.tagName === 'FORM') {
+            form.addEventListener('submit', submit);
+        } else if (button) {
+            button.addEventListener('click', submit);
+        }
+    }
+
+    wireEmailForm(document.querySelector('.developer-form'));
+    const newsletter = document.querySelector('.newsletter-form');
+    wireEmailForm(newsletter, newsletter?.querySelector('.newsletter-button'));
 
     // === NAVIGATION FUNCTIONALITY ===
     // Get navigation elements
@@ -107,6 +148,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
+        // Close the drawer when the in-drawer CTA is tapped
+        const drawerCta = primaryNav.querySelector('.nav-cta--drawer');
+        if (drawerCta) {
+            drawerCta.addEventListener('click', () => {
+                if (primaryNav.getAttribute('data-visible') === 'true') {
+                    closeMenu();
+                }
+            });
+        }
+
         // Close menu when window is resized to desktop size
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768 && primaryNav.getAttribute('data-visible') === 'true') {
@@ -126,11 +177,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // === SCROLL AND ANIMATION FUNCTIONALITY ===
     let ticking = false;
-    
+    const navbar = document.querySelector('.navbar');
+
     function updateScrollProgress() {
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        
+
+        // Condense the navbar once the user scrolls past the top
+        if (navbar) {
+            navbar.classList.toggle('scrolled', scrollTop > 24);
+        }
+
         // Back to top button visibility
         if (backToTopButton) {
             if (scrollTop > 300) {
@@ -261,5 +318,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
         };
+    }
+
+    // === FEATURE HIGHLIGHTS CAROUSEL ===
+    const featureRail = document.querySelector('.feature-carousel');
+    const featureScrollButtons = document.querySelectorAll('[data-feature-scroll]');
+
+    if (featureRail && featureScrollButtons.length) {
+        const updateFeatureButtons = () => {
+            const maxScroll = featureRail.scrollWidth - featureRail.clientWidth - 2;
+            featureScrollButtons.forEach(button => {
+                const direction = button.getAttribute('data-feature-scroll');
+                button.disabled = direction === 'prev'
+                    ? featureRail.scrollLeft <= 2
+                    : featureRail.scrollLeft >= maxScroll;
+            });
+        };
+
+        featureScrollButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const direction = button.getAttribute('data-feature-scroll') === 'prev' ? -1 : 1;
+                const firstCard = featureRail.querySelector('.highlight-card');
+                const gap = parseFloat(getComputedStyle(featureRail).columnGap || '0');
+                const distance = firstCard
+                    ? firstCard.getBoundingClientRect().width + gap
+                    : featureRail.clientWidth * 0.8;
+
+                featureRail.scrollBy({
+                    left: distance * direction,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        featureRail.addEventListener('scroll', () => {
+            window.requestAnimationFrame(updateFeatureButtons);
+        }, { passive: true });
+
+        window.addEventListener('resize', updateFeatureButtons);
+        updateFeatureButtons();
     }
 });
