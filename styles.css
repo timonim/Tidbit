@@ -152,7 +152,7 @@ h1, .temp, .day, .notifications-count {
     line-height: 1;
 }
 
-.text, .notification-text, .notification-summary-text {
+.text, .notification-text {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-regular);
     color: var(--text-color-primary);
@@ -631,7 +631,7 @@ h1, .temp, .day, .notifications-count {
     flex-direction: column;
     gap: 12px;
     flex: 1;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 /* ================ */
@@ -670,17 +670,8 @@ h1, .temp, .day, .notifications-count {
     gap: var(--spacing-medium);
 }
 
-/* Apply consolidated styles */
-.header, .notification-summary-title {
-    @extend .widget-header;
-}
-
-.combined-widget, .notification-summary-content, .media-content {
-    @extend .widget-content;
-}
-
 /* Shared widget header and container styles */
-.header, .notification-summary-title {
+.header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -715,7 +706,7 @@ h1, .temp, .day, .notifications-count {
 }
 
 /* Combined widget layout */
-.combined-widget, .notification-summary-content, .media-content {
+.combined-widget, .media-content {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-medium);
@@ -746,6 +737,19 @@ h1, .temp, .day, .notifications-count {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+.next-action {
+    padding: 6px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.04);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-extrabold);
+    color: var(--text-color-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Event and notification items */
@@ -981,104 +985,6 @@ h1, .temp, .day, .notifications-count {
     justify-content: center;
     border: 1px solid var(--widget-background);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Notification overlay and summary */
-.notification-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right:  0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.15);
-    z-index: 149;
-    display: none;
-}
-
-.notification-summary {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--widget-background);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-small);
-    padding: var(--spacing-medium);
-    font-size: 14px;
-    width: 300px;
-    z-index: 150;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: none;
-}
-
-.notification-summary-title {
-    min-height: 32px;
-}
-
-.notification-summary-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-height: 1.4;
-    padding: var(--spacing-small) 0;
-}
-
-.more-notifications {
-    display: block;
-    text-align: center;
-    padding: var(--spacing-small) 0 0;
-    border-top: 1px solid var(--border-color);
-    margin-top: var(--spacing-small);
-}
-
-.notification-summary-content.expanded .notification-summary-text {
-    -webkit-line-clamp: unset;
-}
-
-/* Button styles */
-.notification-actions {
-    margin-top: var(--spacing-small);
-    padding-top: var(--spacing-small);
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacing-small);
-}
-
-.notification-actions button {
-    flex: 1;
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-small);
-    padding: var(--spacing-small);
-    font-size: 12px;
-    font-weight: 600;
-    font-family: var(--font-family-primary);
-    color: var(--text-color-primary);
-    cursor: pointer;
-    text-transform: uppercase;
-    min-height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.notification-actions .notification-dismiss {
-    background: var(--text-color-primary);
-    border-color: var(--text-color-primary);
-    color: var(--widget-background);
-}
-
-/* Focus styles */
-.notification-actions button:focus {
-    outline: none;
-    background: rgba(0, 0, 0, 0.08);
-}
-
-.notification-summary-text:focus {
-    outline: none;
 }
 
 /* Screen reader announcer */

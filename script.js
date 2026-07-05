@@ -8,6 +8,7 @@ const CONFIG = {
   // Timing settings
   refreshInterval: 120000,        // Widget refresh interval (2 minutes)
   timeUpdateInterval: 60000,      // Clock update interval (1 minute)
+  demoTimeOffsetHours: -12,       // ponytail: demo offset; real device should use local time.
 
   // E-ink display settings
   eink: {
@@ -205,7 +206,6 @@ function initApp() {
     updatePageIndicators(); // Update indicators for the initial view
     initPomodoro();
     initMindfulness();
-    createNotificationSummary(); // Initialize notification summary overlay
   } catch (error) {
     console.error("Error initializing app:", error);
     if (elements.content) {
@@ -295,24 +295,27 @@ function cacheElements() {
   elements.widgets = document.querySelectorAll('.widget');
   elements.widgetArray = Array.from(elements.widgets);
 
-  // Weather widget elements
-  elements.weatherIcon = document.querySelector('.weather .icon'); // Main icon for current weather
-  elements.weatherTemp = document.querySelector('.weather .temp');
-  elements.weatherDesc = document.querySelector('.weather .description'); // Main description for current weather
-  elements.weatherLocation = document.querySelector('.weather .location');
-  elements.weatherHighLow = document.querySelector('.weather .high-low');
-  elements.weatherTomorrowPreview = document.querySelector('.weather .tomorrow-preview');
+  const weatherSection = document.querySelector('.weather-section, .weather');
+  const weatherValues = weatherSection ? weatherSection.querySelectorAll('.weather-details .value') : [];
+  elements.weatherIcon = weatherSection?.querySelector('.weather-icon, .icon');
+  elements.weatherTemp = weatherSection?.querySelector('.temp, .header h1, h1');
+  elements.weatherDesc = weatherSection?.querySelector('.description, .forecast');
+  elements.weatherLocation = weatherSection?.querySelector('.location');
+  elements.weatherHighLow = weatherSection?.querySelector('.high-low');
+  elements.weatherHigh = weatherSection?.querySelector('.high') || weatherValues[0];
+  elements.weatherLow = weatherSection?.querySelector('.low') || weatherValues[1];
+  elements.weatherTomorrowPreview = weatherSection?.querySelector('.tomorrow-preview');
   if (elements.weatherTomorrowPreview) { // Cache sub-elements if parent exists
     elements.weatherTomorrowForecast = elements.weatherTomorrowPreview.querySelector('.forecast');
     elements.weatherTomorrowIcon = elements.weatherTomorrowPreview.querySelector('.icon');
   }
 
 
-  // Calendar elements
-  elements.calendarWeekday = document.querySelector('.calendar .weekday');
-  elements.calendarDay = document.querySelector('.calendar .day');
-  elements.calendarMonth = document.querySelector('.calendar .month');
-  elements.calendarEvents = document.querySelector('.calendar .events');
+  const calendarSection = document.querySelector('.calendar-section, .calendar');
+  elements.calendarWeekday = calendarSection?.querySelector('.weekday');
+  elements.calendarDay = calendarSection?.querySelector('.day, .header h1, h1');
+  elements.calendarMonth = calendarSection?.querySelector('.month');
+  elements.calendarEvents = calendarSection?.querySelector('.events');
 
 
   elements.pomodoroTime = document.querySelector('.pomodoro-time');
@@ -408,110 +411,6 @@ function updatePageIndicators() {
 }
 
 /**
- * Create notification summary in a simple and informative way
- */
-function createNotificationSummary() {
-  if (!elements.screenContent) return;
-
-  const overlay = document.createElement('div');
-  overlay.className = 'notification-overlay';
-  overlay.style.display = 'none'; // Initially hidden
-  elements.screenContent.appendChild(overlay);
-  elements.notificationOverlay = overlay;
-
-  const summaryContainer = document.createElement('div');
-  summaryContainer.className = 'notification-summary';
-  summaryContainer.style.display = 'none'; // Initially hidden
-  elements.screenContent.appendChild(summaryContainer);
-  elements.notificationSummary = summaryContainer;
-
-  // No need to call updateNotificationSummary here, it will be called when notifications are updated.
-}
-
-/**
- * Update notification summary content with improved accessibility
- */
-function updateNotificationSummary() {
-  if (!elements.notificationSummary || !elements.notificationOverlay) return;
-
-  const importantNotifications = (state.importantNotifications || []).filter(notificationText => {
-    const lowerNotification = notificationText.toLowerCase();
-    const importantKeywords = ['meeting', 'reminder', 'alert', 'battery low', 'message from', 'call', 'deadline', 'urgent', 'emergency'];
-    const nonCriticalKeywords = ['update available', 'app store', 'new version', 'subscription', 'newsletter'];
-    return importantKeywords.some(keyword => lowerNotification.includes(keyword)) &&
-           !nonCriticalKeywords.some(keyword => lowerNotification.includes(keyword));
-  });
-
-  const importantCount = importantNotifications.length;
-
-  if (importantCount > 0) {
-    elements.notificationOverlay.style.display = 'block';
-    elements.notificationSummary.style.display = 'block';
-
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-    const notificationsToShow = importantNotifications.slice(0, 3);
-    const remainingCount = importantNotifications.length - notificationsToShow.length;
-
-    elements.notificationSummary.innerHTML = `
-      <div class="notification-summary-content" role="region" aria-label="Important notifications">
-        <div class="notification-summary-title">
-          <span class="notification-icon" aria-hidden="true"><i class="fas fa-exclamation-triangle"></i></span>
-          <div class="notification-title-content">
-            <span class="notification-count">${importantCount} Important</span>
-            <span class="notification-subtitle">Notifications</span>
-          </div>
-          <span class="notification-time">${timeStr}</span>
-        </div>
-        <div class="notification-list">
-          ${notificationsToShow.map(notification => `<div class="notification-item">${notification}</div>`).join('')}
-          ${remainingCount > 0 ? `<span class="more-notifications">+${remainingCount} more notifications</span>` : ''}
-        </div>
-      </div>
-      <div class="notification-actions" role="group" aria-label="Notification actions">
-        <button class="notification-view" aria-label="View all notifications">View All</button>
-        <button class="notification-dismiss" aria-label="Dismiss notification">Dismiss</button>
-      </div>
-    `;
-
-    const dismissButton = elements.notificationSummary.querySelector('.notification-dismiss');
-    const viewButton = elements.notificationSummary.querySelector('.notification-view');
-    const content = elements.notificationSummary.querySelector('.notification-summary-content');
-
-    dismissButton?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      elements.notificationOverlay.style.display = 'none';
-      elements.notificationSummary.style.display = 'none';
-      announceToScreenReader('Notification dismissed');
-      simulateEinkRefresh();
-    });
-
-    viewButton?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const notificationWidgetConfig = CONFIG.widgets.find(w => w.id === 'notifications');
-      if (notificationWidgetConfig) {
-        const notificationIndex = CONFIG.widgets.indexOf(notificationWidgetConfig);
-        elements.notificationOverlay.style.display = 'none';
-        elements.notificationSummary.style.display = 'none';
-        navigateToView(notificationIndex);
-        announceToScreenReader('Viewing all notifications');
-        simulateEinkRefresh();
-      }
-    });
-
-    content?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isExpanded = content.classList.toggle('expanded');
-      announceToScreenReader(isExpanded ? 'Notification expanded' : 'Notification collapsed');
-      simulateEinkRefresh();
-    });
-  } else {
-    elements.notificationOverlay.style.display = 'none';
-    elements.notificationSummary.style.display = 'none';
-  }
-}
-
-/**
  * Announce messages to screen readers
  */
 function announceToScreenReader(message) {
@@ -551,26 +450,21 @@ function updateNotifications() {
   const notificationList = notificationWidget.querySelector('.notification-list');
   if (!notificationList) return;
 
-  const notificationTypes = [ /* ... your notificationTypes array ... */ ];
-    // (Using the existing notificationTypes array from your script)
-    const existingNotificationTypes = [
-        { type: 'email', icon: '<i class="fas fa-envelope"></i>', category: 'Messages', texts: ['Email from Alex: Project update', 'Sarah sent you a document', 'New newsletter from Medium'] },
-        { type: 'message', icon: '<i class="fas fa-comment"></i>', category: 'Messages', texts: ['John: Are we still meeting today?', 'Emma: Check out this link', 'David sent a photo'] },
-        { type: 'calendar', icon: '<i class="fas fa-calendar-alt"></i>', category: 'Reminders', texts: ['Meeting with design team at 2PM', 'Dentist appointment tomorrow at 10AM', 'Project deadline on Friday'] },
-        { type: 'reminder', icon: '<i class="fas fa-clock"></i>', category: 'Reminders', texts: ['Take medication', 'Call mom', 'Submit expense report'] },
-        { type: 'package', icon: '<i class="fas fa-box"></i>', category: 'Updates', texts: ['Amazon package delivered', 'Your order has shipped', 'Package arriving tomorrow'] },
-        { type: 'update', icon: '<i class="fas fa-sync"></i>', category: 'Updates', texts: ['iOS 17.5 is available to install', 'App Store: 12 updates available', 'MacOS update required'] },
-        { type: 'weather', icon: '<i class="fas fa-cloud-sun-rain"></i>', category: 'Alerts', texts: ['Rain expected this afternoon', 'Temperature dropping tonight', 'High winds advisory for your area'] },
-        { type: 'battery', icon: '<i class="fas fa-battery-quarter"></i>', category: 'Alerts', texts: ['AirPods at 15% battery', 'iPhone battery at 20%', 'Apple Watch needs charging'] }
-    ];
+  const importantNotificationTypes = [
+    { type: 'message', icon: '<i class="fas fa-comment"></i>', category: 'Messages', texts: ['John: Are we still meeting today?', 'Message from Emma: Check this before lunch'] },
+    { type: 'calendar', icon: '<i class="fas fa-calendar-alt"></i>', category: 'Reminders', texts: ['Meeting with design team at 2PM', 'Project deadline on Friday'] },
+    { type: 'reminder', icon: '<i class="fas fa-clock"></i>', category: 'Reminders', texts: ['Reminder: Take medication', 'Reminder: Call mom'] },
+    { type: 'weather', icon: '<i class="fas fa-cloud-sun-rain"></i>', category: 'Alerts', texts: ['Weather alert: Rain expected this afternoon', 'Weather alert: High winds advisory'] },
+    { type: 'battery', icon: '<i class="fas fa-battery-quarter"></i>', category: 'Alerts', texts: ['Battery low: AirPods at 15%', 'Battery low: Apple Watch needs charging'] }
+  ];
 
-
-  const count = Math.floor(Math.random() * 3) + 4; // 4-6 notifications
+  const count = Math.floor(Math.random() * 3) + 1; // 1-3 important notifications
+  const quietCount = Math.floor(Math.random() * 4) + 2;
   const generatedNotifications = [];
 
   for (let i = 0; i < count; i++) {
-    const typeIndex = Math.floor(Math.random() * existingNotificationTypes.length);
-    const notificationType = existingNotificationTypes[typeIndex];
+    const typeIndex = Math.floor(Math.random() * importantNotificationTypes.length);
+    const notificationType = importantNotificationTypes[typeIndex];
     const textIndex = Math.floor(Math.random() * notificationType.texts.length);
     const text = notificationType.texts[textIndex];
     const minutes = Math.floor(Math.random() * 60) + 1;
@@ -590,6 +484,9 @@ function updateNotifications() {
     notificationsCountHeader.textContent = generatedNotifications.length.toString().padStart(2, '0');
   }
 
+  const title = notificationWidget.querySelector('.header .title');
+  if (title) title.textContent = `${quietCount} quiet hidden`;
+
   const categories = {};
   generatedNotifications.forEach(notification => {
     if (!categories[notification.category]) categories[notification.category] = [];
@@ -599,7 +496,7 @@ function updateNotifications() {
   let notificationsHTML = '';
   Object.keys(categories).forEach(category => {
     notificationsHTML += `
-      <div class="notification-category">
+      <li class="notification-category">
         <span class="category-label">${category}</span>
         ${categories[category].map(notification => `
           <div class="notification-item">
@@ -610,19 +507,17 @@ function updateNotifications() {
             </div>
           </div>
         `).join('')}
-      </div>
+      </li>
     `;
   });
 
   notificationList.innerHTML = notificationsHTML;
 
-  // Store raw text of some notifications for the summary popup
+  // Store raw text for badges without interrupting the display.
   state.importantNotifications = generatedNotifications
-    .slice(0, Math.min(generatedNotifications.length, 5)) // Take up to 5, or fewer if less are generated
+    .slice(0, Math.min(generatedNotifications.length, 5))
     .map(notification => notification.text);
 
-
-  updateNotificationSummary(); // Update the popup
   updateNotificationBadge(elements.pageIndicators); // Update badge on page indicator
   updateStatusBarNotifications(); // Update status bar indicators
 }
@@ -849,8 +744,7 @@ function simulateEinkRefresh() {
  * Update weather widget with simulated data
  */
 function updateWeather() {
-  // Using cached elements: elements.weatherTemp, elements.weatherDesc, elements.weatherIcon, etc.
-  if (!elements.weatherTemp || !elements.weatherDesc || !elements.weatherIcon || !elements.weatherLocation || !elements.weatherHighLow) return;
+  if (!elements.weatherTemp || !elements.weatherDesc || !elements.weatherIcon || !elements.weatherLocation) return;
 
   const { conditions, precipitation, locations, tempRange } = CONFIG.weatherData;
   const temp = Math.floor(Math.random() * (tempRange.max - tempRange.min + 1) + tempRange.min);
@@ -867,7 +761,9 @@ function updateWeather() {
   elements.weatherDesc.textContent = weatherInfo.description;
   elements.weatherIcon.innerHTML = weatherInfo.icon;
   elements.weatherLocation.textContent = locations[locationIndex];
-  elements.weatherHighLow.textContent = `High ${highTemp}° • Low ${lowTemp}°`;
+  if (elements.weatherHighLow) elements.weatherHighLow.textContent = `High ${highTemp}° • Low ${lowTemp}°`;
+  if (elements.weatherHigh) elements.weatherHigh.textContent = `${highTemp}°`;
+  if (elements.weatherLow) elements.weatherLow.textContent = `${lowTemp}°`;
 
   // Update tomorrow's forecast using cached elements
   if (elements.weatherTomorrowPreview && elements.weatherTomorrowForecast && elements.weatherTomorrowIcon) {
@@ -888,7 +784,7 @@ function updateWeather() {
 function updateCalendar() {
   if (!elements.calendarWeekday || !elements.calendarDay || !elements.calendarMonth || !elements.calendarEvents) return;
 
-  const now = new Date();
+  const now = getDisplayDate();
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   elements.calendarWeekday.textContent = weekdays[now.getDay()];
@@ -900,10 +796,9 @@ function updateCalendar() {
 /**
  * Update calendar events based on time of day
  */
-function updateCalendarEvents(date) { // date parameter is actually not used to filter events yet
+function updateCalendarEvents(date) {
   if (!elements.calendarEvents) return;
 
-  // const hour = date.getHours(); // Available if needed for time-based event filtering
   const sampleEvents = {
     morning: [
       { time: '09:00', text: 'Team Standup', priority: 'high' },
@@ -927,10 +822,44 @@ function updateCalendarEvents(date) { // date parameter is actually not used to 
       `).join('')}
     </div>
   `;
+  const events = [...sampleEvents.morning, ...sampleEvents.afternoon];
   elements.calendarEvents.innerHTML = `
+    <div class="next-action">Next: ${getNextCalendarAction(date, events)}</div>
     ${generateEventHTML(sampleEvents.morning, 'Morning')}
     ${generateEventHTML(sampleEvents.afternoon, 'Afternoon')}
   `;
+}
+
+function getNextCalendarAction(date, events) {
+  let upcoming = events
+    .map(event => ({ ...event, date: getEventDate(date, event.time) }))
+    .filter(event => event.date >= date)
+    .sort((a, b) => a.date - b.date)[0];
+
+  if (!upcoming) {
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    upcoming = events.map(event => ({ ...event, date: getEventDate(tomorrow, event.time) }))[0];
+  }
+
+  if (upcoming.date.toDateString() !== date.toDateString()) return `Tomorrow ${upcoming.time} ${upcoming.text}`;
+
+  const minutesUntil = Math.max(1, Math.ceil((upcoming.date - date) / 60000));
+  if (minutesUntil < 60) return `${upcoming.text} in ${minutesUntil}m`;
+  return `${upcoming.time} ${upcoming.text}`;
+}
+
+function getEventDate(date, time) {
+  const [hours, minutes] = time.split(':').map(Number);
+  const eventDate = new Date(date);
+  eventDate.setHours(hours, minutes, 0, 0);
+  return eventDate;
+}
+
+function getDisplayDate() {
+  const date = new Date();
+  date.setHours(date.getHours() + CONFIG.demoTimeOffsetHours);
+  return date;
 }
 
 /**
@@ -1012,7 +941,7 @@ function setupMediaControls(mediaWidgetInstance) { // Takes the specific media w
  */
 function updateStatusBar() {
   if (elements.timeEl) {
-    const now = new Date();
+    const now = getDisplayDate();
     elements.timeEl.textContent = now.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
