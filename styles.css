@@ -1615,23 +1615,25 @@ html[data-color="burgundy"] {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent 4%, transparent 96%, rgba(0, 0, 0, 0.1));
 }
 
-/* The plateau */
+/* The plateau: a raised block inset from the phone's edges. */
 .camera {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 26px;
+    left: 24px;
+    right: 24px;
     width: auto;
-    height: 232px;
+    height: 214px;
     padding: 0;
     border: 0;
-    border-radius: 55px 55px 30px 30px;
+    border-radius: 38px;
     transform: none;
     background: linear-gradient(175deg, var(--body-hi), var(--plateau) 60%);
     box-shadow:
-        0 7px 10px -5px rgba(0, 0, 0, 0.28),
-        0 2px 2px -1px rgba(0, 0, 0, 0.12),
-        inset 0 1px 1px rgba(255, 255, 255, 0.45),
+        0 8px 14px -5px rgba(0, 0, 0, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.16),
+        0 0 0 1px rgba(0, 0, 0, 0.07),
+        inset 0 1px 1px rgba(255, 255, 255, 0.6),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2),
         inset 0 -2px 3px rgba(0, 0, 0, 0.08);
 }
 
@@ -1644,8 +1646,8 @@ html[data-color="burgundy"] {
 .camera::after {
     content: '';
     position: absolute;
-    top: 110px;
-    left: 302px;
+    top: 100px;
+    left: 282px;
     width: 5px;
     height: 5px;
     border-radius: 50%;
@@ -1666,9 +1668,9 @@ html[data-color="burgundy"] {
     transform: none;
 }
 
-.camera-lens:nth-child(1) { top: 20px; left: 26px; bottom: auto; right: auto; }
-.camera-lens:nth-child(2) { top: 122px; left: 26px; bottom: auto; right: auto; }
-.camera-lens:nth-child(3) { top: 71px; left: 116px; bottom: auto; right: auto; }
+.camera-lens:nth-child(1) { top: 8px; left: 4px; bottom: auto; right: auto; }
+.camera-lens:nth-child(2) { top: 112px; left: 4px; bottom: auto; right: auto; }
+.camera-lens:nth-child(3) { top: 60px; left: 103px; bottom: auto; right: auto; }
 
 .camera-lens::before {
     width: 30%;
@@ -1686,11 +1688,11 @@ html[data-color="burgundy"] {
 }
 
 .camera-flash {
-    top: 45px;
-    left: 288px;
+    top: 27px;
+    left: 266px;
     right: auto;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border: 3px solid rgba(255, 255, 255, 0.55);
     background: radial-gradient(circle at 45% 40%, #ffffff 0%, #e9e8e4 45%, #cfcdc6 100%);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 0 4px rgba(0, 0, 0, 0.15);
@@ -1699,12 +1701,12 @@ html[data-color="burgundy"] {
 
 /* LiDAR */
 .depth-sensor {
-    top: 145px;
-    left: 288px;
+    top: 137px;
+    left: 266px;
     bottom: auto;
     right: auto;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border: 0;
     background: radial-gradient(circle at 50% 45%, #1a1a1c, #050506 75%);
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.06);
@@ -1716,6 +1718,6 @@ html[data-color="burgundy"] {
 /* The TidBit fills the MagSafe glass panel below the plateau. */
 .iphone-mock .magsafe-container {
     position: absolute;
-    top: 248px;
+    top: 254px;
     bottom: auto !important;
 }
