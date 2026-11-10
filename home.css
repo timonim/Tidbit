@@ -821,6 +821,62 @@ img, svg, iframe { display: block; }
     }
 }
 
+/* Dimensional drawing */
+
+.drawing {
+    margin: 0;
+}
+
+.drawing__frame {
+    overflow-x: auto;
+    border-radius: 18px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.drawing__svg {
+    display: block;
+    width: 100%;
+    min-width: 760px;
+    height: auto;
+}
+
+.drawing__caption {
+    margin-top: 16px;
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.drawing__hint { display: none; }
+
+@media (max-width: 799px) {
+    .drawing__hint { display: inline; }
+}
+
+.dw-sheet { fill: color-mix(in srgb, var(--bg) 70%, #fff); stroke: var(--fg); stroke-width: 1.5; }
+.dw-grid { fill: none; stroke: var(--fg); stroke-width: 0.6; opacity: 0.07; }
+.dw-line { fill: none; stroke: var(--fg); stroke-width: 1.6; }
+.dw-body { fill: color-mix(in srgb, var(--bg) 40%, #fff); }
+.dw-screen { fill: #eeece6; }
+.dw-thin { fill: none; stroke: var(--fg); stroke-width: 0.9; }
+.dw-dim { fill: none; stroke: var(--fg); stroke-width: 0.9; }
+.dw-center { fill: none; stroke: var(--fg); stroke-width: 0.8; stroke-dasharray: 14 4 3 4; opacity: 0.7; }
+.dw-hidden { fill: none; stroke: var(--fg); stroke-width: 0.9; stroke-dasharray: 4 3; }
+.dw-hatch { fill: url(#dw-hatch); }
+.dw-ink { fill: var(--fg); stroke: none; }
+
+.drawing__svg text { fill: var(--fg); font-family: var(--font-body); }
+.dw-text { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; }
+.dw-text--bold { font-weight: 800; }
+.dw-text--muted { fill: var(--muted) !important; }
+.dw-num { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.dw-num--small { font-size: 11px; }
+.dw-view { font-family: var(--font-display) !important; font-style: italic; font-size: 24px; }
+.dw-brand { font-family: var(--font-body); font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
+.dw-ui { font-size: 11px; font-weight: 600; }
+.dw-ui--bold { font-weight: 800; }
+.dw-ui--inv { fill: #eeece6 !important; font-weight: 800; }
+.dw-ui-big { font-family: var(--font-display) !important; font-size: 34px; }
+
 /* Integrations index */
 
 .index { border-top: 1px solid var(--line); }
