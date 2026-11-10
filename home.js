@@ -16,10 +16,11 @@
   const demo = $('#demo');
   const refresh = $('#refresh');
 
-  const PHONE = { w: 375, h: 812, r: 56, depth: 36 };
+  // iPhone 18 Pro at 375px = 71.85mm: 150.01mm tall, R11.81mm corners, 8.75mm thick.
+  const PHONE = { w: 375, h: 783, r: 62, depth: 46 };
   const NAV_H = 64;
   // Where the TidBit sits inside the phone, in design pixels. Re-measured once the demo loads.
-  let puck = { x: 17.5, y: 250, w: 340, h: 540 };
+  let puck = { x: 17.5, y: 263, w: 340, h: 508 };
 
   const steps = $$('.step').map((el) => ({
     el,

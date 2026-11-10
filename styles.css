@@ -1580,12 +1580,18 @@ h1, .temp, .day, .notifications-count { text-shadow: none; }
 }
 
 /* ======================== */
-/* 12. CURRENT-GENERATION PRO BODY */
-/* A full-width camera plateau across the top: three lenses in a  */
-/* triangle on the left, flash, microphone and LiDAR on the right. */
-/* Finish is set with ?color= (black, silver, blue, burgundy).     */
+/* 12. iPHONE 18 PRO BODY   */
+/* Built from Apple's iPhone 18 Pro dimensional drawings (2026-09-09).  */
+/* Scale: 375px = 71.85mm product width, so 1mm = 5.219px.               */
+/*   Body 71.85 x 150.01mm  -> 375 x 783px, corner R11.81 -> 62px         */
+/*   Plateau base: full width, 0-48.7mm from top -> 254px                 */
+/*   Plateau top surface: 4.96-67.05mm across, 4.96-43.0mm down           */
+/*   Lenses 3x 16.58mm at (14.37,14.37) (14.37,33.61) (32.49,23.99)       */
+/*   Flash and LiDAR 6.90mm, mic 1.15mm, at x 58.03, y 13.82/23.99/34.16  */
+/* Finish is set with ?color= (black, silver, blue, burgundy).            */
 /* ======================== */
 :root {
+    --border-radius-large: 62px;
     --body-hi: #c3d1e3;
     --body: #aebfd6;
     --body-lo: #97a9c2;
@@ -1607,6 +1613,7 @@ html[data-color="burgundy"] {
 }
 
 .iphone-mock {
+    height: 783px;
     background: linear-gradient(170deg, var(--body-hi) 0%, var(--body) 50%, var(--body-lo) 100%);
     border: 1px solid rgba(255, 255, 255, 0.35);
 }
@@ -1615,50 +1622,65 @@ html[data-color="burgundy"] {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent 4%, transparent 96%, rgba(0, 0, 0, 0.1));
 }
 
-/* The plateau: a raised block inset from the phone's edges. */
+/* Plateau base: rises from the whole top of the back, with a soft
+   sloped flank down to the back glass at 48.7mm. */
+.iphone-mock::before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 254px;
+    border-radius: 61px 61px 48px 48px;
+    background: linear-gradient(180deg, var(--body-hi), var(--body) 85%);
+    box-shadow:
+        0 6px 10px -4px rgba(0, 0, 0, 0.24),
+        0 1px 2px rgba(0, 0, 0, 0.1),
+        inset 0 -5px 8px rgba(0, 0, 0, 0.07);
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Plateau top surface, inset about 5mm, where the cameras sit. */
 .camera {
     position: absolute;
     top: 26px;
-    left: 24px;
-    right: 24px;
-    width: auto;
-    height: 214px;
+    left: 26px;
+    right: auto;
+    width: 324px;
+    height: 198px;
     padding: 0;
     border: 0;
-    border-radius: 38px;
+    border-radius: 44px;
     transform: none;
-    background: linear-gradient(175deg, var(--body-hi), var(--plateau) 60%);
+    z-index: 2;
+    background: linear-gradient(175deg, var(--body-hi), var(--plateau) 70%);
     box-shadow:
-        0 8px 14px -5px rgba(0, 0, 0, 0.3),
-        0 1px 3px rgba(0, 0, 0, 0.16),
-        0 0 0 1px rgba(0, 0, 0, 0.07),
-        inset 0 1px 1px rgba(255, 255, 255, 0.6),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-        inset 0 -2px 3px rgba(0, 0, 0, 0.08);
+        0 0 0 1px rgba(255, 255, 255, 0.16),
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .camera::before {
     border-radius: inherit;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 45%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 45%);
 }
 
-/* Microphone */
+/* Rear microphone, 1.15mm */
 .camera::after {
     content: '';
     position: absolute;
-    top: 100px;
-    left: 282px;
-    width: 5px;
-    height: 5px;
+    top: 96px;
+    left: 274px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.5);
 }
 
-/* Lenses: a metal ring in the body colour around dark glass. */
+/* Lenses: 16.58mm outer ring in the body colour, ~12.3mm dark glass. */
 .camera-lens {
-    width: 84px;
-    height: 84px;
-    border: 7px solid var(--ring);
+    width: 86px;
+    height: 86px;
+    border: 9px solid var(--ring);
     background: radial-gradient(circle at 50% 50%, #1b1d26 0%, #0b0b0e 38%, #050506 100%);
     box-shadow:
         0 0 0 1px rgba(0, 0, 0, 0.18),
@@ -1668,13 +1690,13 @@ html[data-color="burgundy"] {
     transform: none;
 }
 
-.camera-lens:nth-child(1) { top: 8px; left: 4px; bottom: auto; right: auto; }
-.camera-lens:nth-child(2) { top: 112px; left: 4px; bottom: auto; right: auto; }
-.camera-lens:nth-child(3) { top: 60px; left: 103px; bottom: auto; right: auto; }
+.camera-lens:nth-child(1) { top: 6px; left: 6px; bottom: auto; right: auto; }
+.camera-lens:nth-child(2) { top: 106px; left: 6px; bottom: auto; right: auto; }
+.camera-lens:nth-child(3) { top: 56px; left: 100px; bottom: auto; right: auto; }
 
 .camera-lens::before {
-    width: 30%;
-    height: 30%;
+    width: 32%;
+    height: 32%;
     background: radial-gradient(circle at 45% 40%, #3b4366 0%, #151726 60%, #0a0a10 100%);
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
 }
@@ -1687,9 +1709,10 @@ html[data-color="burgundy"] {
     background: rgba(200, 215, 255, 0.35);
 }
 
+/* Flash, 6.90mm */
 .camera-flash {
-    top: 27px;
-    left: 266px;
+    top: 28px;
+    left: 259px;
     right: auto;
     width: 36px;
     height: 36px;
@@ -1699,10 +1722,10 @@ html[data-color="burgundy"] {
     transform: none;
 }
 
-/* LiDAR */
+/* LiDAR sensor, 6.90mm */
 .depth-sensor {
-    top: 137px;
-    left: 266px;
+    top: 134px;
+    left: 259px;
     bottom: auto;
     right: auto;
     width: 36px;
@@ -1715,9 +1738,11 @@ html[data-color="burgundy"] {
 
 .depth-sensor::before { display: none; }
 
-/* The TidBit fills the MagSafe glass panel below the plateau. */
+/* The TidBit sits on the back glass below the plateau (from 50.4mm),
+   covering the top of the 57.5mm MagSafe ring. */
 .iphone-mock .magsafe-container {
     position: absolute;
-    top: 254px;
+    top: 263px;
+    height: 508px;
     bottom: auto !important;
 }

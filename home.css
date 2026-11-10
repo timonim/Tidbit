@@ -20,9 +20,9 @@
 
     /* phone, in design pixels */
     --phone-w: 375px;
-    --phone-h: 812px;
-    --phone-r: 56px;
-    --phone-half-depth: 18px;
+    --phone-h: 783px; /* 150.01mm at 375px = 71.85mm */
+    --phone-r: 62px; /* R11.81mm */
+    --phone-half-depth: 23px; /* 8.75mm body */
 
     /* Phone finish (blue). Keep in step with the body colours in styles.css. */
     --phone-body: #aebfd6;
