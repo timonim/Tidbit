@@ -12,7 +12,6 @@
 :root {
     --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
     --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
     --gutter: clamp(20px, 6vw, 104px);
     --measure: 1240px;
@@ -48,6 +47,13 @@
     background-color: var(--bg);
     color: var(--fg);
 }
+
+::selection {
+    background: var(--fg);
+    color: var(--bg);
+}
+
+input { caret-color: currentColor; }
 
 html {
     scroll-behavior: smooth;
@@ -107,7 +113,7 @@ img, svg, iframe { display: block; }
 }
 
 .display {
-    font-size: clamp(3.1rem, 7.4vw, 7.25rem);
+    font-size: clamp(3.1rem, 7.4vw, 6rem);
     line-height: 0.93;
 }
 
@@ -131,18 +137,14 @@ img, svg, iframe { display: block; }
     text-wrap: pretty;
 }
 
-.eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
+/* Small supporting labels: body face, sentence case. */
+.meta {
+    font-size: 0.875rem;
+    font-weight: 700;
     color: var(--muted);
+    font-variant-numeric: tabular-nums;
 }
 
-.eyebrow__dot,
 .hint__dot {
     width: 7px;
     height: 7px;
@@ -550,10 +552,8 @@ img, svg, iframe { display: block; }
     margin-top: 14px;
     padding-top: 16px;
     border-top: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
     color: var(--muted);
 }
 
@@ -574,10 +574,8 @@ img, svg, iframe { display: block; }
 }
 
 .noise__label {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
     color: var(--muted);
     line-height: 1.5;
 }
@@ -590,11 +588,6 @@ img, svg, iframe { display: block; }
     font-size: 0.9375rem;
 }
 
-.hint__dot { animation: pulse 2.4s steps(2, jump-none) infinite; }
-
-@keyframes pulse {
-    50% { opacity: 0.25; }
-}
 
 @media (min-width: 900px) {
     .turn {
@@ -681,11 +674,9 @@ img, svg, iframe { display: block; }
 .quote cite {
     display: block;
     margin-top: 32px;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-style: normal;
-    font-size: 0.75rem;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
+    font-size: 0.875rem;
     color: var(--muted);
 }
 
@@ -699,11 +690,9 @@ img, svg, iframe { display: block; }
 
 .ledger thead th,
 .ledger tbody th {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
     font-weight: 400;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
     color: var(--muted);
 }
 
@@ -781,13 +770,6 @@ img, svg, iframe { display: block; }
 .how__art .fill { fill: var(--bg); }
 .how__art .dash { stroke-dasharray: 3 5; }
 
-.how__num {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.09em;
-    color: var(--muted);
-}
-
 .how__step h3 {
     font-family: var(--font-display);
     font-weight: 400;
@@ -831,10 +813,8 @@ img, svg, iframe { display: block; }
 }
 
 .index__what {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
     color: var(--muted);
     transition: color 0.14s steps(2);
 }
@@ -857,7 +837,7 @@ img, svg, iframe { display: block; }
     justify-items: start;
 }
 
-.display--cta { font-size: clamp(3rem, 8.4vw, 8.5rem); }
+.display--cta { font-size: clamp(3rem, 7.6vw, 6rem); }
 
 .specline--cta {
     margin-top: 0;
@@ -937,9 +917,8 @@ img, svg, iframe { display: block; }
 .footer__legal {
     max-width: var(--measure);
     margin: 48px auto 0;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
     color: var(--muted);
 }
 
@@ -951,14 +930,6 @@ img, svg, iframe { display: block; }
    E-ink behaviour: things arrive the way a panel redraws,
    in a few hard steps rather than a soft fade.
    ========================================================== */
-
-.js .reveal { opacity: 0; }
-.js .reveal.is-in { animation: redraw 0.5s steps(4, jump-end) forwards; }
-
-@keyframes redraw {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
 
 .refresh {
     position: fixed;
@@ -987,11 +958,8 @@ img, svg, iframe { display: block; }
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .js .reveal,
-    .js .reveal.is-in { opacity: 1; animation: none; }
     .refresh { display: none; }
     .note,
-    .lock.is-buzzing,
-    .hint__dot { animation: none; }
+    .lock.is-buzzing { animation: none; }
     [data-theme] { transition: background-color 0.3s, color 0.3s; }
 }
