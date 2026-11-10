@@ -843,46 +843,6 @@ img, svg, iframe { display: block; }
     .index li:hover .index__what { color: var(--bg); }
 }
 
-/* Story */
-
-.section--story { padding-top: 0; }
-
-.story {
-    display: grid;
-    gap: 32px;
-    padding: clamp(32px, 5vw, 64px);
-    border: 1px solid var(--fg);
-    border-radius: 28px;
-    text-decoration: none;
-    transition: background-color 0.14s steps(2), color 0.14s steps(2);
-}
-
-.story > div {
-    display: grid;
-    gap: 20px;
-}
-
-.story__go {
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-@media (hover: hover) {
-    .story:hover {
-        background: var(--fg);
-        color: var(--bg);
-    }
-    .story:hover .lede,
-    .story:hover .eyebrow { color: var(--bg); }
-}
-
-@media (min-width: 900px) {
-    .story {
-        grid-template-columns: 1fr auto;
-        align-items: end;
-    }
-}
-
 /* ==========================================================
    CTA + footer (back to ink)
    ========================================================== */
