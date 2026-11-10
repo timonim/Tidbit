@@ -1353,3 +1353,148 @@ h1, .temp, .day, .notifications-count {
 .magsafe-container::after {
     opacity: 0.18;
 }
+
+/* ======================== */
+/* 10. E-INK PASS           */
+/* The panel is flat, matte paper with crisp near-black ink. */
+/* Structure comes from hairlines and solid inverted blocks, */
+/* never from shadows, glows or translucent fills.           */
+/* ======================== */
+:root {
+    --ink: #141414;
+    --epaper-background: #e6e4dd;
+    --text-color-primary: var(--ink);
+    --text-color-secondary: #3d3d3d;
+    --text-color-tertiary: #6b6b6b;
+    --border-color: rgba(0, 0, 0, 0.45);
+    --widget-background: transparent;
+}
+
+.epaper-display {
+    filter: grayscale(100%) sepia(8%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+h1, .temp, .day, .notifications-count { text-shadow: none; }
+
+/* Widgets sit directly on the paper. */
+.widget {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 6px 4px;
+}
+
+.header,
+.widget-header { border-bottom: 1px solid var(--border-color); }
+
+.weather-section .header { border: none; }
+
+.battery-icon,
+.notification-icon,
+.weather-icon { filter: none; }
+
+/* Emphasis is an inverted block. */
+.next-action {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--epaper-background);
+    border-radius: 8px;
+}
+
+/* Album art is dithered; keep it on whole pixels. */
+.media img {
+    width: 180px;
+    height: 180px;
+    max-width: none;
+    border-radius: 4px;
+    box-shadow: none;
+    filter: none;
+    image-rendering: pixelated;
+}
+
+.media .controls {
+    background: none;
+    border: 1.5px solid var(--ink);
+}
+
+.media .controls .play,
+.media .controls button.playing {
+    background: var(--ink);
+    color: var(--epaper-background);
+}
+
+.pomodoro-timer {
+    background: none;
+    border: 1.5px solid var(--ink);
+}
+
+.pomodoro-timer.running {
+    background: var(--ink);
+    box-shadow: none;
+}
+
+.pomodoro-timer.running,
+.pomodoro-timer.running .pomodoro-time,
+.pomodoro-timer.running .pomodoro-session-type,
+.pomodoro-timer.running button { color: var(--epaper-background); }
+
+.pomodoro-controls button {
+    background: none;
+    border: 1.5px solid currentColor;
+    color: inherit;
+}
+
+.mindfulness-prompt-display,
+.ds-text-container {
+    background: none;
+    border: 1.5px solid var(--border-color);
+}
+
+.mindfulness-new-prompt-btn {
+    background: var(--epaper-background);
+    border-color: var(--border-color);
+    color: var(--text-color-secondary);
+}
+
+/* Bottom bar: outlined tabs, the current one inverted. */
+.page-indicator {
+    background: none;
+    border: 1.5px solid var(--border-color);
+    color: var(--text-color-secondary);
+    filter: none;
+    will-change: auto;
+}
+
+.page-indicator.active,
+.page-indicator[data-active="true"] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--epaper-background);
+    filter: none;
+    transform: none;
+}
+
+.notification-badge {
+    background: var(--ink);
+    color: var(--epaper-background);
+    border: 2px solid var(--epaper-background);
+    box-shadow: none;
+}
+
+/* Refresh flash, driven by simulateEinkRefresh(). */
+.eink-flash {
+    position: absolute;
+    inset: 0;
+    z-index: 300;
+    border-radius: inherit;
+    background: var(--ink);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.epaper-display[data-flash="invert"] .screen-content { filter: invert(1); }
+.epaper-display[data-flash="black"] .eink-flash { opacity: 1; }
+.epaper-display[data-flash="white"] .eink-flash { opacity: 1; background: var(--epaper-background); }
+.epaper-display[data-flash="ghost"] .eink-flash { opacity: 0.12; }
