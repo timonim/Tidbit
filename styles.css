@@ -1361,11 +1361,11 @@ h1, .temp, .day, .notifications-count {
 /* never from shadows, glows or translucent fills.           */
 /* ======================== */
 :root {
-    --ink: #141414;
+    --ink: #33322f; /* e-ink black is a soft charcoal, never true black */
     --epaper-background: #e6e4dd;
     --text-color-primary: var(--ink);
-    --text-color-secondary: #3d3d3d;
-    --text-color-tertiary: #6b6b6b;
+    --text-color-secondary: #4a4946;
+    --text-color-tertiary: #74726d;
     --border-color: rgba(0, 0, 0, 0.45);
     --widget-background: transparent;
 }
@@ -1494,7 +1494,7 @@ h1, .temp, .day, .notifications-count { text-shadow: none; }
     pointer-events: none;
 }
 
-.epaper-display[data-flash="invert"] .screen-content { filter: invert(1); }
-.epaper-display[data-flash="black"] .eink-flash { opacity: 1; }
-.epaper-display[data-flash="white"] .eink-flash { opacity: 1; background: var(--epaper-background); }
-.epaper-display[data-flash="ghost"] .eink-flash { opacity: 0.12; }
+.epaper-display[data-flash="invert"] .screen-content { filter: invert(0.7); }
+.epaper-display[data-flash="black"] .eink-flash { opacity: 0.4; }
+.epaper-display[data-flash="white"] .eink-flash { opacity: 0.75; background: var(--epaper-background); }
+.epaper-display[data-flash="ghost"] .eink-flash { opacity: 0.08; }

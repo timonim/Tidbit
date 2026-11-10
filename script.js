@@ -721,8 +721,8 @@ function simulateEinkRefresh(full = true) {
   }
 
   const frames = full
-    ? [['invert', 90], ['black', 110], ['white', 110]]
-    : [['ghost', 70]];
+    ? [['invert', 70], ['black', 90], ['white', 90]]
+    : [['ghost', 60]];
 
   state.isRefreshing = true;
   let index = 0;
