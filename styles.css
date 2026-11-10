@@ -1498,3 +1498,83 @@ h1, .temp, .day, .notifications-count { text-shadow: none; }
 .epaper-display[data-flash="black"] .eink-flash { opacity: 0.4; }
 .epaper-display[data-flash="white"] .eink-flash { opacity: 0.75; background: var(--epaper-background); }
 .epaper-display[data-flash="ghost"] .eink-flash { opacity: 0.08; }
+
+/* ======================== */
+/* 11. HARDWARE PASS        */
+/* Matte frosted-glass back, quiet cameras, and a TidBit with */
+/* real thickness that sits on the phone rather than in it.   */
+/* ======================== */
+.iphone-mock {
+    background: linear-gradient(170deg, #e2cba6 0%, #d5bb92 52%, #c8ab82 100%);
+    border: 1px solid rgba(255, 240, 215, 0.5);
+    box-shadow:
+        0 30px 50px rgba(0, 0, 0, 0.4),
+        0 8px 16px rgba(0, 0, 0, 0.28),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+        inset 0 0 22px rgba(90, 60, 25, 0.12);
+}
+
+/* A soft sheen near the top, nothing glossy. */
+.iphone-mock::before {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 32%);
+    opacity: 1;
+}
+
+.iphone-mock::after {
+    background: linear-gradient(to right, rgba(70, 45, 18, 0.12), transparent 4%, transparent 96%, rgba(70, 45, 18, 0.12));
+    box-shadow: none;
+}
+
+.camera {
+    background: linear-gradient(150deg, rgba(236, 216, 182, 0.96), rgba(199, 172, 130, 0.96));
+    border-color: rgba(255, 242, 220, 0.42);
+    box-shadow:
+        0 6px 12px rgba(70, 45, 20, 0.22),
+        0 1px 2px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5),
+        inset 0 -4px 10px rgba(90, 60, 25, 0.14);
+}
+
+.camera::before { background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 40%); }
+
+.camera-lens {
+    background: radial-gradient(circle at 55% 55%, #0c0c0e 0%, #151518 55%, #060607 100%);
+    border: 3px solid rgba(176, 148, 104, 0.8);
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.35),
+        inset 0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+.camera-lens::before {
+    background: radial-gradient(circle at 40% 35%, rgba(70, 74, 86, 0.28) 0%, rgba(18, 18, 20, 0.95) 60%, #0a0a0b 100%);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+.camera-lens::after {
+    width: 10%;
+    height: 10%;
+    background: radial-gradient(circle at center, rgba(225, 230, 238, 0.28), transparent 70%);
+}
+
+.camera-flash {
+    background: linear-gradient(135deg, #f1efe8, #d9d5cb);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* The TidBit: raised so it clears the phone's corners, drawn above the
+   phone's sheen, with a visible edge and a shadow cast onto the glass. */
+.magsafe-container {
+    bottom: -54px !important;
+    z-index: 6;
+    background: linear-gradient(160deg, #3a3a39 0%, #262625 50%, #1b1b1a 100%);
+    box-shadow:
+        0 1px 0 #1d1d1c,
+        0 2px 0 #1b1b1a,
+        0 3px 0 #191918,
+        0 4px 0 #161615,
+        0 8px 12px rgba(60, 38, 15, 0.32),
+        0 20px 30px -10px rgba(60, 38, 15, 0.38),
+        inset 0 1px 1px rgba(255, 255, 255, 0.26),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.5);
+}

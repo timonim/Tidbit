@@ -336,7 +336,7 @@ img, svg, iframe { display: block; }
 
 .phone__face--back {
     transform: translateZ(var(--phone-half-depth));
-    background: linear-gradient(145deg, #f1ddbd 0%, #d8b98e 42%, #ba8e5e 72%, #8b613d 100%);
+    background: linear-gradient(170deg, #e2cba6 0%, #d5bb92 52%, #c8ab82 100%);
 }
 
 .phone__face--front {
