@@ -226,6 +226,20 @@ img, svg, iframe { display: block; }
     border-bottom-color: var(--line);
 }
 
+/* The mark: a phone with the TidBit on its back. */
+.logo {
+    width: 1.35em;
+    height: 1.35em;
+    flex: none;
+}
+
+.nav__brand,
+.footer__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+}
+
 .nav__brand {
     font: 800 1.125rem/1 var(--font-body);
     letter-spacing: -0.01em;
