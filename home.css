@@ -26,6 +26,7 @@
 }
 
 [data-theme="ink"] {
+    --texture: none;
     --bg: #0c0c0b;
     --fg: #eceae2;
     --muted: #a3a198;
@@ -34,7 +35,9 @@
     color-scheme: dark;
 }
 
+/* E-paper surface: fine particle grain over slow, uneven mottling. */
 [data-theme="paper"] {
+    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='640'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.004' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.11 0 0 0 0 0.09 0 0 0 0.22 -0.08'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
     --bg: #e9e7de;
     --fg: #161613;
     --muted: #5b5951;
@@ -43,8 +46,11 @@
     color-scheme: light;
 }
 
-[data-theme] {
+[data-theme],
+.stage {
     background-color: var(--bg);
+    background-image: var(--texture, none);
+    background-size: 180px 180px, 640px 640px;
     color: var(--fg);
 }
 
@@ -278,7 +284,6 @@ img, svg, iframe { display: block; }
     height: 50vh;
     height: 50svh;
     overflow: hidden;
-    background-color: var(--bg);
 }
 
 .stage::before {
@@ -609,7 +614,9 @@ img, svg, iframe { display: block; }
         grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
     }
 
+    /* Steps sit beside the stage here, so let the page's own paper show through. */
     .stage {
+        background: none;
         grid-column: 2;
         grid-row: 1;
         align-self: start;
