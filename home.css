@@ -34,11 +34,12 @@
 
 [data-theme="ink"] {
     --texture: none;
-    --bg: #0c0c0b;
-    --fg: #eceae2;
-    --muted: #a3a198;
-    --line: rgba(236, 234, 226, 0.17);
-    --soft: rgba(236, 234, 226, 0.07);
+    /* Warm dark: an unlit room by lamplight, not a glowing screen. */
+    --bg: #1b1510;
+    --fg: #f2e8d9;
+    --muted: #b8a994;
+    --line: rgba(242, 232, 217, 0.16);
+    --soft: rgba(255, 184, 108, 0.13);
     color-scheme: dark;
 }
 
@@ -108,7 +109,7 @@ img, svg, iframe { display: block; }
     left: 8px;
     z-index: 100;
     padding: 10px 16px;
-    background: #eceae2;
+    background: #f2e8d9;
     color: #161613;
     border-radius: 8px;
     transform: translateY(-200%);
@@ -297,7 +298,9 @@ img, svg, iframe { display: block; }
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(60% 55% at 50% 52%, var(--soft), transparent 70%);
+    background:
+        radial-gradient(55% 50% at 50% 46%, var(--soft), transparent 72%),
+        radial-gradient(90% 70% at 60% 20%, rgba(255, 196, 128, 0.05), transparent 70%);
 }
 
 .stage__scene {
@@ -978,9 +981,9 @@ img, svg, iframe { display: block; }
 }
 
 @keyframes refresh-ink {
-    0% { opacity: 0.5; background: #0c0c0b; }
-    34% { opacity: 0.22; background: #eceae2; }
-    67% { opacity: 0.1; background: #eceae2; }
+    0% { opacity: 0.5; background: #1b1510; }
+    34% { opacity: 0.22; background: #f2e8d9; }
+    67% { opacity: 0.1; background: #f2e8d9; }
     100% { opacity: 0; }
 }
 

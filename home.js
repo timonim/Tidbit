@@ -140,7 +140,7 @@
     }
     if (root.dataset.theme !== theme) {
       root.dataset.theme = theme;
-      $('meta[name="theme-color"]')?.setAttribute('content', theme === 'paper' ? '#e9e7de' : '#0c0c0b');
+      $('meta[name="theme-color"]')?.setAttribute('content', theme === 'paper' ? '#e9e7de' : '#1b1510');
     }
     nav.classList.toggle('nav--solid', window.scrollY > 24);
   }
