@@ -1584,8 +1584,7 @@ h1, .temp, .day, .notifications-count { text-shadow: none; }
 /* Built from Apple's iPhone 18 Pro dimensional drawings (2026-09-09).  */
 /* Scale: 375px = 71.85mm product width, so 1mm = 5.219px.               */
 /*   Body 71.85 x 150.01mm  -> 375 x 783px, corner R11.81 -> 62px         */
-/*   Plateau base: full width, 0-48.7mm from top -> 254px                 */
-/*   Plateau top surface: 4.96-67.05mm across, 4.96-43.0mm down           */
+/*   Plateau: one raised block about 4.6-67.3mm across, 4.6-44.8mm down  */
 /*   Lenses 3x 16.58mm at (14.37,14.37) (14.37,33.61) (32.49,23.99)       */
 /*   Flash and LiDAR 6.90mm, mic 1.15mm, at x 58.03, y 13.82/23.99/34.16  */
 /* Finish is set with ?color= (black, silver, blue, burgundy).            */
@@ -1622,54 +1621,50 @@ html[data-color="burgundy"] {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent 4%, transparent 96%, rgba(0, 0, 0, 0.1));
 }
 
-/* Plateau base: rises from the whole top of the back, with a soft
-   sloped flank down to the back glass at 48.7mm. */
+/* The plateau is ONE raised block, inset about 5mm from the top and side
+   edges (the drawing's inner outline), ending about 45mm down. A soft
+   rounded edge and a shadow beneath make it read as raised. */
 .iphone-mock::before {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 254px;
-    border-radius: 61px 61px 48px 48px;
-    background: linear-gradient(180deg, var(--body-hi), var(--body) 85%);
-    box-shadow:
-        0 6px 10px -4px rgba(0, 0, 0, 0.24),
-        0 1px 2px rgba(0, 0, 0, 0.1),
-        inset 0 -5px 8px rgba(0, 0, 0, 0.07);
+    inset: 0;
+    width: auto;
+    height: auto;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 30%);
+    box-shadow: none;
     opacity: 1;
-    z-index: 1;
+    z-index: 0;
 }
 
-/* Plateau top surface, inset about 5mm, where the cameras sit. */
 .camera {
     position: absolute;
-    top: 26px;
-    left: 26px;
+    top: 24px;
+    left: 24px;
     right: auto;
-    width: 324px;
-    height: 198px;
+    width: 327px;
+    height: 210px;
     padding: 0;
     border: 0;
-    border-radius: 44px;
+    border-radius: 42px;
     transform: none;
     z-index: 2;
-    background: linear-gradient(175deg, var(--body-hi), var(--plateau) 70%);
+    background:
+        radial-gradient(130% 150% at 50% 35%, var(--plateau) 60%, var(--body) 100%);
     box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.16),
-        0 2px 4px rgba(0, 0, 0, 0.1),
-        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        0 8px 12px -6px rgba(0, 0, 0, 0.3),
+        0 2px 3px -1px rgba(0, 0, 0, 0.14),
+        0 0 0 1px rgba(0, 0, 0, 0.05),
+        inset 0 1px 1px rgba(255, 255, 255, 0.55),
+        inset 0 -6px 9px -6px rgba(0, 0, 0, 0.16);
 }
 
-.camera::before {
-    border-radius: inherit;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 45%);
-}
+.camera::before { display: none; }
 
 /* Rear microphone, 1.15mm */
 .camera::after {
     content: '';
     position: absolute;
-    top: 96px;
-    left: 274px;
+    top: 98px;
+    left: 276px;
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -1690,9 +1685,9 @@ html[data-color="burgundy"] {
     transform: none;
 }
 
-.camera-lens:nth-child(1) { top: 6px; left: 6px; bottom: auto; right: auto; }
-.camera-lens:nth-child(2) { top: 106px; left: 6px; bottom: auto; right: auto; }
-.camera-lens:nth-child(3) { top: 56px; left: 100px; bottom: auto; right: auto; }
+.camera-lens:nth-child(1) { top: 8px; left: 8px; bottom: auto; right: auto; }
+.camera-lens:nth-child(2) { top: 108px; left: 8px; bottom: auto; right: auto; }
+.camera-lens:nth-child(3) { top: 58px; left: 102px; bottom: auto; right: auto; }
 
 .camera-lens::before {
     width: 32%;
@@ -1711,8 +1706,8 @@ html[data-color="burgundy"] {
 
 /* Flash, 6.90mm */
 .camera-flash {
-    top: 28px;
-    left: 259px;
+    top: 30px;
+    left: 261px;
     right: auto;
     width: 36px;
     height: 36px;
@@ -1724,8 +1719,8 @@ html[data-color="burgundy"] {
 
 /* LiDAR sensor, 6.90mm */
 .depth-sensor {
-    top: 134px;
-    left: 259px;
+    top: 136px;
+    left: 261px;
     bottom: auto;
     right: auto;
     width: 36px;
