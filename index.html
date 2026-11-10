@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="ink">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="TidBit: Your E-ink MagSafe display for digital calm. Reduce screen time & regain focus with mindful, eye-friendly technology. Join the waitlist.">
-    <meta name="theme-color" content="#050505">
+    <meta name="theme-color" content="#0c0c0b">
     <title>TidBit - E-ink MagSafe Display | Digital Wellness & Focus</title>
 
     <!-- Open Graph / social sharing -->
@@ -15,574 +15,283 @@
     <meta name="twitter:title" content="TidBit — E-ink MagSafe Display for Digital Calm">
     <meta name="twitter:description" content="A MagSafe E-ink display that brings mindful focus and essential info to your iPhone, without the noise.">
 
-    <link rel="stylesheet" href="product-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <noscript>
-        <style>
-            /* Ensure content is visible if JavaScript is unavailable */
-            .fade-in { opacity: 1 !important; transform: none !important; }
-        </style>
-    </noscript>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+    <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-    <button class="button back-to-top" aria-label="Back to top">
-        <i class="fas fa-chevron-up"></i>
-    </button>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="product-container">
-        <nav class="navbar" id="navbar" aria-label="Main navigation">
-            <div class="navbar-container">
-                <a href="#" class="navbar-brand" aria-label="TidBit Home">
-                    <span class="navbar-logo">TidBit</span>
-                </a>
-
-                <div class="primary-navigation-container" data-visible="false">
-                    <ul id="primary-navigation" class="primary-navigation">
-                        <li class="nav-item">
-                            <a href="#features" class="nav-link">
-                                <span>Features</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#how-it-works" class="nav-link">
-                                <span>How it Works</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#comparison" class="nav-link">
-                                <span>Why E-ink</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#testimonials" class="nav-link">
-                                <span>Testimonials</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#integrations" class="nav-link">
-                                <span>Integrations</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="development-story.html" class="nav-link">
-                                <span>Our Story</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <a href="#cta" class="button button-primary nav-cta nav-cta--drawer">Join Waitlist</a>
-                </div>
-
-                <div class="navbar-actions">
-                    <a href="#cta" class="button button-primary nav-cta nav-cta--bar">Join Waitlist</a>
-                    <button
-                        class="menu-toggle"
-                        aria-label="Toggle navigation menu"
-                        aria-controls="primary-navigation"
-                        aria-expanded="false"
-                    >
-                        <span class="menu-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Menu</span>
-                    </button>
-                </div>
-            </div>
+    <header class="nav" id="nav">
+        <a href="#top" class="nav__brand" aria-label="TidBit home">TidBit</a>
+        <nav class="nav__links" aria-label="Main navigation">
+            <a href="#screens">Screens</a>
+            <a href="#why">Why e-ink</a>
+            <a href="#how">How it works</a>
+            <a href="#integrations">Integrations</a>
+            <a href="development-story.html">Our story</a>
         </nav>
+        <a href="#cta" class="btn btn--small" data-focus-email>Join waitlist</a>
+    </header>
 
-        <main>
-            <header class="product-hero">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <i class="fas fa-circle"></i>
-                        <span>Developer Preview</span>
+    <main id="main">
+        <!-- One phone, turned by scroll: back (calm) → front (noise) → back, on paper -->
+        <section class="turn" id="top" data-theme="ink">
+            <div class="stage" id="stage">
+                <div class="stage__scene">
+                    <div class="phone-scale" id="phoneScale">
+                        <div class="phone" id="phone">
+                            <div class="phone__edges" id="phoneEdges" aria-hidden="true"></div>
+
+                            <div class="phone__face phone__face--back">
+                                <iframe class="phone__demo" id="demo" src="tidbit.html?flat" title="Interactive TidBit e-ink display on the back of an iPhone" scrolling="no"></iframe>
+                            </div>
+
+                            <div class="phone__face phone__face--front" aria-hidden="true">
+                                <div class="lock" id="lock">
+                                    <div class="lock__island"></div>
+                                    <div class="lock__status">
+                                        <span data-clock>9:41</span>
+                                        <span class="lock__signal"><i></i><i></i><i></i><i></i></span>
+                                    </div>
+                                    <p class="lock__date" data-date>Monday, May 15</p>
+                                    <p class="lock__time" data-clock>9:41</p>
+                                    <ol class="lock__stack" id="lockStack"></ol>
+                                    <p class="lock__more" id="lockMore"></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p class="hero-eyebrow">TidBit</p>
-                    <h1 class="hero-title">
-                        Calm lives on the back.
-                    </h1>
-                    <p class="hero-subtitle">
-                        A paper-like MagSafe display for the essentials, so your iPhone can stay quiet until you actually need it.
+                    <div class="phone-shadow" id="phoneShadow" aria-hidden="true"></div>
+                </div>
+            </div>
+
+            <div class="steps" id="steps">
+                <article class="step step--hero" data-ry="-24" data-rx="7">
+                    <p class="eyebrow"><span class="eyebrow__dot"></span>TidBit · Developer preview</p>
+                    <h1 class="display">Calm lives <em>on the back.</em></h1>
+                    <p class="lede">A paper-like MagSafe display for the essentials, so your iPhone can stay quiet until you actually need it.</p>
+                    <div class="actions">
+                        <a href="#cta" class="btn" data-focus-email>Join waitlist</a>
+                        <a href="#front" class="link-arrow">Turn it over <span aria-hidden="true">↓</span></a>
+                    </div>
+                    <ul class="specline" aria-label="TidBit highlights">
+                        <li>Paper-like e-ink</li>
+                        <li>MagSafe snap-on</li>
+                        <li>Weeks between charges</li>
+                        <li>No blue-light glow</li>
+                    </ul>
+                </article>
+
+                <article class="step" id="front" data-ry="162" data-rx="4">
+                    <p class="eyebrow">The front</p>
+                    <h2 class="title">Built to <em>keep you.</em></h2>
+                    <p class="lede">You picked it up to check the time. Every buzz since has been an invitation to stay a little longer.</p>
+                    <p class="noise" aria-hidden="true">
+                        <span class="noise__count" id="noiseCount">0</span>
+                        <span class="noise__label">interruptions since<br>you turned it over</span>
                     </p>
-                    <div class="hero-ctas">
-                        <a href="#cta" class="button button-primary">Join Waitlist</a>
-                        <a href="#demo" class="button button-secondary">Watch Demo</a>
-                    </div>
-                    <div class="hero-metrics" aria-label="TidBit highlights">
-                        <div class="hero-metric">
-                            <strong>Weeks</strong>
-                            <span>between charges</span>
-                        </div>
-                        <div class="hero-metric">
-                            <strong>0</strong>
-                            <span>blue-light glow</span>
-                        </div>
-                        <div class="hero-metric">
-                            <strong>Snap</strong>
-                            <span>MagSafe attach</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="hero-device-frame">
-                        <iframe class="hero-mockup-iframe" src="tidbit-only.html" title="TidBit E-ink Mockup"></iframe>
-                    </div>
-                    <div class="hero-caption" aria-hidden="true">
-                        <span>Essential widgets</span>
-                        <span>Always readable</span>
-                    </div>
-                </div>
+                </article>
+
+                <article class="step" id="back" data-ry="349" data-rx="5" data-paper>
+                    <p class="eyebrow">The back</p>
+                    <h2 class="title">Only tells you <em>what's next.</em></h2>
+                    <p class="lede">Your next meeting, the weather, what's playing, a timer. It holds still, it doesn't glow, and there is nothing to scroll.</p>
+                    <p class="hint"><span class="hint__dot"></span>It's live. Tap the icons on the display.</p>
+                </article>
+
+                <article class="step step--tour" id="screens" data-ry="357" data-rx="1" data-focus="1" data-view="0" data-paper>
+                    <p class="eyebrow">Screen 1 of 4 · Today</p>
+                    <h2 class="title title--tour">The next thing, <em>and nothing after it.</em></h2>
+                    <p class="lede">Your calendar and the weather share one screen. The next event sits at the top, so a glance is enough.</p>
+                </article>
+
+                <article class="step step--tour" data-ry="363" data-rx="1" data-focus="1" data-view="1" data-paper>
+                    <p class="eyebrow">Screen 2 of 4 · Notifications</p>
+                    <h2 class="title title--tour">A short list, <em>on your terms.</em></h2>
+                    <p class="lede">Only the senders you allow, grouped and counted. No previews fighting each other for the top spot.</p>
+                </article>
+
+                <article class="step step--tour" data-ry="357" data-rx="1" data-focus="1" data-view="2" data-paper>
+                    <p class="eyebrow">Screen 3 of 4 · Music</p>
+                    <h2 class="title title--tour">Skip the track, <em>skip the feed.</em></h2>
+                    <p class="lede">See what's playing and change it from the back, without unlocking into everything else.</p>
+                </article>
+
+                <article class="step step--tour" data-ry="363" data-rx="1" data-focus="1" data-view="3" data-paper>
+                    <p class="eyebrow">Screen 4 of 4 · Focus</p>
+                    <h2 class="title title--tour">Twenty-five minutes, <em>face down.</em></h2>
+                    <p class="lede">A Pomodoro timer and one mindful prompt. The phone stays on the table while you work.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="quote" data-theme="paper">
+            <blockquote class="reveal">
+                <p>The quieter you become, the more you can hear.</p>
+                <cite>Ram Dass</cite>
+            </blockquote>
+        </section>
+
+        <section class="section" id="why" data-theme="paper">
+            <header class="section__head reveal">
+                <p class="eyebrow">Why e-ink</p>
+                <h2 class="title">A screen that's finished <em>once it's drawn.</em></h2>
             </header>
+            <table class="ledger reveal">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <th scope="col">A phone screen</th>
+                        <th scope="col">TidBit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Light</th>
+                        <td>Shines at your face</td>
+                        <td>Reflects the room, like paper</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Power</th>
+                        <td>Burns it every second it's on</td>
+                        <td>Uses it only when the picture changes</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Charging</th>
+                        <td>Every night</td>
+                        <td>Every few weeks</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">At 2 a.m.</th>
+                        <td>The brightest thing in the room</td>
+                        <td>Dark until you turn on a lamp</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">What's on it</th>
+                        <td>Whatever wants you most</td>
+                        <td>What you chose to see</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-            <section class="product-strip fade-in" aria-label="TidBit product highlights">
-                <div class="product-strip-item">
-                    <span>Display</span>
-                    <strong>Paper-like e-ink</strong>
+        <section class="section" id="how" data-theme="paper">
+            <header class="section__head reveal">
+                <p class="eyebrow">How it works</p>
+                <h2 class="title">Snap. Pair. <em>Glance.</em></h2>
+            </header>
+            <ol class="how">
+                <li class="how__step reveal">
+                    <svg class="how__art" viewBox="0 0 200 150" aria-hidden="true">
+                        <rect x="58" y="10" width="64" height="130" rx="13"/>
+                        <rect x="65" y="17" width="26" height="28" rx="8"/>
+                        <rect x="112" y="60" width="52" height="72" rx="10" class="fill"/>
+                        <path d="M150 44c-7-9-18-12-28-9" class="dash"/>
+                        <path d="M122 28l-1 8 8 1"/>
+                    </svg>
+                    <p class="how__num">01</p>
+                    <h3>Snap</h3>
+                    <p>TidBit attaches to your iPhone with MagSafe. No tools, no case.</p>
+                </li>
+                <li class="how__step reveal">
+                    <svg class="how__art" viewBox="0 0 200 150" aria-hidden="true">
+                        <rect x="34" y="10" width="64" height="130" rx="13"/>
+                        <rect x="118" y="38" width="52" height="72" rx="10" class="fill"/>
+                        <path d="M101 62q8 13 0 26M107 54q13 21 0 42" class="dash"/>
+                        <path d="M129 58h30M129 70h20M129 82h26"/>
+                    </svg>
+                    <p class="how__num">02</p>
+                    <h3>Pair</h3>
+                    <p>Connect over Bluetooth and choose your widgets: calendar, weather, tasks, music.</p>
+                </li>
+                <li class="how__step reveal">
+                    <svg class="how__art" viewBox="0 0 200 150" aria-hidden="true">
+                        <rect x="68" y="10" width="64" height="130" rx="13"/>
+                        <rect x="75" y="17" width="26" height="28" rx="8"/>
+                        <rect x="76" y="56" width="48" height="74" rx="9" class="fill"/>
+                        <path d="M85 72h30M85 84h18M85 96h24M85 112h12"/>
+                    </svg>
+                    <p class="how__num">03</p>
+                    <h3>Glance</h3>
+                    <p>See what matters when it matters, then put the phone back down.</p>
+                </li>
+            </ol>
+        </section>
+
+        <section class="section" id="integrations" data-theme="paper">
+            <header class="section__head reveal">
+                <p class="eyebrow">Integrations</p>
+                <h2 class="title">Works with what <em>you already use.</em></h2>
+                <p class="lede">TidBit takes one line from each service and leaves the rest of the app behind.</p>
+            </header>
+            <ul class="index reveal">
+                <li><span class="index__name">Google Calendar</span><span class="index__what">Your next event</span></li>
+                <li><span class="index__name">Weather</span><span class="index__what">Today's forecast</span></li>
+                <li><span class="index__name">Todoist</span><span class="index__what">Tasks and to-dos</span></li>
+                <li><span class="index__name">Spotify</span><span class="index__what">Now playing, with controls</span></li>
+                <li><span class="index__name">RSS feeds</span><span class="index__what">News and blog updates</span></li>
+                <li><span class="index__name">Custom quotes</span><span class="index__what">A line worth rereading</span></li>
+            </ul>
+        </section>
+
+        <section class="section section--story" data-theme="paper">
+            <a class="story reveal" href="development-story.html">
+                <div>
+                    <p class="eyebrow">Our story</p>
+                    <h2 class="title">From a hunch to <em>a working display.</em></h2>
+                    <p class="lede">The research, the "aha" moment, the design, and the code behind the simulation you just played with.</p>
                 </div>
-                <div class="product-strip-item">
-                    <span>Attach</span>
-                    <strong>MagSafe snap-on</strong>
-                </div>
-                <div class="product-strip-item">
-                    <span>Battery</span>
-                    <strong>Measured in weeks</strong>
-                </div>
-                <div class="product-strip-item">
-                    <span>Mode</span>
-                    <strong>Glance, then go</strong>
-                </div>
-            </section>
+                <span class="story__go">Read the development story <span aria-hidden="true">→</span></span>
+            </a>
+        </section>
 
-            <section id="demo" class="eink-display-section fade-in">
-                <div class="section-header">
-                    <p class="section-eyebrow">Live product preview</p>
-                    <h2 class="section-title">Everything important, off the main screen.</h2>
-                    <p class="section-subtitle">Explore the interactive e-ink simulation and see how TidBit turns an iPhone into a calmer, glanceable workspace.</p>
-                </div>
-                <div class="iframe-container">
-                    <iframe src="tidbit.html" class="eink-iframe" title="TidBit E-ink Display Demo"></iframe>
-                    <div class="iframe-overlay">
-                        <div class="overlay-text">Interactive Demo</div>
-                    </div>
-                </div>
-                <p class="demo-prompt">Try it: tap the icons on the e-ink display to switch views.</p>
-            </section>
-
-            <section class="quote-section">
-                <blockquote>
-                    <p class="quote-text">"The quieter you become, <br> the more you can hear."</p>
-                    <cite class="quote-author">— Ram Dass</cite>
-                </blockquote>
-            </section>
-
-            <section id="features" class="product-features feature-highlights">
-                <div class="feature-highlights-header">
-                    <h2 class="feature-highlights-title">Cultivate <span>Digital Mindfulness.</span></h2>
-                    <p class="feature-highlights-subtitle">Highlights designed to respect your attention, not demand it.</p>
-                </div>
-
-                <div class="feature-carousel-shell">
-                    <div class="features-container feature-carousel" aria-label="TidBit mindfulness highlights" tabindex="0">
-                        <article class="highlight-card highlight-card--calm fade-in">
-                            <div class="highlight-copy">
-                                <p class="highlight-kicker">Digital Peace</p>
-                                <h3>Only what matters. Nothing else.</h3>
-                                <p>Essential updates stay readable without pulling you back into your phone.</p>
-                            </div>
-                            <div class="highlight-art highlight-art--calm" aria-hidden="true">
-                                <span class="highlight-glyph"><i class="fas fa-brain"></i></span>
-                            </div>
-                        </article>
-
-                        <article class="highlight-card highlight-card--dark fade-in">
-                            <div class="highlight-copy">
-                                <p class="highlight-kicker">Eye-Friendly</p>
-                                <h3>No glow, no glare, no late-night blast.</h3>
-                                <p>Paper-like e-ink keeps your glance calm in daylight, at night, and everywhere between.</p>
-                            </div>
-                            <div class="highlight-art highlight-art--eye" aria-hidden="true">
-                                <span class="highlight-glyph"><i class="fas fa-eye"></i></span>
-                            </div>
-                        </article>
-
-                        <article class="highlight-card highlight-card--blue fade-in">
-                            <div class="highlight-copy">
-                                <p class="highlight-kicker">Smart Updates</p>
-                                <h3>Refreshes quietly, only when it should.</h3>
-                                <p>Calendar shifts, weather, timers, and reminders appear without the notification spiral.</p>
-                            </div>
-                            <div class="highlight-art highlight-art--updates" aria-hidden="true">
-                                <span class="highlight-glyph"><i class="fas fa-sync-alt"></i></span>
-                            </div>
-                        </article>
-
-                        <article class="highlight-card highlight-card--light fade-in">
-                            <div class="highlight-copy">
-                                <p class="highlight-kicker">Long Battery</p>
-                                <h3>Weeks of calm between charges.</h3>
-                                <p>E-ink holds the screen without constant power, so TidBit fades into your routine.</p>
-                            </div>
-                            <div class="highlight-art highlight-art--battery" aria-hidden="true">
-                                <span class="highlight-glyph"><i class="fas fa-battery-full"></i></span>
-                            </div>
-                        </article>
-
-                        <article class="highlight-card highlight-card--magnet fade-in">
-                            <div class="highlight-copy">
-                                <p class="highlight-kicker">MagSafe</p>
-                                <h3>Snaps on cleanly. Stays out of the way.</h3>
-                                <p>Magnetic alignment makes TidBit feel like a natural extension of the phone.</p>
-                            </div>
-                            <div class="highlight-art highlight-art--magnet" aria-hidden="true">
-                                <span class="highlight-glyph"><i class="fas fa-magnet"></i></span>
-                            </div>
-                        </article>
-
-                        <article class="highlight-card highlight-card--widgets fade-in">
-                            <div class="highlight-copy">
-                                <p class="highlight-kicker">Widgets</p>
-                                <h3>A tiny dashboard for the day.</h3>
-                                <p>Calendar, weather, timers, music, quotes, and more, arranged for quick glances.</p>
-                            </div>
-                            <div class="highlight-art highlight-art--widgets" aria-hidden="true">
-                                <span class="highlight-glyph"><i class="fas fa-th-large"></i></span>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="feature-carousel-controls" aria-label="Feature carousel controls">
-                        <button class="feature-carousel-button" type="button" data-feature-scroll="prev" aria-label="Previous highlight">
-                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                        </button>
-                        <button class="feature-carousel-button" type="button" data-feature-scroll="next" aria-label="Next highlight">
-                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- <section id="benefits" class="philosophy-section fade-in">
-                <div class="philosophy-content">
-                    <h2>Less Noise. More Signal.</h2>
-                    <p>TidBit helps you stay connected intentionally, acting as the focused 'dumb phone' for your smartphone – essentials without the noise. Take control of your digital life with technology that respects your focus.</p>
-                </div>
-                <div class="philosophy-visual">
-                    <div class="philosophy-image">
-                        <img src="images/mindful-tech.jpg" alt="Person using technology mindfully in a calm setting" class="philosophy-img">
-                    </div>
-                    <div class="philosophy-pattern"></div>
-                </div>
-            </section> -->
-
-            <section id="how-it-works" class="how-it-works-section">
-                <div class="section-header">
-                    <h2 class="section-title">How TidBit Works</h2>
-                    <p class="section-subtitle">A simple, seamless journey to digital calm</p>
-                </div>
-                <div class="features-container">
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-box-open feature-icon"></i>
-                        </div>
-                        <h3>Unbox & Attach</h3>
-                        <p>Snap TidBit onto your iPhone with MagSafe. No tools, no hassle.</p>
-                    </div>
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-mobile-alt feature-icon"></i>
-                        </div>
-                        <h3>Connect & Customize</h3>
-                        <p>Pair via Bluetooth and choose your widgets—calendar, weather, tasks, and more.</p>
-                    </div>
-                    <div class="feature card card-elevated fade-in">
-                        <div class="feature-icon-container">
-                            <i class="fas fa-leaf feature-icon"></i>
-                        </div>
-                        <h3>Enjoy Digital Calm</h3>
-                        <p>See only what matters, when it matters. No distractions, just clarity.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="comparison" class="comparison-section">
-                <div class="section-header">
-                    <h2 class="section-title">The TidBit Advantage</h2>
-                </div>
-
-                <div class="comparison-grid">
-                    <div class="comparison-card traditional">
-                        <div class="comparison-header">
-                            <i class="fas fa-mobile-alt"></i>
-                            <h3>Typical Phone Screens</h3>
-                        </div>
-                        <div class="comparison-features">
-                            <div class="comparison-feature negative">
-                                <i class="fas fa-times"></i>
-                                <span>Disruptive Blue Light</span>
-                            </div>
-                            <div class="comparison-feature negative">
-                                <i class="fas fa-times"></i>
-                                <span>Daily Charging Burden</span>
-                            </div>
-                            <div class="comparison-feature negative">
-                                <i class="fas fa-times"></i>
-                                <span>Causes Eye Strain & Fatigue</span>
-                            </div>
-                            <div class="comparison-feature negative">
-                                <i class="fas fa-times"></i>
-                                <span>Constant Distraction Loops</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="comparison-card tidbit">
-                        <div class="comparison-header">
-                            <i class="fas fa-tablet-alt"></i>
-                            <h3>TidBit E-ink</h3>
-                        </div>
-                        <div class="comparison-features">
-                             <div class="comparison-feature positive">
-                                <i class="fas fa-check"></i>
-                                <span>Soothing, Paper-Like View</span>
-                            </div>
-                            <div class="comparison-feature positive">
-                                <i class="fas fa-check"></i>
-                                <span>Weeks of Battery Freedom</span>
-                            </div>
-                            <div class="comparison-feature positive">
-                                <i class="fas fa-check"></i>
-                                <span>Zero Eye Strain Viewing</span>
-                            </div>
-                            <div class="comparison-feature positive">
-                                <i class="fas fa-check"></i>
-                                <span>Mindful, Focused Information</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="testimonials" class="testimonials-section">
-                <div class="section-header">
-                    <h2 class="section-title">Stories from Our Early Testers</h2>
-                    <p class="section-subtitle">How TidBit is transforming digital habits</p>
-                </div>
-
-                <div class="testimonials-grid">
-                    <div class="testimonial-card fade-in">
-                        <div class="testimonial-avatar">
-                            <img src="images/testimonial-1.jpg" alt="Sarah J." loading="lazy">
-                            <div class="avatar-accent"></div>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="testimonial-text">
-                                <p>"TidBit helped me break free from constant notifications. Now I check my phone 70% less and feel more present in my daily life."</p>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-info">
-                                    <span class="author-name">Sarah J.</span>
-                                    <span class="author-role">Digital Wellness Coach</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card fade-in">
-                        <div class="testimonial-avatar">
-                            <img src="images/testimonial-3.jpeg" alt="Michael T." loading="lazy">
-                            <div class="avatar-accent"></div>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="testimonial-text">
-                                <p>"As a mindfulness practitioner, I appreciate how TidBit helps my clients stay informed without the anxiety of constant screen time."</p>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-info">
-                                    <span class="author-name">Michael T.</span>
-                                    <span class="author-role">Mindfulness Instructor</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card fade-in">
-                        <div class="testimonial-avatar">
-                            <img src="images/testimonial-2.jpeg" alt="Leila R." loading="lazy">
-                            <div class="avatar-accent"></div>
-                        </div>
-                        <div class="testimonial-content">
-                            <div class="testimonial-text">
-                                <p>"The e-ink display is a game-changer for my remote work setup. My eyes thank me every day for making the switch to TidBit."</p>
-                            </div>
-                            <div class="testimonial-author">
-                                <div class="author-info">
-                                    <span class="author-name">Leila R.</span>
-                                    <span class="author-role">Remote Professional</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="pricing" class="developer-program-section fade-in">
-                <div class="developer-content">
-                    <div class="developer-header">
-                        <div class="developer-badge">
-                            <i class="fas fa-code"></i>
-                            Developer Preview
-                        </div>
-                        <h2 class="developer-title">Join the Developer Program</h2>
-                        <p class="developer-description">Get early access to our SDK, documentation, and development hardware.</p>
-                    </div>
-
-                    <div class="developer-features">
-                        <div class="developer-feature">
-                            <i class="fas fa-code-branch"></i>
-                            <span>Open SDK Access</span>
-                        </div>
-                        <div class="developer-feature">
-                            <i class="fas fa-book"></i>
-                            <span>API Documentation</span>
-                        </div>
-                        <div class="developer-feature">
-                            <i class="fas fa-tools"></i>
-                            <span>Dev Hardware Kit</span>
-                        </div>
-                        <div class="developer-feature">
-                            <i class="fas fa-users"></i>
-                            <span>Developer Community</span>
-                        </div>
-                    </div>
-                    <form id="cta" class="developer-form" autocomplete="off">
-                        <input type="email" placeholder="Enter your developer email" class="developer-input" required>
-                        <button class="button button-primary developer-button" type="submit">
-                            Request Access <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </form>
-                    <p class="developer-note">Limited spots available for initial developer program.</p>
-                </div>
-            </section>
-
-            <section id="integrations" class="integrations-section">
-                <div class="section-header">
-                    <h2 class="section-title">Seamlessly Connect Your Digital Life</h2>
-                    <p class="section-subtitle">TidBit works with the tools and services you already love, bringing key information to your E-ink display without the usual distractions.</p>
-                </div>
-
-                <div class="integrations-grid">
-                    <div class="integration-item card card-elevated fade-in">
-                        <div class="integration-logo">
-                            <i class="fab fa-google"></i>
-                        </div>
-                        <h3 class="integration-name">Google Calendar</h3>
-                        <p class="integration-description">View your upcoming events and schedule at a glance.</p>
-                    </div>
-                    <div class="integration-item card card-elevated fade-in">
-                        <div class="integration-logo">
-                            <i class="fas fa-cloud-sun"></i>
-                        </div>
-                        <h3 class="integration-name">Weather APIs</h3>
-                        <p class="integration-description">Stay updated with current weather and forecasts.</p>
-                    </div>
-                    <div class="integration-item card card-elevated fade-in">
-                        <div class="integration-logo">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <h3 class="integration-name">Todoist</h3>
-                        <p class="integration-description">Keep track of your tasks and to-do lists effortlessly.</p>
-                    </div>
-                    <div class="integration-item card card-elevated fade-in">
-                        <div class="integration-logo">
-                            <i class="fab fa-spotify"></i>
-                        </div>
-                        <h3 class="integration-name">Spotify</h3>
-                        <p class="integration-description">See currently playing tracks or control playback.</p>
-                    </div>
-                    <div class="integration-item card card-elevated fade-in">
-                        <div class="integration-logo">
-                            <i class="fas fa-rss"></i>
-                        </div>
-                        <h3 class="integration-name">RSS Feeds</h3>
-                        <p class="integration-description">Follow your favorite news and blog updates.</p>
-                    </div>
-                    <div class="integration-item card card-elevated fade-in">
-                        <div class="integration-logo">
-                            <i class="fas fa-quote-right"></i>
-                        </div>
-                        <h3 class="integration-name">Custom Quotes</h3>
-                        <p class="integration-description">Display your favorite inspirational quotes.</p>
-                    </div>
-                </div>
-
-                <div class="integrations-footer">
-                    <p>We're always working on adding more integrations. Have a suggestion? <a href="#">Let us know!</a></p>
-                </div>
-            </section>
-        </main>
-
-    </div>
-    <footer class="product-footer">
-        <div class="footer-content">
-            <div class="footer-top">
-                <div class="footer-info">
-                    <div class="footer-logo">TidBit</div>
-                    <p class="footer-tagline">Your Window to Digital Calm</p>
-                </div>
-
-                <div class="footer-links-container">
-                    <div class="footer-links-column">
-                        <h4 class="footer-heading">Product</h4>
-                        <ul class="footer-links-list">
-                            <li><a href="#features" class="footer-link">Features</a></li>
-                            <li><a href="#comparison" class="footer-link">Why E-ink</a></li>
-                            <li><a href="#integrations" class="footer-link">Integrations</a></li>
-                            <li><a href="development-story.html" class="footer-link">Development Story</a></li>
-                            <li><a href="#" class="footer-link">FAQs</a></li> </ul>
-                    </div>
-
-                    <div class="footer-links-column">
-                        <h4 class="footer-heading">Company</h4>
-                        <ul class="footer-links-list">
-                            <li><a href="#" class="footer-link">About Us</a></li>
-                            <li><a href="#" class="footer-link">Blog</a></li>
-                            </ul>
-                    </div>
-
-                    <div class="footer-links-column">
-                        <h4 class="footer-heading">Support</h4>
-                        <ul class="footer-links-list">
-                            <li><a href="#" class="footer-link">Contact Us</a></li>
-                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                            <li><a href="#" class="footer-link">Terms of Service</a></li>
-                            </ul>
-                    </div>
-                </div>
-
-                <div class="footer-newsletter">
-                    <h4 class="footer-heading">Stay Updated</h4>
-                     <p class="newsletter-description">Get launch updates, news, and digital wellness tips.</p>
-                    <div class="newsletter-form">
-                        <input type="email" placeholder="Your email" class="newsletter-input">
-                        <button class="button button-primary newsletter-button">Subscribe</button>
-                    </div>
-                </div>
+        <section class="cta" id="cta" data-theme="ink">
+            <div class="cta__inner reveal">
+                <p class="eyebrow"><span class="eyebrow__dot"></span>Developer preview</p>
+                <h2 class="display display--cta">Put the calm <em>on the back.</em></h2>
+                <p class="lede">Join the developer program for early access to the SDK, documentation, and development hardware.</p>
+                <ul class="specline specline--cta">
+                    <li>Open SDK access</li>
+                    <li>API documentation</li>
+                    <li>Dev hardware kit</li>
+                    <li>Developer community</li>
+                </ul>
+                <form class="signup" id="signup" novalidate>
+                    <label class="sr-only" for="email">Email address</label>
+                    <input class="signup__input" id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+                    <button class="btn" type="submit">Request access</button>
+                </form>
+                <p class="signup__note" id="signupNote" role="status">Limited spots for the initial developer program.</p>
             </div>
+        </section>
+    </main>
 
-            <div class="footer-bottom">
-                <div class="footer-social">
-                     <a href="https://github.com/timonim" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.instagram.com/portnoytim" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/in/tim-portnoy" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    </div>
-
-                 <p class="footer-copyright">© 2025 TidBit. All rights reserved to Tim Portnoy.</p>
+    <footer class="footer" data-theme="ink">
+        <div class="footer__top">
+            <div>
+                <p class="footer__brand">TidBit</p>
+                <p class="footer__tag">Your window to digital calm.</p>
             </div>
+            <nav class="footer__links" aria-label="Footer">
+                <a href="#screens">Screens</a>
+                <a href="#why">Why e-ink</a>
+                <a href="#how">How it works</a>
+                <a href="#integrations">Integrations</a>
+                <a href="development-story.html">Development story</a>
+            </nav>
+            <nav class="footer__links" aria-label="Social">
+                <a href="https://github.com/timonim">GitHub</a>
+                <a href="https://www.instagram.com/portnoytim">Instagram</a>
+                <a href="https://www.linkedin.com/in/tim-portnoy">LinkedIn</a>
+            </nav>
         </div>
+        <p class="footer__legal">© 2025 TidBit. All rights reserved to Tim Portnoy.</p>
     </footer>
-    
-    <script src="product-script.js"></script>
-  
+
+    <div class="refresh" id="refresh" aria-hidden="true"></div>
+    <script src="home.js"></script>
 </body>
 </html>
