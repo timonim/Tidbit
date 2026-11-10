@@ -23,6 +23,13 @@
     --phone-h: 812px;
     --phone-r: 56px;
     --phone-half-depth: 18px;
+
+    /* Phone finish (blue). Keep in step with the body colours in styles.css. */
+    --phone-body: #aebfd6;
+    --phone-body-hi: #c3d1e3;
+    --phone-body-lo: #97a9c2;
+    --phone-frame-light: #dfe7f2;
+    --phone-frame-dark: #6c7d95;
 }
 
 [data-theme="ink"] {
@@ -336,7 +343,7 @@ img, svg, iframe { display: block; }
 
 .phone__face--back {
     transform: translateZ(var(--phone-half-depth));
-    background: linear-gradient(170deg, #e2cba6 0%, #d5bb92 52%, #c8ab82 100%);
+    background: linear-gradient(170deg, var(--phone-body-hi) 0%, var(--phone-body) 50%, var(--phone-body-lo) 100%);
 }
 
 .phone__face--front {
@@ -381,7 +388,7 @@ img, svg, iframe { display: block; }
     position: absolute;
     inset: 0;
     border-radius: var(--phone-r);
-    border: 4px solid #b89468;
+    border: 4px solid var(--phone-body);
     box-shadow: inset 0 0 0 8px #000;
     background:
         radial-gradient(70% 45% at 18% 12%, #ff5a36, transparent 70%),

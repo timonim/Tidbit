@@ -10,7 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- ?flat: embedded on the home page, which supplies its own 3D turn -->
-    <script>if (location.search.includes('flat')) document.documentElement.classList.add('flat');</script>
+    <script>
+        if (location.search.includes('flat')) document.documentElement.classList.add('flat');
+        // ?color=black|silver|blue|burgundy picks the phone's finish.
+        const finish = new URLSearchParams(location.search).get('color');
+        if (finish) document.documentElement.dataset.color = finish;
+    </script>
     <style>
         .flat body { align-items: flex-start; perspective: none; }
         .flat .iphone-mock,

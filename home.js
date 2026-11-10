@@ -55,8 +55,12 @@
         points.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
       }
     }
-    const dark = [116, 82, 52];
-    const light = [246, 229, 200];
+    const rgb = (name, fallback) => {
+      const hex = getComputedStyle(root).getPropertyValue(name).trim().replace('#', '');
+      return hex.length === 6 ? [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16)) : fallback;
+    };
+    const dark = rgb('--phone-frame-dark', [108, 125, 149]);
+    const light = rgb('--phone-frame-light', [223, 231, 242]);
     const frag = document.createDocumentFragment();
     points.forEach(([x1, y1], i) => {
       const [x2, y2] = points[(i + 1) % points.length];
