@@ -1727,7 +1727,7 @@ img, svg, iframe { display: block; }
 
 
 /* ==========================================================
-   Held: choose who gets through · Who it's for
+   Held: choose who gets through
    ========================================================== */
 
 .split {
@@ -1756,52 +1756,6 @@ img, svg, iframe { display: block; }
 .tb__notes { display: grid; gap: calc(10 * var(--u)); }
 .tb__notes .tb__note { padding-top: 0; }
 .tb__empty { font-size: calc(14 * var(--u)); color: var(--ink-2); }
-
-/* Who it's for: tabs on top, words left, the screen right. */
-.who__tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: clamp(32px, 5vw, 64px);
-}
-
-.who__tabs button {
-    min-height: 44px;
-    padding: 0 20px;
-    border: 0;
-    border-radius: 999px;
-    background: transparent;
-    box-shadow: inset 0 0 0 1.5px var(--line);
-    color: var(--fg);
-    font: 700 0.9375rem/1 var(--font-body);
-    cursor: pointer;
-}
-
-.who__tabs button[aria-selected="true"] {
-    background: var(--brand);
-    box-shadow: none;
-    color: var(--on-brand);
-}
-
-.who__copy { display: none; }
-.who__copy.is-on { display: grid; gap: 18px; }
-
-.who__copy h3 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(2.2rem, 4.4vw, 4rem);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    text-wrap: balance;
-}
-
-.who__copy h3 em { color: var(--accent); }
-
-.who__copy p {
-    max-width: 30rem;
-    color: var(--muted);
-    font-size: clamp(1.0625rem, 1.25vw, 1.25rem);
-}
 
 /* On light grounds the glass glare is softer, or the screen washes out. */
 .tb3d--flat .tb__sheen { opacity: 0.25; }

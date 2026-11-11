@@ -540,46 +540,6 @@
     io.observe(fig);
   }
 
-  /* ---------- Who it's for ---------- */
-
-  function wireWho() {
-    const root = $('#who-tabs');
-    if (!root) return;
-    const tabs = $$('[role="tab"]', root);
-    const copies = $$('.who__copy', root);
-    const tb = $('.tb', root);
-    const views = $$('.tb__view', tb);
-    const nav = $('.tb__nav', tb);
-    const clock = $('.tb__clock', tb);
-
-    function pick(i, focus) {
-      tabs.forEach((t, k) => {
-        t.setAttribute('aria-selected', k === i ? 'true' : 'false');
-        t.tabIndex = k === i ? 0 : -1;
-      });
-      if (focus) tabs[i].focus();
-      copies.forEach((c, k) => c.classList.toggle('is-on', k === i));
-      flashTb(tb, () => {
-        views.forEach((v, k) => v.classList.toggle('is-on', k === i));
-        nav.dataset.tab = tabs[i].dataset.tab;
-        clock.textContent = tabs[i].dataset.time;
-        tb.classList.toggle('is-night', tabs[i].dataset.tab === 'none');
-      });
-    }
-
-    tabs.forEach((t, i) => {
-      t.addEventListener('click', () => pick(i));
-      t.addEventListener('keydown', (e) => {
-        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-        if (!d) return;
-        e.preventDefault();
-        pick((i + d + tabs.length) % tabs.length, true);
-      });
-    });
-    tabs.forEach((t, k) => { t.tabIndex = k === 0 ? 0 : -1; });
-    clock.textContent = tabs[0].dataset.time;
-  }
-
   /* ---------- Dimensional drawing: drawn in, line by line ----------
      Outlines trace themselves in document order (front, side, back, notes);
      fills, dimensions and lettering follow just behind the pen. */
@@ -699,7 +659,6 @@
   wireDay();
   wireHeld();
   wireRedraw();
-  wireWho();
   wireDrawing();
   wireCalmField();
 
