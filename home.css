@@ -64,7 +64,7 @@
 
 /* Sky: a pale wash of the brand blue, the colour of the phone, for one quiet band. */
 [data-theme="sky"] {
-    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.16 0 0 0 0 0.18 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    --texture: none;
     --bg: #c9dde3;
     --fg: #241b17;
     --muted: #4e5d63;
