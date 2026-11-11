@@ -63,8 +63,17 @@
     const dark = rgb('--phone-frame-dark', [108, 125, 149]);
     const light = rgb('--phone-frame-light', [223, 231, 242]);
     const frag = document.createDocumentFragment();
+    // Long straight sides go in short pieces: Chrome sorts small planes reliably,
+    // but a single 650px strip can be drawn over the TidBit standing on the back.
+    const segs = [];
     points.forEach(([x1, y1], i) => {
       const [x2, y2] = points[(i + 1) % points.length];
+      const n = Math.max(1, Math.ceil(Math.hypot(x2 - x1, y2 - y1) / 60));
+      for (let s = 0; s < n; s++) {
+        segs.push([x1 + ((x2 - x1) * s) / n, y1 + ((y2 - y1) * s) / n, x1 + ((x2 - x1) * (s + 1)) / n, y1 + ((y2 - y1) * (s + 1)) / n]);
+      }
+    });
+    segs.forEach(([x1, y1, x2, y2]) => {
       const len = Math.hypot(x2 - x1, y2 - y1);
       if (len < 0.01) return;
       const angle = Math.atan2(y2 - y1, x2 - x1);
@@ -74,8 +83,9 @@
       const el = document.createElement('div');
       el.className = 'phone__edge';
       el.style.cssText =
-        `width:${len + 1}px;height:${PHONE.depth}px;` +
-        `left:${-(len + 1) / 2}px;top:${-PHONE.depth / 2}px;` +
+        // A hair short of the faces, so Chrome never has to sort a strip against them.
+        `width:${len + 1}px;height:${PHONE.depth - 1.5}px;` +
+        `left:${-(len + 1) / 2}px;top:${-(PHONE.depth - 1.5) / 2}px;` +
         `background:rgb(${rgb});` +
         `transform:translate3d(${(x1 + x2) / 2}px,${(y1 + y2) / 2}px,0) rotateZ(${angle}rad) rotateX(90deg);`;
       frag.appendChild(el);
@@ -161,13 +171,37 @@
     }
   }
 
+  // The TidBit's 6.4mm side: slices from the glass up to the face, then a chamfer.
+  function buildTbSide() {
+    const host = $('#phoneTbSide');
+    if (!host) return;
+    const SLICES = 22;
+    const frag = document.createDocumentFragment();
+    for (let k = 0; k <= SLICES; k++) {
+      const el = document.createElement('div');
+      el.className = 'phone__tbslice' + (k === SLICES ? ' phone__tbslice--chamfer' : '');
+      el.style.setProperty('--k', ((k === SLICES ? SLICES - 0.3 : k) / SLICES).toFixed(3));
+      frag.appendChild(el);
+    }
+    host.appendChild(frag);
+  }
+
+  function placeTb() {
+    phone.style.setProperty('--tb-x', puck.x + 'px');
+    phone.style.setProperty('--tb-y', puck.y + 'px');
+    phone.style.setProperty('--tb-w', puck.w + 'px');
+    phone.style.setProperty('--tb-h', puck.h + 'px');
+  }
+
   function onDemoReady() {
     try {
       demoWin = demo.contentWindow;
       const el = demo.contentDocument.querySelector('.magsafe-container');
       if (el) {
         const r = el.getBoundingClientRect();
+        // Measured in the demo's own page, which is the phone's back at design size.
         if (r.width > 100) puck = { x: r.left, y: r.top, w: r.width, h: r.height };
+        placeTb();
       }
     } catch (err) {
       demoWin = null;
@@ -687,6 +721,7 @@
   addEventListener('resize', sbw);
 
   buildEdges();
+  buildTbSide();
   tickClock();
   setInterval(tickClock, 20000);
   wireSignup();

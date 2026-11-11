@@ -17,11 +17,28 @@
         // ?color=black|silver|blue|burgundy picks the phone's finish.
         const finish = new URLSearchParams(location.search).get('color');
         if (finish) document.documentElement.dataset.color = finish;
+        // ?layer=back|tidbit: the home page stacks the phone's back and the TidBit
+        // as two layers, so the TidBit can stand off the glass in 3D.
+        const layer = new URLSearchParams(location.search).get('layer');
+        if (layer) document.documentElement.dataset.layer = layer;
     </script>
     <style>
         .flat body { align-items: flex-start; perspective: none; }
         .flat .iphone-mock,
         .flat .iphone-mock:hover { transform: none !important; transition: none !important; box-shadow: none; }
+        /* Back layer: the phone without its TidBit. */
+        [data-layer="back"] .magsafe-container { visibility: hidden; }
+        [data-layer="back"] body,
+        [data-layer="back"] .iphone-mock { background: none !important; }
+        /* TidBit layer: only the TidBit, on a clear background; its depth and shadow come from the page. */
+        [data-layer="tidbit"] body,
+        [data-layer="tidbit"] .iphone-mock { background: none !important; box-shadow: none !important; }
+        [data-layer="tidbit"] .iphone-mock::before,
+        [data-layer="tidbit"] .iphone-mock::after,
+        [data-layer="tidbit"] .camera { display: none !important; }
+        [data-layer="tidbit"] .magsafe-container {
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.26), inset 0 -1px 1px rgba(0, 0, 0, 0.5) !important;
+        }
     </style>
     </head>
 <body>

@@ -56,7 +56,16 @@
                             <div class="phone__edges" id="phoneEdges" aria-hidden="true"></div>
 
                             <div class="phone__face phone__face--back">
-                                <iframe class="phone__demo" id="demo" src="tidbit.html?flat&amp;color=blue" title="Interactive TidBit e-ink display on the back of an iPhone" scrolling="no"></iframe>
+                                <iframe class="phone__demo" src="tidbit.html?flat&amp;color=blue&amp;layer=back" title="" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
+                                <div class="phone__tbshadow" aria-hidden="true"></div>
+                            </div>
+
+                            <!-- The TidBit, standing 6.4mm off the glass: graphite side slices, then the live face. -->
+                            <div class="phone__tb" id="phoneTb">
+                                <div class="phone__tbside" id="phoneTbSide" aria-hidden="true"></div>
+                                <div class="phone__tbface">
+                                    <iframe class="phone__demo" id="demo" src="tidbit.html?flat&amp;color=blue&amp;layer=tidbit" title="Interactive TidBit e-ink display on the back of an iPhone" scrolling="no"></iframe>
+                                </div>
                             </div>
 
                             <div class="phone__face phone__face--front" aria-hidden="true">

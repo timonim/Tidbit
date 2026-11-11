@@ -408,9 +408,88 @@ img, svg, iframe { display: block; }
     width: var(--phone-w);
     height: var(--phone-h);
     border: 0;
+    /* Match the demo page, or Chrome paints an opaque backdrop behind a clear one. */
+    color-scheme: light;
 }
 
 .phone.is-front .phone__demo { pointer-events: none; }
+/* The back layer only draws the camera; the body colour is this face's own.
+   Kept short, above the TidBit, so Chromium's 3D iframe painting bug can't bite. */
+.phone__face--back .phone__demo { pointer-events: none; height: var(--tb-y); display: block; }
+
+/* ---------- The TidBit on the back, in 3D ----------
+   6.4mm off the glass at 375px = 71.85mm, so 33px. home.js places it where the
+   demo draws it and builds the side as stacked slices, like the portfolio cover. */
+.phone {
+    --tb-x: 17.5px;
+    --tb-y: 264px;
+    --tb-w: 340px;
+    --tb-h: 508px;
+    --tb-r: 48px;
+    --tb-depth: 33px;
+}
+
+.phone__tb {
+    position: absolute;
+    left: var(--tb-x);
+    top: var(--tb-y);
+    width: var(--tb-w);
+    height: var(--tb-h);
+    transform-style: preserve-3d;
+    transform: translateZ(var(--phone-half-depth));
+}
+
+.phone__tbside { position: absolute; inset: 0; transform-style: preserve-3d; }
+
+.phone__tbslice {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--tb-r);
+    transform: translateZ(calc(var(--k) * var(--tb-depth)));
+    background: linear-gradient(115deg,
+        hsl(30 6% calc(30% + var(--k) * 22%)) 0%,
+        hsl(28 4% calc(17% + var(--k) * 12%)) 45%,
+        hsl(28 4% calc(8% + var(--k) * 6%)) 100%);
+}
+
+/* A polished chamfer right under the face. */
+.phone__tbslice--chamfer {
+    background: linear-gradient(115deg, #e6dfd3 0%, #8d887f 45%, #3a3936 100%);
+}
+
+.phone__tbface {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--tb-r);
+    overflow: hidden;
+    transform: translateZ(var(--tb-depth));
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.phone__tbface .phone__demo {
+    position: absolute;
+    left: calc(-1 * var(--tb-x));
+    top: calc(-1 * var(--tb-y));
+}
+
+/* Its shadow on the phone's glass. */
+.phone__tbshadow {
+    position: absolute;
+    left: var(--tb-x);
+    top: var(--tb-y);
+    width: var(--tb-w);
+    height: var(--tb-h);
+    border-radius: var(--tb-r);
+    background: rgba(20, 24, 32, 0.45);
+    transform: translate(6%, 5%);
+    filter: blur(14px);
+    pointer-events: none;
+}
+
+/* Zoomed in square-on (the phone drops out of 3D), the TidBit lies flat. */
+.phone.is-flat .phone__tbside,
+.phone.is-flat .phone__tbshadow { display: none; }
 
 .phone__edges {
     position: absolute;
