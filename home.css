@@ -903,6 +903,7 @@ img, svg, iframe { display: block; }
 
 .day {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: clamp(32px, 5vw, 72px);
     align-items: center;
 }
@@ -914,7 +915,7 @@ img, svg, iframe { display: block; }
 
 .dial {
     position: relative;
-    width: min(100%, 620px, calc(100svh - 170px));
+    width: min(100%, 620px, calc(100svh - 120px));
     aspect-ratio: 1;
     justify-self: center;
 }
@@ -1086,7 +1087,7 @@ img, svg, iframe { display: block; }
     .dial .day__device { width: 36%; }
     .dial__mark { min-width: 52px; min-height: 32px; padding: 0 8px; font-size: 0.75rem; }
     .dial__sun i { top: 82%; width: 24px; height: 24px; margin: -12px 0 0 -12px; font-size: 12px; }
-    .dial { width: min(88%, 420px); }
+    .dial { width: min(94%, 520px); }
     .dial__label { display: none; }
 }
 
@@ -2055,4 +2056,16 @@ img, svg, iframe { display: block; }
     .redraw--ready .redraw__track--tb li,
     .redraw--ready .redraw__track--tb li > * { clip-path: none; transform: none; opacity: 1; }
     .chip.is-new { animation: none; }
+}
+
+/* The dial is the centrepiece: as large as the screen allows, centred,
+   with the words for the moment in the margin beside it. */
+#day { padding-block: clamp(24px, 4vh, 48px); }
+
+@media (min-width: 1100px) {
+    .day { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); }
+    .dial { width: min(calc(100svh - var(--nav-h) - 56px), 880px, 62vw); }
+    .day__step { max-width: 17rem; }
+    .day__step h3 { font-size: clamp(2rem, 2.6vw, 2.8rem); }
+    .dial .day__device { width: 34%; }
 }
