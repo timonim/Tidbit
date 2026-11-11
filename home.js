@@ -517,6 +517,90 @@
     }
   }
 
+  /* ---------- Held: choose who gets through ----------
+     Each source is a switch. The screen redraws the way the panel would:
+     a short flash, then the new picture, holding still after. */
+
+  function flashTb(tb, swap) {
+    if (reduceMotion) { swap(); return; }
+    tb.classList.remove('is-refreshing');
+    void tb.offsetWidth;
+    tb.classList.add('is-refreshing');
+    setTimeout(swap, 115);
+  }
+
+  function wireHeld() {
+    const list = $('#heldList');
+    if (!list) return;
+    const sec = list.closest('section');
+    const tb = $('.tb', sec);
+    const num = $('[data-held="num"]', sec);
+    const notes = $('[data-held="list"]', sec);
+    const count = $('[data-held="count"]', sec);
+    const badge = $('.tb__nav b', sec);
+    const rows = $$('.held__row', list);
+    const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+    function render() {
+      const through = rows.filter((r) => r.getAttribute('aria-pressed') === 'true');
+      const held = rows.filter((r) => r.getAttribute('aria-pressed') !== 'true')
+        .reduce((n, r) => n + Number(r.dataset.count), 0);
+      num.textContent = String(through.length).padStart(2, '0');
+      badge.textContent = through.length;
+      badge.hidden = !through.length;
+      notes.innerHTML = through.length
+        ? through.slice(0, 3).map((r) => `<div class="tb__note"><i class="fas ${esc(r.dataset.icon)}"></i><span>${esc(r.dataset.name)}: ${esc(r.dataset.msg)}<small>${esc(r.dataset.ago)}</small></span></div>`).join('')
+          + (through.length > 3 ? `<p class="tb__empty">+${through.length - 3} more from people you chose</p>` : '')
+        : '<p class="tb__empty">Nothing gets through. Enjoy the quiet.</p>';
+      count.textContent = held ? `${held} more held for later` : 'Nothing held. Everything gets through.';
+    }
+
+    rows.forEach((r) => r.addEventListener('click', () => {
+      r.setAttribute('aria-pressed', r.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      flashTb(tb, render);
+    }));
+    render();
+  }
+
+  /* ---------- Who it's for ---------- */
+
+  function wireWho() {
+    const root = $('#who-tabs');
+    if (!root) return;
+    const tabs = $$('[role="tab"]', root);
+    const copies = $$('.who__copy', root);
+    const tb = $('.tb', root);
+    const views = $$('.tb__view', tb);
+    const nav = $('.tb__nav', tb);
+    const clock = $('.tb__clock', tb);
+
+    function pick(i, focus) {
+      tabs.forEach((t, k) => {
+        t.setAttribute('aria-selected', k === i ? 'true' : 'false');
+        t.tabIndex = k === i ? 0 : -1;
+      });
+      if (focus) tabs[i].focus();
+      copies.forEach((c, k) => c.classList.toggle('is-on', k === i));
+      flashTb(tb, () => {
+        views.forEach((v, k) => v.classList.toggle('is-on', k === i));
+        nav.dataset.tab = tabs[i].dataset.tab;
+        clock.textContent = tabs[i].dataset.time;
+      });
+    }
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => pick(i));
+      t.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        pick((i + d + tabs.length) % tabs.length, true);
+      });
+    });
+    tabs.forEach((t, k) => { t.tabIndex = k === 0 ? 0 : -1; });
+    clock.textContent = tabs[0].dataset.time;
+  }
+
   /* ---------- Dimensional drawing: drawn in, line by line ----------
      Outlines trace themselves in document order (front, side, back, notes);
      fills, dimensions and lettering follow just behind the pen. */
@@ -633,6 +717,8 @@
   wireSignup();
   wireHowItWorks();
   wireDay();
+  wireHeld();
+  wireWho();
   wireDrawing();
   wireCalmField();
 

@@ -283,6 +283,137 @@
             </div>
         </section>
 
+        <section class="section" id="held" data-theme="paper">
+            <div class="split">
+                <div class="split__copy">
+                    <header class="section__head">
+                        <h2 class="title">Who gets through <em>is up to you.</em></h2>
+                        <p class="lede">Choose the few people and apps that can reach the back of your phone. Everything else is counted and held, quietly, until you pick it up.</p>
+                    </header>
+                    <p class="held__hint meta">Tap to choose what gets through</p>
+                    <ul class="held" id="heldList">
+                    <li><button type="button" class="held__row" aria-pressed="true" data-icon="fa-heart" data-name="Mom" data-msg="Call when you can, no rush" data-ago="4m ago" data-count="1">
+                        <i class="fas fa-heart" aria-hidden="true"></i><span class="held__name">Mom<small>Call when you can, no rush</small></span><span class="held__state"></span>
+                    </button></li>
+                    <li><button type="button" class="held__row" aria-pressed="true" data-icon="fa-comment" data-name="Sam" data-msg="Got groceries, home by 7" data-ago="12m ago" data-count="1">
+                        <i class="fas fa-comment" aria-hidden="true"></i><span class="held__name">Sam<small>Got groceries, home by 7</small></span><span class="held__state"></span>
+                    </button></li>
+                    <li><button type="button" class="held__row" aria-pressed="true" data-icon="fa-calendar-alt" data-name="Calendar" data-msg="Standup moved to room 4" data-ago="20m ago" data-count="1">
+                        <i class="fas fa-calendar-alt" aria-hidden="true"></i><span class="held__name">Calendar<small>Standup moved to room 4</small></span><span class="held__state"></span>
+                    </button></li>
+                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-hashtag" data-name="Work chat" data-msg="#launch: 9 new messages" data-ago="now" data-count="9">
+                        <i class="fas fa-hashtag" aria-hidden="true"></i><span class="held__name">Work chat<small>#launch: 9 new messages</small></span><span class="held__state"></span>
+                    </button></li>
+                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-users" data-name="Group chats" data-msg="Weekend plans: 23 new" data-ago="now" data-count="23">
+                        <i class="fas fa-users" aria-hidden="true"></i><span class="held__name">Group chats<small>Weekend plans: 23 new</small></span><span class="held__state"></span>
+                    </button></li>
+                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-envelope" data-name="Email" data-msg="12 new in your inbox" data-ago="now" data-count="12">
+                        <i class="fas fa-envelope" aria-hidden="true"></i><span class="held__name">Email<small>12 new in your inbox</small></span><span class="held__state"></span>
+                    </button></li>
+                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-camera" data-name="Instagram" data-msg="6 likes on your photo" data-ago="now" data-count="6">
+                        <i class="fas fa-camera" aria-hidden="true"></i><span class="held__name">Instagram<small>6 likes on your photo</small></span><span class="held__state"></span>
+                    </button></li>
+                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-newspaper" data-name="News" data-msg="4 breaking stories" data-ago="now" data-count="4">
+                        <i class="fas fa-newspaper" aria-hidden="true"></i><span class="held__name">News<small>4 breaking stories</small></span><span class="held__state"></span>
+                    </button></li>
+                    </ul>
+                </div>
+                <div class="split__device">
+                    <div class="tb3d tb3d--flat" aria-hidden="true">
+                        <div class="tb">
+                            <div class="tb__screen">
+                                <div class="tb__bar"><span class="tb__clock">9:41 AM</span><span class="tb__batt"><i class="fas fa-battery-full"></i>16 days</span></div>
+                                <div class="tb__view is-on">
+                                    <header class="tb__date"><span class="tb__num" data-held="num">03</span><span><span class="tb__label">Notifications</span><span class="tb__head">From people you chose</span></span></header>
+                                    <div class="tb__notes" data-held="list"></div>
+                                    <p class="tb__held" data-held="count">54 more held for later</p>
+                                </div>
+                                <div class="tb__nav" data-tab="1"><span><i class="fas fa-calendar-alt"></i></span><span><i class="fas fa-bell"></i><b>3</b></span><span><i class="fas fa-music"></i></span><span><i class="fas fa-brain"></i></span></div>
+                            </div>
+                            <div class="tb__flash"></div>
+                            <div class="tb__sheen"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="who" data-theme="sand">
+            <header class="section__head">
+                <h2 class="title">Made for the people <em>you'd rather be.</em></h2>
+            </header>
+            <div class="who" id="who-tabs">
+                <div class="who__tabs" role="tablist" aria-label="Who TidBit is for">
+                    <button type="button" role="tab" aria-selected="true" aria-controls="who-panel" data-who="0" data-tab="3" data-time="10:30 AM">Makers</button>
+                    <button type="button" role="tab" aria-selected="false" aria-controls="who-panel" data-who="1" data-tab="1" data-time="2:52 PM">Parents</button>
+                    <button type="button" role="tab" aria-selected="false" aria-controls="who-panel" data-who="2" data-tab="0" data-time="9:41 AM">Students</button>
+                    <button type="button" role="tab" aria-selected="false" aria-controls="who-panel" data-who="3" data-tab="none" data-time="11:20 PM">Night owls</button>
+                </div>
+                <div class="split split--who">
+                    <div class="who__panel" id="who-panel" role="tabpanel" aria-live="polite">
+                        <div class="who__copy is-on" data-who="0">
+                            <h3>Make the thing, <em>uninterrupted.</em></h3>
+                            <p>One task and a timer on the back. The phone stays face down until the block ends, and nothing gets through except the people you chose.</p>
+                        </div>
+                        <div class="who__copy" data-who="1">
+                            <h3>Be in the room <em>with them.</em></h3>
+                            <p>The school, your partner and the babysitter get through. Everything else waits until bedtime, so the phone can stay in your pocket at the park.</p>
+                        </div>
+                        <div class="who__copy" data-who="2">
+                            <h3>Lectures and deadlines, <em>nothing else.</em></h3>
+                            <p>Today's classes and the next due date, readable at a glance between rooms. No feed to open on the way, because there isn't one.</p>
+                        </div>
+                        <div class="who__copy" data-who="3">
+                            <h3>Phone down, <em>lights low.</em></h3>
+                            <p>At night it shows tomorrow's first alarm and nothing more. It gives off no light, asks for nothing, and stays that way until morning.</p>
+                        </div>
+                    </div>
+                    <div class="split__device">
+                        <div class="tb3d tb3d--flat who__device" aria-hidden="true">
+                        <div class="tb">
+                            <div class="tb__screen">
+                                <div class="tb__bar"><span class="tb__clock">9:41 AM</span><span class="tb__batt"><i class="fas fa-battery-full"></i>16 days</span></div>
+                                <div class="tb__view is-on" data-view="0">
+                                    <span class="tb__label tb__label--ink">Focus</span>
+                                    <p class="tb__mins">50<span>min</span></p>
+                                    <div class="tb__dots"><i class="on"></i><i></i><i></i><i></i></div>
+                                    <hr class="tb__rule">
+                                    <p class="tb__task">Finish the prototype</p>
+                                    <p class="tb__small">Notifications held until 11:30 AM</p>
+                                    <div class="tb__buttons"><span class="is-ink"><i class="fas fa-pause"></i></span><span><i class="fas fa-redo"></i></span></div>
+                                </div>
+                                <div class="tb__view" data-view="1">
+                                    <header class="tb__date"><span class="tb__num">02</span><span><span class="tb__label">Notifications</span><span class="tb__head">From people you chose</span></span></header>
+                                    <div><span class="tb__label">Family</span>
+                                        <div class="tb__note"><i class="fas fa-school"></i><span>School: Pickup at 3:15 today, gym kit needed<small>8m ago</small></span></div>
+                                        <div class="tb__note"><i class="fas fa-heart"></i><span>Sam: I'll grab the kids, you finish up<small>1m ago</small></span></div></div>
+                                    <p class="tb__held">31 more held until bedtime</p>
+                                </div>
+                                <div class="tb__view" data-view="2">
+                                    <header class="tb__date"><span class="tb__num">14</span><span><span class="tb__label">Oct</span><span class="tb__head">Tuesday</span></span></header>
+                                    <p class="tb__block">Next: 10:00 Linear Algebra, Room B12</p>
+                                    <div><span class="tb__label">Today</span>
+                                        <ul class="tb__events"><li class="hi"><b>10:00</b>Linear Algebra</li><li><b>13:00</b>Study group</li><li class="lo"><b>16:30</b>History seminar</li></ul></div>
+                                    <div class="tb__weather">
+                                        <header class="tb__date"><span class="tb__num">9</span><span><span class="tb__label">Days left</span><span class="tb__head">Essay due Thursday 24</span></span></header>
+                                    </div>
+                                </div>
+                                <div class="tb__view tb__view--night" data-view="3">
+                                    <p class="tb__quote">Enough <em>for today.</em></p>
+                                    <hr class="tb__rule">
+                                    <p class="tb__small"><b>Alarm</b> 7:30 AM</p>
+                                </div>
+                                <div class="tb__nav" data-tab="3"><span><i class="fas fa-calendar-alt"></i></span><span><i class="fas fa-bell"></i></span><span><i class="fas fa-music"></i></span><span><i class="fas fa-brain"></i></span></div>
+                            </div>
+                            <div class="tb__flash"></div>
+                            <div class="tb__sheen"></div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="section" id="drawing" data-theme="paper">
             <header class="section__head">
                 <h2 class="title">Drawn to fit <em>the back.</em></h2>

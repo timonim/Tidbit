@@ -1785,3 +1785,153 @@ img, svg, iframe { display: block; }
 
 /* The technical drawing is set in the brand colour, like a print. */
 .drawing__svg { --fg: var(--brand); }
+
+/* ==========================================================
+   Held: choose who gets through · Who it's for
+   ========================================================== */
+
+.split {
+    display: grid;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+}
+
+.split .section__head { margin-bottom: 28px; }
+
+.split__device {
+    display: grid;
+    justify-items: center;
+    order: -1;
+}
+
+.tb3d--flat { width: min(280px, 72vw); }
+.tb3d--flat .tb { transform: rotate(-3deg); }
+
+@media (min-width: 900px) {
+    .split { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+    .split__device { order: 0; }
+    .tb3d--flat { width: 316px; }
+}
+
+/* The list of sources: each is a switch. */
+.held__hint { margin-bottom: 10px; }
+
+.held { border-top: 1px solid var(--line); }
+
+.held__row {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 56px;
+    padding: 10px 4px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    font: 700 1rem/1.25 var(--font-body);
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.14s steps(2);
+}
+
+.held__row i { color: var(--muted); text-align: center; }
+
+.held__name small {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.held__state {
+    min-width: 7.6em;
+    padding: 6px 12px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--line);
+    font-size: 0.8125rem;
+    text-align: center;
+    color: var(--muted);
+}
+
+.held__state::after { content: "Waits"; }
+
+.held__row[aria-pressed="true"] { color: var(--fg); }
+.held__row[aria-pressed="true"] i { color: var(--accent); }
+.held__row[aria-pressed="true"] .held__state {
+    background: var(--brand);
+    box-shadow: none;
+    color: var(--on-brand);
+}
+.held__row[aria-pressed="true"] .held__state::after { content: "Gets through"; }
+
+@media (hover: hover) {
+    .held__row:hover { color: var(--fg); }
+}
+
+.tb__notes { display: grid; gap: calc(10 * var(--u)); }
+.tb__notes .tb__note { padding-top: 0; }
+.tb__empty { font-size: calc(14 * var(--u)); color: var(--ink-2); }
+
+/* Who it's for: tabs on top, words left, the screen right. */
+.who__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: clamp(32px, 5vw, 64px);
+}
+
+.who__tabs button {
+    min-height: 44px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--line);
+    color: var(--fg);
+    font: 700 0.9375rem/1 var(--font-body);
+    cursor: pointer;
+}
+
+.who__tabs button[aria-selected="true"] {
+    background: var(--brand);
+    box-shadow: none;
+    color: var(--on-brand);
+}
+
+.who__copy { display: none; }
+.who__copy.is-on { display: grid; gap: 18px; }
+
+.who__copy h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 4.4vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+.who__copy h3 em { color: var(--accent); }
+
+.who__copy p {
+    max-width: 30rem;
+    color: var(--muted);
+    font-size: clamp(1.0625rem, 1.25vw, 1.25rem);
+}
+
+/* On light grounds the glass glare is softer, or the screen washes out. */
+.tb3d--flat .tb__sheen { opacity: 0.25; }
+
+/* Phones: heading, then the screen, then the switches, so each tap
+   shows its result right above the finger. */
+@media (max-width: 899px) {
+    #held .split__copy { display: contents; }
+    #held .section__head { order: 1; margin-bottom: 0; }
+    #held .split__device { order: 2; }
+    #held .held__hint { order: 3; margin-bottom: -26px; }
+    #held .held { order: 4; }
+    #held .split { gap: 40px; }
+    .tb3d--flat { width: min(250px, 66vw); }
+}
