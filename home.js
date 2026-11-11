@@ -140,7 +140,7 @@
     }
     if (root.dataset.theme !== theme) {
       root.dataset.theme = theme;
-      $('meta[name="theme-color"]')?.setAttribute('content', ({ paper: '#e8e8e1', lichen: '#dde2d2' })[theme] || '#121710');
+      $('meta[name="theme-color"]')?.setAttribute('content', ({ paper: '#ebe6de', clay: '#b5533a', sand: '#ead8cb' })[theme] || '#181614');
     }
     nav.classList.toggle('nav--solid', window.scrollY > 24);
   }
@@ -482,7 +482,7 @@
       }
       const gap = 34;
       const reach = Math.max(W, H) * 0.8; // fades out before it reaches the words
-      const rgb = ink ? '232, 235, 224' : '22, 28, 18';
+      const rgb = ink ? '241, 235, 227' : '28, 25, 22';
       const peak = ink ? 0.085 : 0.07;
       ctx.lineWidth = 1;
       ctx.lineJoin = 'round';

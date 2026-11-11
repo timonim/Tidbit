@@ -34,43 +34,57 @@
 
 [data-theme="ink"] {
     --texture: none;
-    /* Near-black moss: the forest floor after dark. Grounded, not brown. */
-    --bg: #121710;
-    --fg: #e8ebe0;
-    --muted: #a6ad9b;
-    --line: rgba(232, 235, 224, 0.16);
-    --soft: rgba(190, 205, 160, 0.10);
-    --brand: #e3e8d6;      /* buttons and fills: pale lichen */
-    --on-brand: #121710;
-    --accent: #b5c79a;     /* emphasis and small marks */
+    /* Warm charcoal: dark as soil at night, never brown. */
+    --bg: #181614;
+    --fg: #f1ebe3;
+    --muted: #b0a79c;
+    --line: rgba(241, 235, 227, 0.16);
+    --soft: rgba(226, 119, 90, 0.10);
+    --brand: #d9643f;      /* terracotta: buttons and fills */
+    --on-brand: #1a1310;
+    --accent: #e2775a;     /* emphasis and small marks */
     color-scheme: dark;
 }
 
 /* E-paper surface: a fine, even particle grain. */
 [data-theme="paper"] {
-    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.11 0 0 0 0 0.07 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    --bg: #e8e8e1;
-    --fg: #161c13;         /* text in the brand's darkest moss */
-    --muted: #545a4c;
-    --line: rgba(22, 28, 18, 0.2);
-    --soft: rgba(22, 28, 18, 0.05);
-    --brand: #2f3f26;      /* deep moss, light enough to read as colour */
-    --on-brand: #eef0e6;
-    --accent: #4a6236;
+    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    --bg: #ebe6de;
+    --fg: #1c1916;
+    --muted: #5c554d;
+    --line: rgba(28, 25, 22, 0.2);
+    --soft: rgba(28, 25, 22, 0.05);
+    --brand: #b44a2e;      /* terracotta, deep enough for white text */
+    --on-brand: #fbf1e8;
+    --accent: #a9442a;
     color-scheme: light;
 }
 
-/* Lichen: a pale wash of the brand colour, for a band between paper sections. */
-[data-theme="lichen"] {
-    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.12 0 0 0 0 0.06 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    --bg: #dde2d2;
-    --fg: #121710;
-    --muted: #4e5645;
-    --line: rgba(18, 23, 16, 0.18);
-    --soft: rgba(18, 23, 16, 0.05);
-    --brand: #2f3f26;
-    --on-brand: #eef0e6;
-    --accent: #43592f;
+/* Clay: the brand colour at full strength, for one bold band. */
+[data-theme="clay"] {
+    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.08 0 0 0 0 0.04 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    --bg: #b5533a;
+    --fg: #fbf1e8;
+    --muted: #f3d3c3;
+    --line: rgba(251, 241, 232, 0.28);
+    --soft: rgba(251, 241, 232, 0.08);
+    --brand: #1f1714;
+    --on-brand: #fbf1e8;
+    --accent: #fbf1e8;
+    color-scheme: dark;
+}
+
+/* Sand: a pale wash of terracotta, for a quieter band between paper sections. */
+[data-theme="sand"] {
+    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.09 0 0 0 0 0.06 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    --bg: #ead8cb;
+    --fg: #1f1714;
+    --muted: #5e4c42;
+    --line: rgba(31, 23, 20, 0.18);
+    --soft: rgba(31, 23, 20, 0.05);
+    --brand: #b44a2e;
+    --on-brand: #fbf1e8;
+    --accent: #a3412a;
     color-scheme: light;
 }
 
@@ -129,8 +143,8 @@ img, svg, iframe { display: block; }
     left: 8px;
     z-index: 100;
     padding: 10px 16px;
-    background: #e8ebe0;
-    color: #121710;
+    background: #f1ebe3;
+    color: #181614;
     border-radius: 8px;
     transform: translateY(-200%);
 }
@@ -321,7 +335,7 @@ img, svg, iframe { display: block; }
     inset: 0;
     background:
         radial-gradient(55% 50% at 50% 46%, var(--soft), transparent 72%),
-        radial-gradient(90% 70% at 60% 20%, rgba(215, 228, 190, 0.05), transparent 70%);
+        radial-gradient(90% 70% at 60% 20%, rgba(240, 160, 120, 0.05), transparent 70%);
 }
 
 .turn__field { display: none; }
@@ -1031,8 +1045,8 @@ img, svg, iframe { display: block; }
         0 2px 0 #1b1b1a,
         0 3px 0 #191918,
         0 4px 0 #161615,
-        0 14px 22px rgba(10, 14, 6, 0.3),
-        0 34px 48px -18px rgba(10, 14, 6, 0.45),
+        0 14px 22px rgba(10, 8, 6, 0.3),
+        0 34px 48px -18px rgba(10, 8, 6, 0.45),
         inset 0 1px 1px rgba(255, 255, 255, 0.26),
         inset 0 -1px 1px rgba(0, 0, 0, 0.5);
 }
@@ -1328,8 +1342,8 @@ img, svg, iframe { display: block; }
     position: relative;
     overflow-x: clip;
     background-image:
-        radial-gradient(42% 40% at 72% 42%, rgba(200, 220, 165, 0.10), transparent 70%),
-        radial-gradient(60% 50% at 20% 0%, rgba(215, 228, 190, 0.05), transparent 70%);
+        radial-gradient(42% 40% at 72% 42%, rgba(226, 119, 90, 0.07), transparent 70%),
+        radial-gradient(60% 50% at 20% 0%, rgba(240, 160, 120, 0.05), transparent 70%);
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -1342,7 +1356,7 @@ img, svg, iframe { display: block; }
     position: absolute;
     inset: -30% -45%;
     z-index: -1;
-    background: radial-gradient(closest-side, rgba(205, 222, 170, 0.16), rgba(205, 222, 170, 0.04) 60%, transparent);
+    background: radial-gradient(closest-side, rgba(226, 119, 90, 0.10), rgba(226, 119, 90, 0.03) 60%, transparent);
     pointer-events: none;
 }
 
@@ -1402,7 +1416,7 @@ img, svg, iframe { display: block; }
 .day--ready .tb__shadow {
     display: block;
     border-radius: 14.1% / 9.45%;
-    background: rgba(6, 9, 3, 0.7);
+    background: rgba(6, 5, 4, 0.7);
     transform: translateZ(-2px) translate(10%, 8%);
     filter: blur(22px);
 }
@@ -1749,15 +1763,15 @@ img, svg, iframe { display: block; }
 
 @keyframes refresh-paper {
     0% { opacity: 0.55; background: #f6f4ec; }
-    34% { opacity: 0.3; background: #161c13; }
-    67% { opacity: 0.12; background: #161c13; }
+    34% { opacity: 0.3; background: #1c1916; }
+    67% { opacity: 0.12; background: #1c1916; }
     100% { opacity: 0; }
 }
 
 @keyframes refresh-ink {
-    0% { opacity: 0.5; background: #121710; }
-    34% { opacity: 0.22; background: #e8ebe0; }
-    67% { opacity: 0.1; background: #e8ebe0; }
+    0% { opacity: 0.5; background: #181614; }
+    34% { opacity: 0.22; background: #f1ebe3; }
+    67% { opacity: 0.1; background: #f1ebe3; }
     100% { opacity: 0; }
 }
 
