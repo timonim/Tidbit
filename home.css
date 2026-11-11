@@ -2078,10 +2078,13 @@ img, svg, iframe { display: block; }
     .day__steps { flex: 1; }
     .day__step {
         grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1.25fr);
-        align-items: baseline;
+        align-items: center;
         column-gap: 32px;
         max-width: none;
+        min-height: 4.5rem; /* every moment takes the same height, so nothing jumps */
     }
+    .day__step h3 { line-height: 1.05; }
+    .day__step p { max-width: 40ch; }
     .day__step h3 { font-size: clamp(1.8rem, 2.4vw, 2.5rem); }
     .day__ctrl { margin-top: 0; }
 }
