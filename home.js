@@ -371,8 +371,7 @@
 
   /* ---------- A calm field behind the phone ----------
      Raked-sand lines around the phone, like a stone in a Zen garden, that
-     widen and settle once every ten seconds: a slow breath. Behind them, the
-     lamplight is drawn the way e-paper draws grey, as an ordered dither. */
+     widen and settle once every ten seconds: a slow breath. */
 
   function wireCalmField() {
     const canvas = document.createElement('canvas');
@@ -382,37 +381,13 @@
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map((v) => (v + 0.5) / 16);
     const BREATH = 10000; // ms for one in-and-out
     let W = 0;
     let H = 0;
-    let glow = null;
     let visible = true;
     let last = 0;
     let calm = 1; // eases to a low value while the phone's noisy front faces you
     let held = 0; // the breath, frozen where it was when the calm left
-
-    function makeGlow() {
-      const cell = 3; // one e-paper "pixel", in CSS px
-      const R = Math.max(W, H) * 0.6;
-      const n = Math.ceil((2 * R) / cell);
-      const c = document.createElement('canvas');
-      c.width = c.height = n;
-      const g = c.getContext('2d');
-      const img = g.createImageData(n, n);
-      for (let y = 0; y < n; y++) {
-        for (let x = 0; x < n; x++) {
-          const d = Math.hypot(x - n / 2, y - n / 2) / (n / 2);
-          const v = Math.pow(Math.max(0, 1 - d), 1.7) * 0.62;
-          if (v > BAYER[(y % 4) * 4 + (x % 4)]) {
-            const i = (y * n + x) * 4;
-            img.data[i] = 255; img.data[i + 1] = 184; img.data[i + 2] = 112; img.data[i + 3] = 255;
-          }
-        }
-      }
-      g.putImageData(img, 0, 0);
-      glow = { c, R };
-    }
 
     // Wide screens: behind the whole first screen. Phones: inside the stage at the top.
     let host = null;
@@ -425,7 +400,6 @@
       canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      makeGlow();
     }
 
     function ring(x, y, w, h, r) {
@@ -448,12 +422,6 @@
       const cy = p.top + p.height / 2 - s.top;
       const ink = turn.dataset.theme === 'ink';
 
-      if (ink && glow) {
-        ctx.globalAlpha = 0.045 * calm;
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(glow.c, cx - glow.R, cy - glow.R, glow.R * 2, glow.R * 2);
-      }
-
       // 0 → 1 → 0 over one breath, eased like air in and out. It holds while
       // the phone shows its front, and the lines fade back.
       calm += ((phone.classList.contains('is-front') ? 0.3 : 1) - calm) * 0.08;
@@ -463,7 +431,6 @@
       const hw = p.width / 2;
       const hh = p.height / 2;
       const gap = 30 + breath * 6;
-      ctx.globalAlpha = 1;
       ctx.lineWidth = 1;
       const rgb = ink ? '242, 232, 217' : '22, 22, 19';
       const peak = ink ? 0.08 : 0.065;
