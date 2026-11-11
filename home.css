@@ -34,12 +34,12 @@
 
 [data-theme="ink"] {
     --texture: none;
-    /* Deep sea-green: still water at dusk, calm rather than glowing. */
-    --bg: #16302c;
+    /* Near-black sea-green: deep water at night. */
+    --bg: #0e1a18;
     --fg: #e6efeb;
-    --muted: #a2bab3;
+    --muted: #9fb3ad;
     --line: rgba(230, 239, 235, 0.16);
-    --soft: rgba(150, 210, 196, 0.12);
+    --soft: rgba(150, 210, 196, 0.10);
     color-scheme: dark;
 }
 
@@ -1734,7 +1734,7 @@ img, svg, iframe { display: block; }
 }
 
 @keyframes refresh-ink {
-    0% { opacity: 0.5; background: #16302c; }
+    0% { opacity: 0.5; background: #0e1a18; }
     34% { opacity: 0.22; background: #e6efeb; }
     67% { opacity: 0.1; background: #e6efeb; }
     100% { opacity: 0; }
