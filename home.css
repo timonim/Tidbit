@@ -790,7 +790,7 @@ img, svg, iframe { display: block; }
 
 .how__art {
     width: 100%;
-    max-width: 240px;
+    max-width: 320px;
     height: auto;
     margin-bottom: 14px;
     fill: none;
@@ -801,24 +801,32 @@ img, svg, iframe { display: block; }
 }
 
 .how__art .fill { fill: var(--bg); }
-.how__art .dash { stroke-dasharray: 3 5; }
 
-/* Snap, Pair, Glance play one by one (home.js adds .how--ready, then
-   .is-play on each step with its --delay). The rule draws across, the line
-   art sketches stroke by stroke, dashed signal lines blink on, then the
-   words arrive. Without JS or with reduced motion, all of it just shows. */
-.how--ready .how__art > * {
+/* Each step is a tiny story (home.js adds .how--ready, then .is-play on each
+   step with its --delay). The outlines sketch themselves first.
+   Snap: TidBit swings in and snaps onto the MagSafe ring, which pulses once.
+   Pair: signal waves keep breathing out from the phone; the widgets you
+   picked draw onto TidBit one by one.
+   Glance: the screen holds, then every few seconds redraws the way e-paper
+   does, with a hard flash, and holds again.
+   Without JS or with reduced motion, the finished drawing just shows. */
+
+.snap__target { stroke-dasharray: 3 4; opacity: 0.55; }
+.snap__ring { opacity: 0; }
+.snap__tb,
+.snap__ring,
+.pair__wave { transform-box: fill-box; transform-origin: center; }
+.glance__b { opacity: 0; }
+.glance__flash { fill: currentColor; stroke: none; opacity: 0; }
+
+.how--ready .how__art .draw {
     stroke-dasharray: var(--len) var(--len);
     stroke-dashoffset: var(--len);
 }
-
-.how--ready .how__art > .dash {
-    stroke-dasharray: 3 5;
-    stroke-dashoffset: 0;
-    opacity: 0;
-}
-
-.how--ready .how__art > .fill { fill-opacity: 0; }
+.how--ready .how__art .draw.fill { fill-opacity: 0; }
+.how--ready .snap__tb { opacity: 0; }
+.how--ready .snap__target { opacity: 0; }
+.how--ready .pair__wave { opacity: 0; }
 
 .how--ready .how__step h3,
 .how--ready .how__step p {
@@ -826,34 +834,79 @@ img, svg, iframe { display: block; }
     transform: translateY(6px);
 }
 
-.how--ready .how__step.is-play .how__art > * {
+.how--ready .is-play .how__art .draw {
     stroke-dashoffset: 0;
-    transition: stroke-dashoffset 0.7s cubic-bezier(0.23, 1, 0.32, 1) calc(var(--delay, 0s) + 0.15s + var(--i) * 0.16s);
+    transition: stroke-dashoffset 0.7s cubic-bezier(0.23, 1, 0.32, 1) calc(var(--delay, 0s) + 0.1s + var(--i) * 0.12s);
 }
-
-.how--ready .how__step.is-play .how__art > .fill {
+.how--ready .is-play .how__art .draw.fill {
     fill-opacity: 1;
     transition:
-        stroke-dashoffset 0.7s cubic-bezier(0.23, 1, 0.32, 1) calc(var(--delay, 0s) + 0.15s + var(--i) * 0.16s),
-        fill-opacity 0.3s ease-out calc(var(--delay, 0s) + 0.45s + var(--i) * 0.16s);
+        stroke-dashoffset 0.7s cubic-bezier(0.23, 1, 0.32, 1) calc(var(--delay, 0s) + 0.1s + var(--i) * 0.12s),
+        fill-opacity 0.3s ease-out calc(var(--delay, 0s) + 0.4s + var(--i) * 0.12s);
 }
 
-.how--ready .how__step.is-play .how__art > .dash {
-    opacity: 1;
-    transition: opacity 0.2s steps(2, jump-none) calc(var(--delay, 0s) + 0.15s + var(--i) * 0.16s);
+/* Snap */
+.how--ready .is-play .snap__target {
+    opacity: 0.55;
+    transition: opacity 0.3s steps(2) calc(var(--delay, 0s) + 0.45s);
+}
+.how--ready .is-play .snap__tb {
+    animation: snap-in 0.85s cubic-bezier(0.2, 0.9, 0.25, 1.25) calc(var(--delay, 0s) + 0.75s) both;
+}
+.how--ready .is-play .snap__ring {
+    animation: snap-ring 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) calc(var(--delay, 0s) + 1.45s) both;
+}
+@keyframes snap-in {
+    0% { opacity: 0; transform: translate(74px, -18px) rotate(16deg); }
+    25% { opacity: 1; }
+    100% { opacity: 1; transform: none; }
+}
+@keyframes snap-ring {
+    0% { opacity: 0.9; transform: scale(0.75); }
+    100% { opacity: 0; transform: scale(1.5); }
 }
 
-.how--ready .how__step.is-play h3,
-.how--ready .how__step.is-play p {
+/* Pair */
+.how--ready .is-play .pair__wave {
+    animation: pair-wave 2.8s ease-out calc(var(--delay, 0s) + 0.7s + var(--w, 0) * 0.28s) infinite;
+}
+@keyframes pair-wave {
+    0% { opacity: 0; transform: translateX(-3px); }
+    18% { opacity: 1; }
+    55%, 100% { opacity: 0; transform: translateX(5px); }
+}
+.how--ready .is-play .how__art .pair__w {
+    transition: stroke-dashoffset 0.5s cubic-bezier(0.23, 1, 0.32, 1) calc(var(--delay, 0s) + 1.3s + var(--i) * 0.3s);
+}
+
+/* Glance: hold, flash, hold */
+.how--ready .is-play .glance__a { animation: glance-a 7s steps(1, end) calc(var(--delay, 0s) + 2.4s) infinite; }
+.how--ready .is-play .glance__b { animation: glance-b 7s steps(1, end) calc(var(--delay, 0s) + 2.4s) infinite; }
+.how--ready .is-play .glance__flash { animation: glance-flash 7s linear calc(var(--delay, 0s) + 2.4s) infinite; }
+@keyframes glance-a { 0% { opacity: 1; } 48% { opacity: 0; } 98% { opacity: 1; } }
+@keyframes glance-b { 0% { opacity: 0; } 48% { opacity: 1; } 98% { opacity: 0; } }
+@keyframes glance-flash {
+    0%, 43% { opacity: 0; }
+    44% { opacity: 0.85; }
+    45.5% { opacity: 0.1; }
+    47% { opacity: 0.6; }
+    48.5%, 93% { opacity: 0; }
+    94% { opacity: 0.85; }
+    95.5% { opacity: 0.1; }
+    97% { opacity: 0.6; }
+    98.5%, 100% { opacity: 0; }
+}
+
+.how--ready .is-play h3,
+.how--ready .is-play p {
     opacity: 1;
     transform: none;
     transition:
         opacity 0.35s ease-out var(--text-delay),
         transform 0.5s cubic-bezier(0.23, 1, 0.32, 1) var(--text-delay);
 }
-
-.how--ready .how__step.is-play h3 { --text-delay: calc(var(--delay, 0s) + 0.55s); }
-.how--ready .how__step.is-play p { --text-delay: calc(var(--delay, 0s) + 0.65s); }
+.how--ready .is-play h3 { --text-delay: calc(var(--delay, 0s) + 0.55s); }
+.how--ready .is-play p { --text-delay: calc(var(--delay, 0s) + 0.65s); }
 
 .how__step h3 {
     font-family: var(--font-display);

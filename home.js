@@ -341,11 +341,9 @@
     if (!how || reduceMotion || !('IntersectionObserver' in window)) return;
     const steps = $$('.how__step', how);
     steps.forEach((step) => {
-      $$('.how__art > *', step).forEach((el, i) => {
+      $$('.how__art .draw', step).forEach((el, i) => {
         el.style.setProperty('--i', i);
-        if (!el.classList.contains('dash') && el.getTotalLength) {
-          el.style.setProperty('--len', (el.getTotalLength() + 1).toFixed(1));
-        }
+        if (el.getTotalLength) el.style.setProperty('--len', (el.getTotalLength() + 1).toFixed(1));
       });
     });
     how.classList.add('how--ready');
