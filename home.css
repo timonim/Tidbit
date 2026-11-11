@@ -895,44 +895,139 @@ img, svg, iframe { display: block; }
     }
 }
 
-/* A day with TidBit
-   Desktop: the steps scroll past a TidBit that stays put.
-   Phone: one sticky scene, the TidBit on top and the current step below.
-   Without JS everything is listed and the first picture shows. */
+/* A day with TidBit, as a dial
+   The day goes round like the earth: noon at the top, midnight at the bottom,
+   morning on the left, evening on the right. The five moments sit on the ring,
+   a sun travels to the chosen one, and the TidBit in the middle redraws.
+   Without JS every moment is listed and the first picture shows. */
 
-.day__stick {
+.day {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas: "steps device";
-    column-gap: clamp(40px, 6vw, 96px);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
 }
 
-.day__device {
-    grid-area: device;
-    position: sticky;
-    top: calc(50vh - 236px + var(--nav-h) / 2);
-    align-self: start;
+@media (min-width: 900px) {
+    .day { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+    .day__copy { order: -1; }
+}
+
+.dial {
+    position: relative;
+    width: min(100%, 620px, calc(100svh - 170px));
+    aspect-ratio: 1;
     justify-self: center;
 }
 
-.day__steps {
-    grid-area: steps;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.dial__ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
+
+.dial__day,
+.dial__night,
+.dial__lit { fill: none; }
+
+.dial__day { stroke: var(--line); stroke-width: 1.5; }
+.dial__night { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 2 7; stroke-linecap: round; }
+
+/* The day so far: lit from the first moment to the chosen one. */
+.dial__lit {
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 0 360;
+    stroke-dashoffset: -105;
+    transition: stroke-dasharray 1.1s cubic-bezier(.45, 0, .2, 1);
+}
+
+.dial__label {
+    fill: var(--muted);
+    font: 700 13px/1 var(--font-body);
+    letter-spacing: 0.04em;
+    text-anchor: middle;
+}
+
+/* The sun rides a little inside the ring, pointing at the moment. */
+.dial__sun {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transform: rotate(var(--a, 105deg));
+    transition: transform 1.1s cubic-bezier(.45, 0, .2, 1);
+}
+
+.dial__sun i {
+    position: absolute;
+    left: 50%;
+    top: 87%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--brand);
+    color: var(--on-brand);
+    font-size: 15px;
+    transform: rotate(calc(-1 * var(--a, 105deg)));
+    transition: transform 1.1s cubic-bezier(.45, 0, .2, 1);
+}
+
+.dial__marks { margin: 0; padding: 0; list-style: none; }
+
+.dial__marks li {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    transform: translate(-50%, -50%);
+}
+
+.dial__mark {
+    min-width: 64px;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--bg);
+    box-shadow: inset 0 0 0 1.5px var(--line);
+    color: var(--fg);
+    font: 700 0.875rem/1 var(--font-body);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.dial__mark:active { transform: scale(0.95); }
+
+.dial__mark[aria-pressed="true"] {
+    background: var(--brand);
+    box-shadow: none;
+    color: var(--on-brand);
+}
+
+/* The TidBit at the centre of the day. */
+.dial .day__device {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 38%;
+    translate: -50% -50%;
+}
+
+.dial .tb3d { width: 100%; }
+
+/* The words for the chosen moment. */
+.day__steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 40px; }
 
 .day__step {
     display: grid;
-    align-content: center;
-    gap: 10px;
-    min-height: 62vh;
+    gap: 12px;
     max-width: 30ch;
-    padding-block: 24px;
 }
-
-.day__step:first-child { min-height: 472px; align-content: start; padding-top: 0; }
-.day__step:last-child { min-height: 472px; align-content: end; padding-bottom: 0; }
 
 .day__time {
     font-size: 0.875rem;
@@ -946,7 +1041,7 @@ img, svg, iframe { display: block; }
     margin: 0;
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(1.9rem, 3.4vw, 3rem);
+    font-size: clamp(2.2rem, 4vw, 3.6rem);
     line-height: 1;
     letter-spacing: -0.015em;
 }
@@ -955,16 +1050,49 @@ img, svg, iframe { display: block; }
     margin: 0;
     color: var(--muted);
     line-height: 1.5;
+    font-size: clamp(1.0625rem, 1.2vw, 1.1875rem);
 }
 
-.day--ready .day__step {
-    opacity: 0.28;
-    transition: opacity 0.4s cubic-bezier(.23, 1, .32, 1);
+.day__ctrl { display: none; gap: 10px; margin-top: 32px; }
+
+.day__btn {
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--line);
+    color: var(--fg);
+    font-size: 1rem;
+    cursor: pointer;
 }
 
-.day--ready .day__step.is-on { opacity: 1; }
+.day__btn:active { transform: scale(0.95); }
 
-.day__rail { display: none; }
+/* With JS: one moment at a time, arriving in a couple of hard steps. */
+.day--ready .day__steps { display: grid; gap: 0; }
+.day--ready .day__step { grid-area: 1 / 1; visibility: hidden; opacity: 0; }
+.day--ready .day__step.is-on {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s steps(3, jump-end) 0.12s;
+}
+.day--ready .day__ctrl { display: flex; }
+
+@media (max-width: 899px) {
+    .day__copy { text-align: center; }
+    .day__step { margin-inline: auto; justify-items: center; }
+    .day__ctrl { justify-content: center; }
+    .dial .day__device { width: 36%; }
+    .dial__mark { min-width: 52px; min-height: 32px; padding: 0 8px; font-size: 0.75rem; }
+    .dial__sun i { top: 82%; width: 24px; height: 24px; margin: -12px 0 0 -12px; font-size: 12px; }
+    .dial { width: min(88%, 420px); }
+    .dial__label { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dial__lit, .dial__sun, .dial__sun i { transition: none; }
+}
 
 /* ---------- The device ----------
    The same screens as the live demo on the phone (styles.css, "ONE TIDBIT"),
@@ -1296,7 +1424,7 @@ img, svg, iframe { display: block; }
 .day__device::before {
     content: "";
     position: absolute;
-    inset: -30% -45%;
+    inset: -18% -30%;
     z-index: -1;
     background: radial-gradient(closest-side, rgba(166, 203, 214, 0.10), rgba(166, 203, 214, 0.03) 60%, transparent);
     pointer-events: none;
@@ -1324,7 +1452,7 @@ img, svg, iframe { display: block; }
 
 .day--ready .day__device {
     perspective: 1400px;
-    transform: rotate(-5deg);
+    rotate: -5deg;
 }
 
 .day--ready .tb3d {
@@ -1364,10 +1492,7 @@ img, svg, iframe { display: block; }
 }
 
 @media (max-width: 799px) {
-    .day--ready .tb3d { width: min(222px, 29.5svh); }
-    .day--ready .day__device { transform: rotate(-4deg); }
     #day { background-image: none; }
-    .day__device::before { inset: -18% -40%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1388,89 +1513,6 @@ img, svg, iframe { display: block; }
     44% { opacity: 0.26; background: #33322f; }
     66% { opacity: 0.5; background: #e6e4dd; }
     100% { opacity: 0; }
-}
-
-@media (max-width: 799px) {
-    .day__stick {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-areas: "device" "steps";
-        row-gap: 40px;
-    }
-
-    .day__device {
-        position: static;
-        justify-self: center;
-    }
-
-    .tb3d { width: min(250px, 62vw); }
-
-    .day__step,
-    .day__step:first-child,
-    .day__step:last-child {
-        min-height: 0;
-        max-width: none;
-        padding-block: 18px;
-        align-content: start;
-    }
-
-    /* With JS: one sticky scene, driven by how far you've scrolled. */
-    .day--ready {
-        height: 420svh;
-    }
-
-    .day--ready .day__stick {
-        position: sticky;
-        top: var(--nav-h);
-        height: calc(100svh - var(--nav-h));
-        grid-template-rows: auto auto auto;
-        align-content: center;
-        row-gap: 22px;
-    }
-
-
-    .day--ready .day__steps { display: grid; }
-
-    .day--ready .day__step {
-        grid-area: 1 / 1;
-        padding: 0;
-        text-align: center;
-        justify-items: center;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s, visibility 0s 0.3s;
-    }
-
-    .day--ready .day__step.is-on {
-        opacity: 1;
-        visibility: visible;
-        transition: opacity 0.3s;
-    }
-
-    .day--ready .day__step .day__time { display: none; }
-    .day--ready .day__step h3 { font-size: 2rem; }
-    .day--ready .day__step p { max-width: 32ch; font-size: 1rem; }
-
-    .day--ready .day__rail {
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        order: -1;
-        grid-row: 1;
-    }
-
-    .day__rail span {
-        padding: 4px 8px;
-        border-radius: 999px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        font-variant-numeric: tabular-nums;
-        color: var(--muted);
-    }
-
-    .day__rail span.is-on { background: var(--brand); color: var(--on-brand); }
-
-    .day--ready .day__device { grid-row: 2; }
-    .day--ready .day__steps { grid-row: 3; }
 }
 
 /* Dimensional drawing */

@@ -191,7 +191,17 @@
                 <p class="lede">TidBit changes when your day does, then holds still. Each picture stays put until the next one is worth drawing.</p>
             </header>
             <div class="day">
-                <div class="day__stick">
+                <div class="dial">
+                    <svg class="dial__ring" viewBox="0 0 600 600" aria-hidden="true">
+                        <path class="dial__day" d="M 30 300 A 270 270 0 0 1 570 300"/>
+                        <path class="dial__night" d="M 570 300 A 270 270 0 0 1 30 300"/>
+                        <circle class="dial__lit" cx="300" cy="300" r="270" pathLength="360" transform="rotate(90 300 300)"/>
+                        <text x="300" y="66" class="dial__label">Noon</text>
+                        <text x="300" y="548" class="dial__label">Midnight</text>
+                        <text x="62" y="305" class="dial__label dial__label--side">6 AM</text>
+                        <text x="538" y="305" class="dial__label dial__label--side">6 PM</text>
+                    </svg>
+                    <div class="dial__sun" aria-hidden="true"><i class="fas fa-sun"></i></div>
                 <div class="day__device" aria-hidden="true">
                     <div class="tb3d">
                     <div class="tb__shadow"></div>
@@ -250,6 +260,15 @@
                     </div>
                     </div>
                 </div>
+                    <ol class="dial__marks">
+                        <li style="--x:6.53%;--y:38.35%"><button type="button" class="dial__mark" data-i="0" aria-pressed="true" aria-label="07:00, The weather, not the inbox.">07:00</button></li>
+                        <li style="--x:20.33%;--y:16.17%"><button type="button" class="dial__mark" data-i="1" aria-pressed="false" aria-label="09:15, Only the people you chose.">09:15</button></li>
+                        <li style="--x:61.65%;--y:6.53%"><button type="button" class="dial__mark" data-i="2" aria-pressed="false" aria-label="13:00, Focus, without the glow.">13:00</button></li>
+                        <li style="--x:94.62%;--y:55.87%"><button type="button" class="dial__mark" data-i="3" aria-pressed="false" aria-label="18:30, What's playing.">18:30</button></li>
+                        <li style="--x:61.65%;--y:93.47%"><button type="button" class="dial__mark" data-i="4" aria-pressed="false" aria-label="23:00, Then it goes quiet.">23:00</button></li>
+                    </ol>
+                </div>
+                <div class="day__copy" aria-live="polite">
                 <ol class="day__steps">
                     <li class="day__step is-on" data-step="0" data-time="07:00" data-screen-time="7:00 AM" data-tab="0">
                         <span class="day__time">07:00</span>
@@ -277,7 +296,10 @@
                         <p>The last picture stays on the glass all night, using no power and giving off no light.</p>
                     </li>
                 </ol>
-                <div class="day__rail" aria-hidden="true"><span class="is-on">07:00</span><span>09:15</span><span>13:00</span><span>18:30</span><span>23:00</span></div>
+                    <div class="day__ctrl">
+                        <button type="button" class="day__btn" data-go="-1" aria-label="Earlier"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
+                        <button type="button" class="day__btn" data-go="1" aria-label="Later"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                    </div>
                 </div>
             </div>
         </section>

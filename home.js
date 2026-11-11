@@ -566,23 +566,26 @@
     io.observe(fig);
   }
 
-  /* ---------- A day with TidBit ----------
-     The step at the middle of the screen picks the picture. On phones the
-     section is one sticky scene, so progress through it picks instead. */
+  /* ---------- A day with TidBit, as a dial ----------
+     Tap a moment on the ring, or use the arrows. The sun travels round to it,
+     the lit arc follows, and the TidBit redraws. The first time the dial comes
+     into view the day plays through once on its own, until you touch it. */
 
   function wireDay() {
     const day = $('.day');
     if (!day) return;
     const steps = $$('.day__step', day);
+    const marks = $$('.dial__mark', day);
     const views = $$('.tb__view', day);
-    const ticks = $$('.day__rail span', day);
     const tb = $('.tb', day);
     const clock = $('.tb__clock', day);
     const nav = $('.tb__nav', day);
-    const phone = matchMedia('(max-width: 799px)');
+    const sun = $('.dial__sun', day);
+    const sunIcon = $('.dial__sun i', day);
+    const lit = $('.dial__lit', day);
     let current = 0;
     let swapTimer = 0;
-    let queued = false;
+    let angle = 0;
 
     // The 6.4mm side, as stacked slices under the face, plus a polished chamfer.
     const shot = $('.tb3d', day);
@@ -602,9 +605,28 @@
       shot.style.setProperty('--tilt-x', TILTS[i][0] + 'deg');
       shot.style.setProperty('--tilt-y', TILTS[i][1] + 'deg');
     };
-    tilt(0);
 
-    day.classList.add('day--ready');
+    // Hours to degrees round the dial, from midnight at the bottom, clockwise.
+    const deg = (i) => {
+      const [h, m] = steps[i].dataset.time.split(':').map(Number);
+      return ((h + m / 60) / 24) * 360;
+    };
+    const FIRST = deg(0);
+
+    function place(i, dir) {
+      // Turn the short way round, or always forward/back when stepping.
+      const base = deg(i);
+      let target = base + 360 * Math.round((angle - base) / 360);
+      if (dir > 0 && target <= angle) target += 360;
+      if (dir < 0 && target >= angle) target -= 360;
+      if (!dir && Math.abs(target - angle) > 180) target += target < angle ? 360 : -360;
+      angle = target;
+      sun.style.setProperty('--a', angle + 'deg');
+      sunIcon.className = 'fas ' + (steps[i].dataset.tab === 'none' ? 'fa-moon' : 'fa-sun');
+      const reach = Math.max(0, base - FIRST);
+      lit.style.strokeDasharray = `${reach} 360`;
+      lit.style.strokeDashoffset = String(-FIRST);
+    }
 
     function draw(i) {
       views.forEach((v, k) => v.classList.toggle('is-on', k === i));
@@ -613,12 +635,16 @@
       tb.classList.toggle('is-night', steps[i].dataset.tab === 'none');
     }
 
-    function show(i) {
+    function show(i, dir = 0) {
       if (i === current) return;
       current = i;
       steps.forEach((s, k) => s.classList.toggle('is-on', k === i));
-      ticks.forEach((t, k) => t.classList.toggle('is-on', k === i));
+      marks.forEach((m, k) => {
+        m.setAttribute('aria-pressed', String(k === i));
+        m.tabIndex = k === i ? 0 : -1;
+      });
       tilt(i);
+      place(i, dir);
       clearTimeout(swapTimer);
       if (reduceMotion) return draw(i);
       tb.classList.remove('is-refreshing');
@@ -627,26 +653,47 @@
       swapTimer = setTimeout(() => draw(current), 115); // on the white frame
     }
 
-    function pick() {
-      queued = false;
-      let i = 0;
-      if (phone.matches) {
-        const r = day.getBoundingClientRect();
-        const p = -r.top / Math.max(1, r.height - innerHeight);
-        i = Math.min(steps.length - 1, Math.max(0, Math.floor(p * steps.length)));
-      } else {
-        const mid = innerHeight / 2;
-        steps.forEach((s, k) => { if (s.getBoundingClientRect().top < mid) i = k; });
-      }
-      show(i);
+    // Plays the day once, then hands it over.
+    let playing = 0;
+    const stop = () => { clearInterval(playing); playing = 0; };
+    function play() {
+      if (reduceMotion) return;
+      playing = setInterval(() => {
+        if (current >= steps.length - 1) return stop();
+        show(current + 1, 1);
+      }, 2600);
     }
 
+    const go = (d) => show((current + d + steps.length) % steps.length, d);
+    marks.forEach((m, k) => {
+      m.addEventListener('click', () => { stop(); show(k); });
+      m.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        stop();
+        go(d);
+        marks[current].focus();
+      });
+    });
+    $$('.day__btn', day).forEach((b) => b.addEventListener('click', () => { stop(); go(Number(b.dataset.go)); }));
+    day.addEventListener('pointerdown', stop);
+
     tb.addEventListener('animationend', () => tb.classList.remove('is-refreshing'));
-    addEventListener('scroll', () => {
-      if (!queued) { queued = true; requestAnimationFrame(pick); }
-    }, { passive: true });
-    addEventListener('resize', pick);
-    pick();
+    day.classList.add('day--ready');
+    tilt(0);
+    angle = FIRST;
+    place(0, 0);
+    marks.forEach((m, k) => { m.tabIndex = k === 0 ? 0 : -1; });
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        setTimeout(() => { if (current === 0) play(); }, 1400);
+      }, { threshold: 0.55 });
+      io.observe($('.dial', day));
+    }
   }
 
   /* ---------- Go ---------- */
