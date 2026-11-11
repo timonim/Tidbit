@@ -585,6 +585,7 @@
         views.forEach((v, k) => v.classList.toggle('is-on', k === i));
         nav.dataset.tab = tabs[i].dataset.tab;
         clock.textContent = tabs[i].dataset.time;
+        tb.classList.toggle('is-night', tabs[i].dataset.tab === 'none');
       });
     }
 
