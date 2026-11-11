@@ -25,6 +25,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="vendor/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="home.css">
     <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -128,7 +130,7 @@
 
                 <article class="step step--tour" data-ry="363" data-rx="1" data-focus="1" data-view="3" data-paper>
                                         <h2 class="title title--tour">Twenty-five minutes, <em>face down.</em></h2>
-                    <p class="lede">A Pomodoro timer and one mindful prompt. The phone stays on the table while you work.</p>
+                    <p class="lede">A focus timer and your top task. Notifications wait until it ends, and each break suggests something to do away from the screen.</p>
                     <p class="meta">4 of 4 · Focus</p>
                 </article>
             </div>
@@ -195,50 +197,53 @@
                     <div class="tb__shadow"></div>
                     <div class="tb">
                         <div class="tb__screen">
-                            <div class="tb__bar"><span class="tb__clock">07:00</span><span>16 days</span></div>
+                            <div class="tb__bar"><span class="tb__clock">7:00 AM</span><span class="tb__batt"><i class="fas fa-battery-full"></i>16 days</span></div>
 
                             <div class="tb__view is-on" data-view="0">
-                                <p class="tb__big">58°</p>
-                                <p class="tb__label">New York</p>
-                                <p class="tb__head">Cool, clearing by noon</p>
-                                <div class="tb__rule"></div>
-                                <div class="tb__pair"><span><b>High</b> 66°</span><span><b>Low</b> 51°</span></div>
-                                <div class="tb__hours"><span>9am<b>54°</b></span><span>12pm<b>61°</b></span><span>3pm<b>66°</b></span><span>6pm<b>57°</b></span></div>
-                                <p class="tb__block">Rain after 4pm. Take a jacket.</p>
+                                <header class="tb__date"><span class="tb__num">11</span><span><span class="tb__label">May</span><span class="tb__head">Monday</span></span></header>
+                                <p class="tb__block">Next: 09:30 Team Standup</p>
+                                <div><span class="tb__label">Morning</span>
+                                    <ul class="tb__events"><li class="hi"><b>09:30</b>Team Standup</li><li><b>11:30</b>Client Meeting</li></ul></div>
+                                <div><span class="tb__label">Afternoon</span>
+                                    <ul class="tb__events"><li><b>14:30</b>Project Review</li><li class="lo"><b>16:00</b>Team Coffee</li></ul></div>
+                                <div class="tb__weather">
+                                    <header class="tb__date"><span class="tb__num">58°</span><span><span class="tb__label">New York</span><span class="tb__head">Rain after 4pm</span></span></header>
+                                    <p class="tb__details"><span><i class="fas fa-cloud-sun-rain"></i>66° High</span><span><i class="fas fa-moon"></i>51° Low</span></p>
+                                </div>
                             </div>
 
                             <div class="tb__view" data-view="1">
-                                <div class="tb__date"><span class="tb__big">10</span><span><span class="tb__label">November</span><span class="tb__head">Tuesday</span></span></div>
-                                <p class="tb__block">Next: 09:30 Team standup</p>
-                                <ul class="tb__list">
-                                    <li><b>09:30</b> Team standup</li>
-                                    <li><b>11:30</b> Client meeting</li>
-                                    <li><b>14:30</b> Project review</li>
-                                    <li><b>16:00</b> Coffee with Dana</li>
-                                </ul>
+                                <header class="tb__date"><span class="tb__num">02</span><span><span class="tb__label">Notifications</span><span class="tb__head">From people you chose</span></span></header>
+                                <div><span class="tb__label">Messages</span>
+                                    <div class="tb__note"><i class="fas fa-comment"></i><span>Emma: Running five minutes late, start without me<small>2m ago</small></span></div></div>
+                                <div><span class="tb__label">Reminders</span>
+                                    <div class="tb__note"><i class="fas fa-calendar-alt"></i><span>Standup moved to room 4<small>10m ago</small></span></div></div>
+                                <p class="tb__held">14 more held for later</p>
                             </div>
 
                             <div class="tb__view" data-view="2">
-                                <p class="tb__label">Focus</p>
-                                <p class="tb__huge">25:00</p>
+                                <span class="tb__label tb__label--ink">Focus</span>
+                                <p class="tb__mins">25<span>min</span></p>
                                 <div class="tb__dots"><i class="on"></i><i class="on"></i><i></i><i></i></div>
-                                <div class="tb__rule"></div>
-                                <p class="tb__head">Draft the proposal</p>
-                                <p class="tb__small">Notifications held until 13:25</p>
+                                <hr class="tb__rule">
+                                <p class="tb__task">Draft the proposal</p>
+                                <p class="tb__small">Notifications held until 1:25 PM</p>
+                                <div class="tb__buttons"><span class="is-ink"><i class="fas fa-pause"></i></span><span><i class="fas fa-redo"></i></span></div>
                             </div>
 
                             <div class="tb__view" data-view="3">
                                 <img class="tb__cover" src="images/cover-midnight-city.png" alt="" width="180" height="180" loading="lazy">
-                                <p class="tb__head">Midnight City</p>
-                                <p class="tb__small">M83</p>
-                                <div class="tb__controls"><svg viewBox="0 0 24 24"><path d="M6 5v14M19 5L9 12l10 7z"/></svg><span class="tb__play"><svg viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg></span><svg viewBox="0 0 24 24"><path d="M18 5v14M5 5l10 7-10 7z"/></svg></div>
+                                <p class="tb__track"><b>Midnight City</b>M83</p>
+                                <div class="tb__media"><i class="fas fa-step-backward"></i><span><i class="fas fa-pause"></i></span><i class="fas fa-step-forward"></i></div>
                             </div>
 
                             <div class="tb__view tb__view--night" data-view="4">
                                 <p class="tb__quote">Enough <em>for today.</em></p>
-                                <div class="tb__rule"></div>
-                                <p class="tb__small"><b>Tomorrow</b> 07:30 Run</p>
+                                <hr class="tb__rule">
+                                <p class="tb__small"><b>Tomorrow</b> 7:30 AM Run</p>
                             </div>
+
+                            <div class="tb__nav" data-tab="0"><span><i class="fas fa-calendar-alt"></i></span><span><i class="fas fa-bell"></i><b>2</b></span><span><i class="fas fa-music"></i></span><span><i class="fas fa-brain"></i></span></div>
                         </div>
                         <div class="tb__flash"></div>
                         <div class="tb__sheen"></div>
@@ -246,27 +251,27 @@
                     </div>
                 </div>
                 <ol class="day__steps">
-                    <li class="day__step is-on" data-step="0" data-time="07:00">
+                    <li class="day__step is-on" data-step="0" data-time="07:00" data-screen-time="7:00 AM" data-tab="0">
                         <span class="day__time">07:00</span>
                         <h3>The weather, not the inbox.</h3>
-                        <p>The first thing you see is whether to take a jacket. The emails can wait until you sit down.</p>
+                        <p>Whether to take a jacket, and when the first meeting starts. The emails can wait until you sit down.</p>
                     </li>
-                    <li class="day__step" data-step="1" data-time="09:15">
+                    <li class="day__step" data-step="1" data-time="09:15" data-screen-time="9:15 AM" data-tab="1">
                         <span class="day__time">09:15</span>
-                        <h3>The day, at a glance.</h3>
-                        <p>Your next meeting, in one line, on the back of the phone you left face down on the desk.</p>
+                        <h3>Only the people you chose.</h3>
+                        <p>Two messages made it through. Fourteen others are counted and held until you pick up the phone.</p>
                     </li>
-                    <li class="day__step" data-step="2" data-time="13:00">
+                    <li class="day__step" data-step="2" data-time="13:00" data-screen-time="1:00 PM" data-tab="3">
                         <span class="day__time">13:00</span>
                         <h3>Focus, without the glow.</h3>
                         <p>A quiet timer and a single task. No badges and no banners. The phone stays face down.</p>
                     </li>
-                    <li class="day__step" data-step="3" data-time="18:30">
+                    <li class="day__step" data-step="3" data-time="18:30" data-screen-time="6:30 PM" data-tab="2">
                         <span class="day__time">18:30</span>
                         <h3>What's playing.</h3>
                         <p>Skip a track on the walk home without unlocking anything or getting pulled into a feed.</p>
                     </li>
-                    <li class="day__step" data-step="4" data-time="23:00">
+                    <li class="day__step" data-step="4" data-time="23:00" data-screen-time="11:00 PM" data-tab="none">
                         <span class="day__time">23:00</span>
                         <h3>Then it goes quiet.</h3>
                         <p>The last picture stays on the glass all night, using no power and giving off no light.</p>

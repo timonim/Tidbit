@@ -407,6 +407,7 @@
     const ticks = $$('.day__rail span', day);
     const tb = $('.tb', day);
     const clock = $('.tb__clock', day);
+    const nav = $('.tb__nav', day);
     const phone = matchMedia('(max-width: 799px)');
     let current = 0;
     let swapTimer = 0;
@@ -436,7 +437,8 @@
 
     function draw(i) {
       views.forEach((v, k) => v.classList.toggle('is-on', k === i));
-      clock.textContent = steps[i].dataset.time;
+      clock.textContent = steps[i].dataset.screenTime || steps[i].dataset.time;
+      if (nav) nav.dataset.tab = steps[i].dataset.tab;
     }
 
     function show(i) {

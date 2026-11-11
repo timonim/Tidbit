@@ -139,7 +139,9 @@ const CONFIG = {
     "Wiggle your toes and fingers.",
     "Recall a pleasant memory for a moment."
   ],
-  currentMindfulnessPromptIndex: 0
+  currentMindfulnessPromptIndex: 0,
+  // The top task from your to-do app (Todoist in the integrations list).
+  focusTask: 'Draft the proposal'
 };
 
 // Store element references and state
@@ -310,6 +312,8 @@ function cacheElements() {
   elements.pomodoroResetBtn = document.querySelector('.pomodoro-reset');
   elements.pomodoroSessionsCompleted = document.querySelector('.pomodoro-sessions-completed');
 
+  elements.focusTask = document.querySelector('.focus__task');
+  elements.focusNote = document.querySelector('.focus__note');
   elements.mindfulnessPromptText = document.querySelector('.mindfulness-prompt-text');
   elements.newPromptButton = document.querySelector('.mindfulness-new-prompt-btn');
 }
@@ -472,7 +476,7 @@ function updateNotifications() {
   }
 
   const title = notificationWidget.querySelector('.header .title');
-  if (title) title.textContent = `${quietCount} quiet hidden`;
+  if (title) title.textContent = 'From people you chose';
 
   const categories = {};
   generatedNotifications.forEach(notification => {
@@ -497,6 +501,8 @@ function updateNotifications() {
       </li>
     `;
   });
+  // Everything else is counted, never shown: it waits for the phone.
+  notificationsHTML += `<li class="notification-held">${quietCount} more held for later</li>`;
 
   notificationList.innerHTML = notificationsHTML;
 
@@ -1053,8 +1059,8 @@ function startPomodoro() {
         return; // Exit interval callback
     }
     
-    // Only update display and refresh e-ink every 15 seconds to accommodate low refresh rate
-    if (CONFIG.pomodoro.remainingTime % 15 === 0 || CONFIG.pomodoro.remainingTime === 0) {
+    // The screen shows whole minutes, so it only needs redrawing once a minute.
+    if (CONFIG.pomodoro.remainingTime % 60 === 0 || CONFIG.pomodoro.remainingTime === 0) {
       updatePomodoroDisplay();
       simulateEinkRefresh(false);
     }
@@ -1139,6 +1145,7 @@ function handlePomodoroSessionEnd() {
       CONFIG.pomodoro.currentSessionType = 'shortBreak';
       CONFIG.pomodoro.remainingTime = CONFIG.pomodoro.shortBreakDuration;
     }
+    CONFIG.currentMindfulnessPromptIndex = (CONFIG.currentMindfulnessPromptIndex + 1) % CONFIG.mindfulnessPrompts.length;
   } else { // End of a break
     CONFIG.pomodoro.currentSessionType = 'work';
     CONFIG.pomodoro.remainingTime = CONFIG.pomodoro.workDuration;
@@ -1167,28 +1174,41 @@ function handlePomodoroSessionEnd() {
 
 
 function updatePomodoroDisplay() {
-  if (!elements.pomodoroTime || !elements.pomodoroSessionType || !elements.pomodoroSessionsCompleted) {
-    console.warn('Pomodoro display elements not found during updatePomodoroDisplay.');
-    return;
+  if (!elements.pomodoroTime || !elements.pomodoroSessionType || !elements.pomodoroSessionsCompleted) return;
+  const p = CONFIG.pomodoro;
+  const total = getCurrentSessionTotalDuration();
+  const isBreak = p.currentSessionType !== 'work';
+  const isReady = !p.isRunning && p.remainingTime === total;
+
+  // Whole minutes only: an e-ink screen shouldn't tick through seconds.
+  elements.pomodoroTime.textContent = String(Math.ceil(p.remainingTime / 60));
+
+  const names = { work: 'Focus', shortBreak: 'Short break', longBreak: 'Long break' };
+  elements.pomodoroSessionType.textContent = names[p.currentSessionType] + (!p.isRunning && !isReady ? ' · paused' : '');
+
+  // Four sessions to a long break, one dot each.
+  const done = p.sessionsCompleted % p.sessionsBeforeLongBreak;
+  elements.pomodoroSessionsCompleted.innerHTML = Array.from({ length: p.sessionsBeforeLongBreak },
+    (_, i) => `<i class="${i < done ? 'on' : ''}"></i>`).join('');
+  elements.pomodoroSessionsCompleted.setAttribute('aria-label', `${done} of ${p.sessionsBeforeLongBreak} sessions done`);
+
+  // Work shows the top task; a break shows something to do away from the screen.
+  if (elements.focusTask) {
+    elements.focusTask.textContent = isBreak
+      ? CONFIG.mindfulnessPrompts[CONFIG.currentMindfulnessPromptIndex]
+      : CONFIG.focusTask;
   }
-  // console.log(`Updating pomodoro display: ${CONFIG.pomodoro.remainingTime}s, Running: ${CONFIG.pomodoro.isRunning}`);
-
-  const minutes = Math.floor(CONFIG.pomodoro.remainingTime / 60);
-  const seconds = CONFIG.pomodoro.remainingTime % 60;
-  elements.pomodoroTime.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-  const stateLabel = CONFIG.pomodoro.isRunning ? "[ACTIVE]" : (CONFIG.pomodoro.remainingTime === getCurrentSessionTotalDuration() ? "[READY]" : "[PAUSED]");
-  const formattedSessionType = CONFIG.pomodoro.currentSessionType.replace(/([A-Z])/g, ' $1').trim(); // e.g. "shortBreak" -> "short Break"
-  elements.pomodoroSessionType.textContent = `${formattedSessionType.charAt(0).toUpperCase() + formattedSessionType.slice(1)} ${stateLabel}`;
-  elements.pomodoroSessionsCompleted.textContent = CONFIG.pomodoro.sessionsCompleted;
-
-  const pomodoroTimer = document.querySelector('.pomodoro-timer');
-  if (pomodoroTimer) {
-    pomodoroTimer.classList.toggle('running', CONFIG.pomodoro.isRunning);
+  if (elements.focusNote) {
+    const until = new Date(getDisplayDate().getTime() + p.remainingTime * 1000)
+      .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    if (p.isRunning) elements.focusNote.textContent = isBreak ? `Back to focus at ${until}` : `Notifications held until ${until}`;
+    else if (isReady) elements.focusNote.textContent = isBreak ? 'Press play to start the break' : 'Press play to hold notifications';
+    else elements.focusNote.textContent = 'Paused. Notifications come through.';
   }
-  updatePomodoroProgressIndicator();
+
+  const focus = document.querySelector('.focus');
+  if (focus) focus.classList.toggle('running', p.isRunning);
 }
-
 
 function updatePomodoroProgressIndicator() {
   const productivityWidget = document.querySelector('.widget.productivity');
@@ -1235,12 +1255,8 @@ function getCurrentSessionTotalDuration() {
  * ===================================================================================
  */
 function initMindfulness() {
-  if (!elements.newPromptButton || !elements.mindfulnessPromptText) {
-    console.warn('Mindfulness elements not found. Skipping initialization.');
-    return;
-  }
-  elements.newPromptButton.addEventListener('click', () => showNewMindfulnessPrompt(true)); // Announce on button click
-  showNewMindfulnessPrompt(false); // Don't announce on initial load
+  // Prompts show on the focus screen during breaks; pick a fresh one each time a break starts.
+  CONFIG.currentMindfulnessPromptIndex = Math.floor(Math.random() * CONFIG.mindfulnessPrompts.length);
 }
 
 function showNewMindfulnessPrompt(announce = true) {
