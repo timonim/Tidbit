@@ -369,6 +369,136 @@
     steps.forEach((step) => io.observe(step));
   }
 
+  /* ---------- A calm field behind the phone ----------
+     Raked-sand lines around the phone, like a stone in a Zen garden, that
+     widen and settle once every ten seconds: a slow breath. Behind them, the
+     lamplight is drawn the way e-paper draws grey, as an ordered dither. */
+
+  function wireCalmField() {
+    const canvas = document.createElement('canvas');
+    canvas.className = 'stage__field';
+    canvas.setAttribute('aria-hidden', 'true');
+    const field = $('.turn__field');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map((v) => (v + 0.5) / 16);
+    const BREATH = 10000; // ms for one in-and-out
+    let W = 0;
+    let H = 0;
+    let glow = null;
+    let visible = true;
+    let last = 0;
+    let calm = 1; // eases to a low value while the phone's noisy front faces you
+    let held = 0; // the breath, frozen where it was when the calm left
+
+    function makeGlow() {
+      const cell = 3; // one e-paper "pixel", in CSS px
+      const R = Math.max(W, H) * 0.6;
+      const n = Math.ceil((2 * R) / cell);
+      const c = document.createElement('canvas');
+      c.width = c.height = n;
+      const g = c.getContext('2d');
+      const img = g.createImageData(n, n);
+      for (let y = 0; y < n; y++) {
+        for (let x = 0; x < n; x++) {
+          const d = Math.hypot(x - n / 2, y - n / 2) / (n / 2);
+          const v = Math.pow(Math.max(0, 1 - d), 1.7) * 0.62;
+          if (v > BAYER[(y % 4) * 4 + (x % 4)]) {
+            const i = (y * n + x) * 4;
+            img.data[i] = 255; img.data[i + 1] = 184; img.data[i + 2] = 112; img.data[i + 3] = 255;
+          }
+        }
+      }
+      g.putImageData(img, 0, 0);
+      glow = { c, R };
+    }
+
+    // Wide screens: behind the whole first screen. Phones: inside the stage at the top.
+    let host = null;
+    function size() {
+      const want = desktop.matches && field ? field : stage;
+      if (host !== want) { host = want; host.prepend(canvas); }
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = host.clientWidth;
+      H = host.clientHeight;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      makeGlow();
+    }
+
+    function ring(x, y, w, h, r) {
+      r = Math.min(r, w / 2, h / 2);
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      ctx.stroke();
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      const s = canvas.getBoundingClientRect();
+      const p = phone.getBoundingClientRect();
+      const cx = p.left + p.width / 2 - s.left;
+      const cy = p.top + p.height / 2 - s.top;
+      const ink = turn.dataset.theme === 'ink';
+
+      if (ink && glow) {
+        ctx.globalAlpha = 0.085 * calm;
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(glow.c, cx - glow.R, cy - glow.R, glow.R * 2, glow.R * 2);
+      }
+
+      // 0 → 1 → 0 over one breath, eased like air in and out. It holds while
+      // the phone shows its front, and the lines fade back.
+      calm += ((phone.classList.contains('is-front') ? 0.3 : 1) - calm) * 0.08;
+      const live = reduceMotion ? 0.5 : (1 - Math.cos((t / BREATH) * Math.PI * 2)) / 2;
+      if (calm > 0.95) held = live;
+      const breath = calm > 0.95 ? live : held;
+      const hw = p.width / 2;
+      const hh = p.height / 2;
+      const gap = 30 + breath * 6;
+      ctx.globalAlpha = 1;
+      ctx.lineWidth = 1;
+      const rgb = ink ? '242, 232, 217' : '22, 22, 19';
+      const peak = ink ? 0.11 : 0.085;
+      const reach = Math.max(W, H) * 0.75; // fades out before it reaches the words
+      for (let off = 26 + breath * 12; off < reach; off += gap) {
+        const a = peak * calm * Math.pow(1 - off / reach, 1.6);
+        if (a < 0.004) break;
+        ctx.strokeStyle = `rgba(${rgb}, ${a.toFixed(3)})`;
+        ring(cx - hw - off, cy - hh - off, (hw + off) * 2, (hh + off) * 2, Math.min(hw, hh) * 0.35 + off * 0.9);
+      }
+    }
+
+    function frame(t) {
+      requestAnimationFrame(frame);
+      if (!visible || document.hidden || t - last < 33) return; // ~30fps is plenty for a breath
+      last = t;
+      draw(t);
+    }
+
+    size();
+    addEventListener('resize', size);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(turn);
+    }
+    if (reduceMotion) {
+      // Still, but kept in step with the phone as it turns.
+      const still = () => { if (visible) draw(0); };
+      addEventListener('scroll', () => requestAnimationFrame(still), { passive: true });
+      addEventListener('resize', still);
+      still();
+    } else {
+      requestAnimationFrame(frame);
+    }
+  }
+
   /* ---------- Dimensional drawing: drawn in, line by line ----------
      Outlines trace themselves in document order (front, side, back, notes);
      fills, dimensions and lettering follow just behind the pen. */
@@ -486,6 +616,7 @@
   wireHowItWorks();
   wireDay();
   wireDrawing();
+  wireCalmField();
 
   demo.addEventListener('load', onDemoReady);
   if (demo.contentDocument?.readyState === 'complete') onDemoReady();

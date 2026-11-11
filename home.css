@@ -303,6 +303,16 @@ img, svg, iframe { display: block; }
         radial-gradient(90% 70% at 60% 20%, rgba(255, 196, 128, 0.05), transparent 70%);
 }
 
+.turn__field { display: none; }
+
+.stage__field {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
 .stage__scene {
     position: absolute;
     inset: 0;
@@ -635,8 +645,24 @@ img, svg, iframe { display: block; }
     }
 
     .steps {
+        position: relative;
+        z-index: 1;
         grid-column: 1;
         grid-row: 1;
+    }
+
+    /* The calm field spans the whole first screen, behind the words and the phone. */
+    .turn__field {
+        display: block;
+        position: sticky;
+        top: 0;
+        grid-column: 1 / -1;
+        grid-row: 1;
+        align-self: start;
+        height: 100vh;
+        height: 100svh;
+        overflow: hidden;
+        pointer-events: none;
     }
 
     .step,
