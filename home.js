@@ -530,36 +530,65 @@
   }
 
   function wireHeld() {
-    const list = $('#heldList');
-    if (!list) return;
-    const sec = list.closest('section');
+    const bins = $('#heldList');
+    if (!bins) return;
+    const sec = bins.closest('section');
     const tb = $('.tb', sec);
+    const lists = { true: $('[data-bin="true"]', bins), false: $('[data-bin="false"]', bins) };
     const num = $('[data-held="num"]', sec);
     const notes = $('[data-held="list"]', sec);
     const count = $('[data-held="count"]', sec);
+    const nThrough = $('[data-held="n-through"]', sec);
+    const nHeld = $('[data-held="n-held"]', sec);
     const badge = $('.tb__nav b', sec);
-    const rows = $$('.held__row', list);
+    const chips = $$('.chip', bins);
     const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    const on = (c) => c.getAttribute('aria-pressed') === 'true';
 
     function render() {
-      const through = rows.filter((r) => r.getAttribute('aria-pressed') === 'true');
-      const held = rows.filter((r) => r.getAttribute('aria-pressed') !== 'true')
-        .reduce((n, r) => n + Number(r.dataset.count), 0);
+      const through = chips.filter(on).sort((a, b) => a.dataset.i - b.dataset.i);
+      const held = chips.filter((c) => !on(c)).reduce((n, c) => n + Number(c.dataset.count), 0);
       num.textContent = String(through.length).padStart(2, '0');
+      nThrough.textContent = through.length;
+      nHeld.textContent = held;
       badge.textContent = through.length;
       badge.hidden = !through.length;
       notes.innerHTML = through.length
-        ? through.slice(0, 3).map((r) => `<div class="tb__note"><i class="fas ${esc(r.dataset.icon)}"></i><span>${esc(r.dataset.name)}: ${esc(r.dataset.msg)}<small>${esc(r.dataset.ago)}</small></span></div>`).join('')
+        ? through.slice(0, 3).map((c) => `<div class="tb__note"><i class="fas ${esc(c.dataset.icon)}"></i><span>${esc(c.dataset.name)}: ${esc(c.dataset.msg)}<small>${esc(c.dataset.ago)}</small></span></div>`).join('')
           + (through.length > 3 ? `<p class="tb__empty">+${through.length - 3} more from people you chose</p>` : '')
         : '<p class="tb__empty">Nothing gets through. Enjoy the quiet.</p>';
       count.textContent = held ? `${held} more held for later` : 'Nothing held. Everything gets through.';
     }
 
-    rows.forEach((r) => r.addEventListener('click', () => {
-      r.setAttribute('aria-pressed', r.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    chips.forEach((c) => c.addEventListener('click', () => {
+      const to = !on(c);
+      c.setAttribute('aria-pressed', String(to));
+      const list = lists[to];
+      const li = c.parentElement;
+      const after = [...list.children].find((x) => Number($('.chip', x).dataset.i) > Number(c.dataset.i));
+      list.insertBefore(li, after || null);
+      c.classList.remove('is-new');
+      void c.offsetWidth;
+      c.classList.add('is-new');
+      c.focus();
       flashTb(tb, render);
     }));
     render();
+  }
+
+  /* ---------- Why e-ink: the redraw timeline plays once, on arrival ---------- */
+
+  function wireRedraw() {
+    const fig = $('#redraw');
+    if (!fig || reduceMotion || !('IntersectionObserver' in window)) return;
+    $$('.redraw__track--tb li', fig).forEach((li, n) => li.style.setProperty('--n', n));
+    fig.classList.add('redraw--ready');
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      fig.classList.add('is-play');
+      io.disconnect();
+    }, { threshold: 0.45 });
+    io.observe(fig);
   }
 
   /* ---------- Who it's for ---------- */
@@ -720,6 +749,7 @@
   wireHowItWorks();
   wireDay();
   wireHeld();
+  wireRedraw();
   wireWho();
   wireDrawing();
   wireCalmField();

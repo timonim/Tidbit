@@ -147,43 +147,42 @@
         <section class="section" id="why" data-theme="paper">
             <header class="section__head">
                 <h2 class="title">A screen that's finished <em>once it's drawn.</em></h2>
+                <p class="lede">Your phone redraws its screen up to 120 times a second, whether anything changed or not. E-paper draws a picture once, then holds it using no power at all.</p>
             </header>
-            <table class="ledger">
-                <thead>
-                    <tr>
-                        <td></td>
-                        <th scope="col">A phone screen</th>
-                        <th scope="col">TidBit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Light</th>
-                        <td>Shines at your face</td>
-                        <td>Reflects the room, like paper</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Power</th>
-                        <td>Burns it every second it's on</td>
-                        <td>Uses it only when the picture changes</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Charging</th>
-                        <td>Every night</td>
-                        <td>Every few weeks</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">At 2 a.m.</th>
-                        <td>The brightest thing in the room</td>
-                        <td>Dark until you turn on a lamp</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">What's on it</th>
-                        <td>Whatever wants you most</td>
-                        <td>What you chose to see</td>
-                    </tr>
-                </tbody>
-            </table>
+            <figure class="redraw" id="redraw">
+                <div class="redraw__row">
+                    <p class="redraw__label"><b>A phone screen</b><span>Up to 120 redraws a second</span></p>
+                    <div class="redraw__track redraw__track--phone" aria-hidden="true"><i></i></div>
+                </div>
+                <div class="redraw__row">
+                    <p class="redraw__label"><b>TidBit</b><span>5 redraws all day</span></p>
+                    <ol class="redraw__track redraw__track--tb">
+                        <li style="--x:0"><b>07:00</b><span>Weather</span></li>
+                        <li style="--x:0.140625"><b>09:15</b><span>2 messages</span></li>
+                        <li style="--x:0.375"><b>13:00</b><span>Focus</span></li>
+                        <li style="--x:0.71875"><b>18:30</b><span>Music</span></li>
+                        <li style="--x:1"><b>23:00</b><span>Night</span></li>
+                    </ol>
+                </div>
+            </figure>
+            <div class="versus">
+                <dl class="versus__card versus__card--phone" data-theme="ink">
+                    <p class="versus__name">A phone screen</p>
+                        <div><dt>Light</dt><dd>Shines at your face</dd></div>
+                        <div><dt>Power</dt><dd>Burns it every second it's on</dd></div>
+                        <div><dt>Charging</dt><dd>Every night</dd></div>
+                        <div><dt>At 2 a.m.</dt><dd>The brightest thing in the room</dd></div>
+                        <div><dt>What's on it</dt><dd>Whatever wants you most</dd></div>
+                </dl>
+                <dl class="versus__card versus__card--tb" data-theme="sky">
+                    <p class="versus__name">TidBit</p>
+                        <div><dt>Light</dt><dd>Reflects the room, like paper</dd></div>
+                        <div><dt>Power</dt><dd>Uses it only when the picture changes</dd></div>
+                        <div><dt>Charging</dt><dd>Every few weeks</dd></div>
+                        <div><dt>At 2 a.m.</dt><dd>Dark until you turn on a lamp</dd></div>
+                        <div><dt>What's on it</dt><dd>What you chose to see</dd></div>
+                </dl>
+            </div>
         </section>
 
         <section class="section" id="day" data-theme="ink">
@@ -288,35 +287,29 @@
                 <div class="split__copy">
                     <header class="section__head">
                         <h2 class="title">Who gets through <em>is up to you.</em></h2>
-                        <p class="lede">Choose the few people and apps that can reach the back of your phone. Everything else is counted and held, quietly, until you pick it up.</p>
+                        <p class="lede">Pick the few people and apps that can reach the back of your phone. Everything else is counted and kept for later, until you choose to look.</p>
                     </header>
-                    <p class="held__hint meta">Tap to choose what gets through</p>
-                    <ul class="held" id="heldList">
-                    <li><button type="button" class="held__row" aria-pressed="true" data-icon="fa-heart" data-name="Mom" data-msg="Call when you can, no rush" data-ago="4m ago" data-count="1">
-                        <i class="fas fa-heart" aria-hidden="true"></i><span class="held__name">Mom<small>Call when you can, no rush</small></span><span class="held__state"></span>
-                    </button></li>
-                    <li><button type="button" class="held__row" aria-pressed="true" data-icon="fa-comment" data-name="Sam" data-msg="Got groceries, home by 7" data-ago="12m ago" data-count="1">
-                        <i class="fas fa-comment" aria-hidden="true"></i><span class="held__name">Sam<small>Got groceries, home by 7</small></span><span class="held__state"></span>
-                    </button></li>
-                    <li><button type="button" class="held__row" aria-pressed="true" data-icon="fa-calendar-alt" data-name="Calendar" data-msg="Standup moved to room 4" data-ago="20m ago" data-count="1">
-                        <i class="fas fa-calendar-alt" aria-hidden="true"></i><span class="held__name">Calendar<small>Standup moved to room 4</small></span><span class="held__state"></span>
-                    </button></li>
-                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-hashtag" data-name="Work chat" data-msg="#launch: 9 new messages" data-ago="now" data-count="9">
-                        <i class="fas fa-hashtag" aria-hidden="true"></i><span class="held__name">Work chat<small>#launch: 9 new messages</small></span><span class="held__state"></span>
-                    </button></li>
-                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-users" data-name="Group chats" data-msg="Weekend plans: 23 new" data-ago="now" data-count="23">
-                        <i class="fas fa-users" aria-hidden="true"></i><span class="held__name">Group chats<small>Weekend plans: 23 new</small></span><span class="held__state"></span>
-                    </button></li>
-                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-envelope" data-name="Email" data-msg="12 new in your inbox" data-ago="now" data-count="12">
-                        <i class="fas fa-envelope" aria-hidden="true"></i><span class="held__name">Email<small>12 new in your inbox</small></span><span class="held__state"></span>
-                    </button></li>
-                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-camera" data-name="Instagram" data-msg="6 likes on your photo" data-ago="now" data-count="6">
-                        <i class="fas fa-camera" aria-hidden="true"></i><span class="held__name">Instagram<small>6 likes on your photo</small></span><span class="held__state"></span>
-                    </button></li>
-                    <li><button type="button" class="held__row" aria-pressed="false" data-icon="fa-newspaper" data-name="News" data-msg="4 breaking stories" data-ago="now" data-count="4">
-                        <i class="fas fa-newspaper" aria-hidden="true"></i><span class="held__name">News<small>4 breaking stories</small></span><span class="held__state"></span>
-                    </button></li>
-                    </ul>
+                    <div class="bins" id="heldList">
+                        <div class="bin bin--through">
+                            <p class="bin__head"><b>Gets through</b><span data-held="n-through">3</span></p>
+                            <ul class="bin__chips" data-bin="true">
+                                <li><button type="button" class="chip" data-i="0" aria-pressed="true" data-icon="fa-heart" data-name="Mom" data-msg="Call when you can, no rush" data-ago="4m ago" data-count="1"><i class="fas fa-heart" aria-hidden="true"></i>Mom<span class="chip__n"></span></button></li>
+                                <li><button type="button" class="chip" data-i="1" aria-pressed="true" data-icon="fa-comment" data-name="Sam" data-msg="Got groceries, home by 7" data-ago="12m ago" data-count="1"><i class="fas fa-comment" aria-hidden="true"></i>Sam<span class="chip__n"></span></button></li>
+                                <li><button type="button" class="chip" data-i="2" aria-pressed="true" data-icon="fa-calendar-alt" data-name="Calendar" data-msg="Standup moved to room 4" data-ago="20m ago" data-count="1"><i class="fas fa-calendar-alt" aria-hidden="true"></i>Calendar<span class="chip__n"></span></button></li>
+                            </ul>
+                        </div>
+                        <div class="bin bin--held">
+                            <p class="bin__head"><b>Waits for you</b><span><em data-held="n-held">54</em> notifications</span></p>
+                            <ul class="bin__chips" data-bin="false">
+                                <li><button type="button" class="chip" data-i="3" aria-pressed="false" data-icon="fa-hashtag" data-name="Work chat" data-msg="#launch: 9 new messages" data-ago="now" data-count="9"><i class="fas fa-hashtag" aria-hidden="true"></i>Work chat<span class="chip__n">9</span></button></li>
+                                <li><button type="button" class="chip" data-i="4" aria-pressed="false" data-icon="fa-users" data-name="Group chats" data-msg="Weekend plans: 23 new" data-ago="now" data-count="23"><i class="fas fa-users" aria-hidden="true"></i>Group chats<span class="chip__n">23</span></button></li>
+                                <li><button type="button" class="chip" data-i="5" aria-pressed="false" data-icon="fa-envelope" data-name="Email" data-msg="12 new in your inbox" data-ago="now" data-count="12"><i class="fas fa-envelope" aria-hidden="true"></i>Email<span class="chip__n">12</span></button></li>
+                                <li><button type="button" class="chip" data-i="6" aria-pressed="false" data-icon="fa-camera" data-name="Instagram" data-msg="6 likes on your photo" data-ago="now" data-count="6"><i class="fas fa-camera" aria-hidden="true"></i>Instagram<span class="chip__n">6</span></button></li>
+                                <li><button type="button" class="chip" data-i="7" aria-pressed="false" data-icon="fa-newspaper" data-name="News" data-msg="4 breaking stories" data-ago="now" data-count="4"><i class="fas fa-newspaper" aria-hidden="true"></i>News<span class="chip__n">4</span></button></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="meta held__hint">Tap a name to move it.</p>
                 </div>
                 <div class="split__device">
                     <div class="tb3d tb3d--flat" aria-hidden="true">
@@ -336,7 +329,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+</section>
 
         <section class="section" id="who" data-theme="sand">
             <header class="section__head">
