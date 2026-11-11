@@ -2062,10 +2062,26 @@ img, svg, iframe { display: block; }
    with the words for the moment in the margin beside it. */
 #day { padding-block: clamp(24px, 4vh, 48px); }
 
-@media (min-width: 1100px) {
-    .day { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); }
-    .dial { width: min(calc(100svh - var(--nav-h) - 56px), 880px, 62vw); }
-    .day__step { max-width: 17rem; }
-    .day__step h3 { font-size: clamp(2rem, 2.6vw, 2.8rem); }
+@media (min-width: 900px) {
+    /* The dial on its own, the words for the moment in one line beneath it. */
+    .day { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .dial { width: min(calc(100svh - var(--nav-h) - 190px), 820px, 90vw); }
     .dial .day__device { width: 34%; }
+    .day__copy {
+        order: 0;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+    }
+    .day__steps { flex: 1; }
+    .day__step {
+        grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1.25fr);
+        align-items: baseline;
+        column-gap: 32px;
+        max-width: none;
+    }
+    .day__step h3 { font-size: clamp(1.8rem, 2.4vw, 2.5rem); }
+    .day__ctrl { margin-top: 0; }
 }
