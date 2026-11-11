@@ -140,7 +140,7 @@
     }
     if (root.dataset.theme !== theme) {
       root.dataset.theme = theme;
-      $('meta[name="theme-color"]')?.setAttribute('content', theme === 'paper' ? '#e9e7de' : '#0e1a18');
+      $('meta[name="theme-color"]')?.setAttribute('content', ({ paper: '#e8e8e1', mist: '#d6e3dd' })[theme] || '#0e1a18');
     }
     nav.classList.toggle('nav--solid', window.scrollY > 24);
   }
@@ -432,7 +432,7 @@
       const hh = p.height / 2;
       const gap = 30 + breath * 6;
       ctx.lineWidth = 1;
-      const rgb = ink ? '230, 239, 235' : '22, 22, 19';
+      const rgb = ink ? '230, 239, 235' : '17, 32, 29';
       const peak = ink ? 0.08 : 0.065;
       const reach = Math.max(W, H) * 0.75; // fades out before it reaches the words
       for (let off = 26 + breath * 12; off < reach; off += gap) {
