@@ -48,16 +48,6 @@ const CONFIG = {
     }
   },
 
-  // This seems redundant as CONFIG.mediaPlayer.tracks is used for the media player.
-  // If it serves another purpose, it should be documented or used. Otherwise, consider removing.
-  // mediaItems: [
-  //   { title: 'Midnight City', artist: 'M83', album: 'Hurry Up, We\'re Dreaming', cover: 'midnight_city.jpeg' },
-  //   { title: 'Starboy', artist: 'The Weeknd', album: 'Starboy', cover: 'starboy.jpg' },
-  //   { title: 'Another Sky', artist: 'Novo Amor', album: 'Birthplace', cover: 'novoamor.webp' },
-  //   { title: 'Circles', artist: 'Post Malone', album: 'Hollywood\'s Bleeding', cover: 'circles.jpg' },
-  //   { title: 'Blinding Lights', artist: 'The Weeknd', album: 'After Hours', cover: 'blinding_lights.jpg' }
-  // ],
-
   // This array of strings is not directly used; updateNotifications generates its own.
   // If it's for reference or future use, it's fine. Otherwise, consider removing.
   // notifications: [
