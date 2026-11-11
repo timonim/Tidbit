@@ -34,15 +34,15 @@
 
 [data-theme="ink"] {
     --texture: none;
-    /* Warm charcoal: dark as soil at night, never brown. */
-    --bg: #181614;
-    --fg: #f1ebe3;
-    --muted: #b0a79c;
-    --line: rgba(241, 235, 227, 0.16);
-    --soft: rgba(201, 160, 138, 0.10);
-    --brand: #d2ab97;      /* adobe: soft, sun-dried clay */
-    --on-brand: #1a1512;
-    --accent: #d2ab97;     /* emphasis and small marks */
+    /* Espresso: a deep, slightly red brown, warm as earth. */
+    --bg: #1e1613;
+    --fg: #f2ebe4;
+    --muted: #b4a69c;
+    --line: rgba(242, 235, 228, 0.16);
+    --soft: rgba(166, 203, 214, 0.10);
+    --brand: #a6cbd6;      /* pale sea blue */
+    --on-brand: #1e1613;
+    --accent: #a6cbd6;     /* emphasis and small marks */
     color-scheme: dark;
 }
 
@@ -50,41 +50,41 @@
 [data-theme="paper"] {
     --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
     --bg: #ebe6de;
-    --fg: #1c1916;
-    --muted: #5c554d;
-    --line: rgba(28, 25, 22, 0.2);
-    --soft: rgba(28, 25, 22, 0.05);
-    --brand: #2a2522;      /* quiet charcoal for buttons and fills */
+    --fg: #241b17;
+    --muted: #5e534c;
+    --line: rgba(36, 27, 23, 0.2);
+    --soft: rgba(36, 27, 23, 0.05);
+    --brand: #35647a;      /* sea blue */
     --on-brand: #f4eee7;
-    --accent: #9a6450;     /* clay, kept to words and small marks */
+    --accent: #35647a;     
     color-scheme: light;
 }
 
-/* Clay: the brand colour at full strength, for one bold band. */
-[data-theme="clay"] {
-    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.22 0 0 0 0 0.13 0 0 0 0 0.09 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    --bg: #a47b68;
-    --fg: #fbf4ee;
-    --muted: #f1e1d7;
-    --line: rgba(251, 241, 232, 0.28);
-    --soft: rgba(251, 241, 232, 0.08);
-    --brand: #1f1714;
-    --on-brand: #fbf1e8;
-    --accent: #fbf1e8;
-    color-scheme: dark;
+/* Sky: a pale wash of the brand blue, the colour of the phone, for one quiet band. */
+[data-theme="sky"] {
+    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.16 0 0 0 0 0.18 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    --bg: #c9dde3;
+    --fg: #241b17;
+    --muted: #4e5d63;
+    --line: rgba(36, 27, 23, 0.18);
+    --soft: rgba(36, 27, 23, 0.05);
+    --brand: #35647a;
+    --on-brand: #f4eee7;
+    --accent: #35647a;
+    color-scheme: light;
 }
 
 /* Sand: a pale wash of terracotta, for a quieter band between paper sections. */
 [data-theme="sand"] {
     --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.09 0 0 0 0 0.06 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    --bg: #e9ded4;
-    --fg: #1f1a17;
-    --muted: #5f534b;
+    --bg: #e6dfd6;
+    --fg: #241b17;
+    --muted: #5e534c;
     --line: rgba(31, 23, 20, 0.18);
     --soft: rgba(31, 23, 20, 0.05);
-    --brand: #2a2522;
+    --brand: #35647a;
     --on-brand: #f4eee7;
-    --accent: #93604d;
+    --accent: #35647a;
     color-scheme: light;
 }
 
@@ -143,8 +143,8 @@ img, svg, iframe { display: block; }
     left: 8px;
     z-index: 100;
     padding: 10px 16px;
-    background: #f1ebe3;
-    color: #181614;
+    background: #f2ebe4;
+    color: #1e1613;
     border-radius: 8px;
     transform: translateY(-200%);
 }
@@ -335,7 +335,7 @@ img, svg, iframe { display: block; }
     inset: 0;
     background:
         radial-gradient(55% 50% at 50% 46%, var(--soft), transparent 72%),
-        radial-gradient(90% 70% at 60% 20%, rgba(220, 180, 160, 0.05), transparent 70%);
+        radial-gradient(90% 70% at 60% 20%, rgba(190, 215, 225, 0.05), transparent 70%);
 }
 
 .turn__field { display: none; }
@@ -1342,8 +1342,8 @@ img, svg, iframe { display: block; }
     position: relative;
     overflow-x: clip;
     background-image:
-        radial-gradient(42% 40% at 72% 42%, rgba(201, 160, 138, 0.07), transparent 70%),
-        radial-gradient(60% 50% at 20% 0%, rgba(220, 180, 160, 0.05), transparent 70%);
+        radial-gradient(42% 40% at 72% 42%, rgba(166, 203, 214, 0.07), transparent 70%),
+        radial-gradient(60% 50% at 20% 0%, rgba(190, 215, 225, 0.05), transparent 70%);
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -1356,7 +1356,7 @@ img, svg, iframe { display: block; }
     position: absolute;
     inset: -30% -45%;
     z-index: -1;
-    background: radial-gradient(closest-side, rgba(201, 160, 138, 0.10), rgba(201, 160, 138, 0.03) 60%, transparent);
+    background: radial-gradient(closest-side, rgba(166, 203, 214, 0.10), rgba(166, 203, 214, 0.03) 60%, transparent);
     pointer-events: none;
 }
 
@@ -1763,15 +1763,15 @@ img, svg, iframe { display: block; }
 
 @keyframes refresh-paper {
     0% { opacity: 0.55; background: #f6f4ec; }
-    34% { opacity: 0.3; background: #1c1916; }
-    67% { opacity: 0.12; background: #1c1916; }
+    34% { opacity: 0.3; background: #241b17; }
+    67% { opacity: 0.12; background: #241b17; }
     100% { opacity: 0; }
 }
 
 @keyframes refresh-ink {
-    0% { opacity: 0.5; background: #181614; }
-    34% { opacity: 0.22; background: #f1ebe3; }
-    67% { opacity: 0.1; background: #f1ebe3; }
+    0% { opacity: 0.5; background: #1e1613; }
+    34% { opacity: 0.22; background: #f2ebe4; }
+    67% { opacity: 0.1; background: #f2ebe4; }
     100% { opacity: 0; }
 }
 
