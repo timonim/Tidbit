@@ -892,6 +892,368 @@ img, svg, iframe { display: block; }
     }
 }
 
+/* A day with TidBit
+   Desktop: the steps scroll past a TidBit that stays put.
+   Phone: one sticky scene, the TidBit on top and the current step below.
+   Without JS everything is listed and the first picture shows. */
+
+.day__stick {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "steps device";
+    column-gap: clamp(40px, 6vw, 96px);
+}
+
+.day__device {
+    grid-area: device;
+    position: sticky;
+    top: calc(50vh - 236px + var(--nav-h) / 2);
+    align-self: start;
+    justify-self: center;
+}
+
+.day__steps {
+    grid-area: steps;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.day__step {
+    display: grid;
+    align-content: center;
+    gap: 10px;
+    min-height: 62vh;
+    max-width: 30ch;
+    padding-block: 24px;
+}
+
+.day__step:first-child { min-height: 472px; align-content: start; padding-top: 0; }
+.day__step:last-child { min-height: 472px; align-content: end; padding-bottom: 0; }
+
+.day__time {
+    font-size: 0.875rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+}
+
+.day__step h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 3.4vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.015em;
+}
+
+.day__step p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.day--ready .day__step {
+    opacity: 0.28;
+    transition: opacity 0.4s cubic-bezier(.23, 1, .32, 1);
+}
+
+.day--ready .day__step.is-on { opacity: 1; }
+
+.day__rail { display: none; }
+
+/* ---------- The device ---------- */
+
+.tb {
+    position: relative;
+    container-type: inline-size;
+    width: 316px;
+    aspect-ratio: 65.1 / 97.3;
+    padding: 3.53%; /* 2.3mm bezel */
+    border-radius: 14.1% / 9.45%; /* R9.20mm */
+    background: linear-gradient(160deg, #3a3a39 0%, #262625 50%, #1b1b1a 100%);
+    box-shadow:
+        0 1px 0 #1d1d1c,
+        0 2px 0 #1b1b1a,
+        0 3px 0 #191918,
+        0 4px 0 #161615,
+        0 14px 22px rgba(60, 38, 15, 0.28),
+        0 34px 48px -18px rgba(60, 38, 15, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.26),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.tb__screen,
+.tb__flash {
+    position: absolute;
+    inset: 3.53%;
+    border-radius: 11.4% / 7.6%;
+}
+
+.tb__screen {
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    padding: 6.5cqw 7cqw 8cqw;
+    background: #e6e4dd;
+    color: #33322f;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+    font-family: var(--font-body);
+    font-size: 4.6cqw;
+    line-height: 1.35;
+}
+
+.tb__bar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 3.7cqw;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.tb__view {
+    grid-area: 2 / 1;
+    display: none;
+    flex-direction: column;
+    gap: 2.6cqw;
+    padding-top: 7cqw;
+}
+
+.tb__view.is-on { display: flex; }
+
+.tb__view p { margin: 0; }
+
+.tb__big {
+    font-family: var(--font-display);
+    font-size: 23cqw;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+}
+
+.tb__huge {
+    font-family: var(--font-display);
+    font-size: 30cqw;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+.tb__label {
+    display: block;
+    font-size: 3.6cqw;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.tb__head {
+    display: block;
+    font-size: 5.8cqw;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.tb__small { font-size: 3.9cqw; color: #4a4946; }
+
+.tb__rule { height: 1px; margin-block: 1.6cqw; background: rgba(0, 0, 0, 0.45); }
+
+.tb__pair { display: flex; gap: 8cqw; }
+.tb__pair b, .tb__list b, .tb__small b { font-weight: 800; color: #33322f; }
+
+.tb__block {
+    margin-top: auto !important;
+    padding: 3cqw 4cqw;
+    border-radius: 2.5cqw;
+    background: #33322f;
+    color: #e6e4dd;
+    font-weight: 800;
+    font-size: 4.2cqw;
+}
+
+.tb__hours {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 5cqw;
+    font-size: 3.6cqw;
+    text-align: center;
+}
+
+.tb__hours span + span { border-left: 1px solid rgba(0, 0, 0, 0.3); }
+.tb__hours b { display: block; margin-top: 1cqw; font-family: var(--font-display); font-size: 8cqw; font-weight: 400; line-height: 1; }
+
+.tb__date { display: flex; align-items: center; gap: 4cqw; }
+.tb__date .tb__block { margin-top: 0 !important; }
+[data-view="1"] .tb__block { margin-top: 3cqw !important; }
+
+.tb__list {
+    display: grid;
+    gap: 3.2cqw;
+    margin: 2cqw 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tb__list li {
+    padding-left: 3cqw;
+    border-left: 0.8cqw solid #33322f;
+}
+
+.tb__list b { display: inline-block; width: 15cqw; font-variant-numeric: tabular-nums; }
+
+.tb__dots { display: flex; gap: 2.4cqw; }
+.tb__dots i { width: 3.4cqw; aspect-ratio: 1; border: 0.6cqw solid #33322f; border-radius: 50%; }
+.tb__dots i.on { background: #33322f; }
+[data-view="2"] .tb__head { margin-top: auto; }
+
+.tb__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    border-radius: 2.5cqw;
+    image-rendering: pixelated;
+    filter: grayscale(1) sepia(0.08);
+    margin-bottom: 1.5cqw;
+}
+
+.tb__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-inline: 6cqw;
+}
+
+.tb__controls svg {
+    width: 7cqw;
+    height: 7cqw;
+    fill: #33322f;
+    stroke: #33322f;
+    stroke-width: 2.6;
+    stroke-linejoin: round;
+}
+
+.tb__play {
+    display: grid;
+    place-items: center;
+    width: 15cqw;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #33322f;
+}
+
+.tb__play svg { stroke: #e6e4dd; stroke-width: 3.2; }
+
+.tb__view--night { justify-content: center; }
+
+.tb__quote {
+    font-family: var(--font-display);
+    font-size: 16cqw;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+}
+
+/* Redraw: a few hard frames, the way a panel actually refreshes. */
+.tb__flash {
+    pointer-events: none;
+    opacity: 0;
+}
+
+.tb.is-refreshing .tb__flash { animation: tb-refresh 0.52s steps(1, jump-end); }
+
+@keyframes tb-refresh {
+    0% { opacity: 0.42; background: #33322f; }
+    22% { opacity: 0.85; background: #e6e4dd; }
+    44% { opacity: 0.26; background: #33322f; }
+    66% { opacity: 0.5; background: #e6e4dd; }
+    100% { opacity: 0; }
+}
+
+@media (max-width: 799px) {
+    .day__stick {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "device" "steps";
+        row-gap: 40px;
+    }
+
+    .day__device {
+        position: static;
+        justify-self: center;
+    }
+
+    .tb { width: min(250px, 62vw); }
+
+    .day__step,
+    .day__step:first-child,
+    .day__step:last-child {
+        min-height: 0;
+        max-width: none;
+        padding-block: 18px;
+        align-content: start;
+    }
+
+    /* With JS: one sticky scene, driven by how far you've scrolled. */
+    .day--ready {
+        height: 420svh;
+    }
+
+    .day--ready .day__stick {
+        position: sticky;
+        top: var(--nav-h);
+        height: calc(100svh - var(--nav-h));
+        grid-template-rows: auto auto auto;
+        align-content: center;
+        row-gap: 22px;
+    }
+
+    .day--ready .tb { width: min(222px, 29.5svh); }
+
+    .day--ready .day__steps { display: grid; }
+
+    .day--ready .day__step {
+        grid-area: 1 / 1;
+        padding: 0;
+        text-align: center;
+        justify-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0s 0.3s;
+    }
+
+    .day--ready .day__step.is-on {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s;
+    }
+
+    .day--ready .day__step .day__time { display: none; }
+    .day--ready .day__step h3 { font-size: 2rem; }
+    .day--ready .day__step p { max-width: 32ch; font-size: 1rem; }
+
+    .day--ready .day__rail {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        order: -1;
+        grid-row: 1;
+    }
+
+    .day__rail span {
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        color: var(--muted);
+    }
+
+    .day__rail span.is-on { background: var(--fg); color: var(--bg); }
+
+    .day--ready .day__device { grid-row: 2; }
+    .day--ready .day__steps { grid-row: 3; }
+}
+
 /* Dimensional drawing */
 
 .drawing {
@@ -947,6 +1309,28 @@ img, svg, iframe { display: block; }
 .dw-ui--bold { font-weight: 800; }
 .dw-ui--inv { fill: #eeece6 !important; font-weight: 800; }
 .dw-ui-big { font-family: var(--font-display) !important; font-size: 34px; }
+
+/* Draw-in (home.js tags each part draw or fade, with its own delay). */
+.drawing--ready [data-k="draw"] {
+    stroke-dasharray: var(--len) var(--len);
+    stroke-dashoffset: var(--len);
+    fill-opacity: 0;
+}
+
+.drawing--ready [data-k="fade"] { opacity: 0; }
+
+.drawing--ready.is-play [data-k="draw"] {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    transition:
+        stroke-dashoffset 0.9s cubic-bezier(.65, 0, .35, 1) var(--d),
+        fill-opacity 0.4s ease-out var(--df);
+}
+
+.drawing--ready.is-play [data-k="fade"] {
+    opacity: 1;
+    transition: opacity 0.4s ease-out var(--df);
+}
 
 /* Integrations index */
 

@@ -36,6 +36,7 @@
         <nav class="nav__links" aria-label="Main navigation">
             <a href="#screens">Screens</a>
             <a href="#why">Why e-ink</a>
+            <a href="#day">A day</a>
             <a href="#drawing">Specs</a>
             <a href="#how">How it works</a>
             <a href="#integrations">Integrations</a>
@@ -180,6 +181,96 @@
                     </tr>
                 </tbody>
             </table>
+        </section>
+
+        <section class="section" id="day" data-theme="paper">
+            <header class="section__head">
+                <h2 class="title">One day, <em>five pictures.</em></h2>
+                <p class="lede">TidBit changes when your day does, then holds still. Each picture stays put until the next one is worth drawing.</p>
+            </header>
+            <div class="day">
+                <div class="day__stick">
+                <div class="day__device" aria-hidden="true">
+                    <div class="tb">
+                        <div class="tb__screen">
+                            <div class="tb__bar"><span class="tb__clock">07:00</span><span>16 days</span></div>
+
+                            <div class="tb__view is-on" data-view="0">
+                                <p class="tb__big">58°</p>
+                                <p class="tb__label">New York</p>
+                                <p class="tb__head">Cool, clearing by noon</p>
+                                <div class="tb__rule"></div>
+                                <div class="tb__pair"><span><b>High</b> 66°</span><span><b>Low</b> 51°</span></div>
+                                <div class="tb__hours"><span>9am<b>54°</b></span><span>12pm<b>61°</b></span><span>3pm<b>66°</b></span><span>6pm<b>57°</b></span></div>
+                                <p class="tb__block">Rain after 4pm. Take a jacket.</p>
+                            </div>
+
+                            <div class="tb__view" data-view="1">
+                                <div class="tb__date"><span class="tb__big">10</span><span><span class="tb__label">November</span><span class="tb__head">Tuesday</span></span></div>
+                                <p class="tb__block">Next: 09:30 Team standup</p>
+                                <ul class="tb__list">
+                                    <li><b>09:30</b> Team standup</li>
+                                    <li><b>11:30</b> Client meeting</li>
+                                    <li><b>14:30</b> Project review</li>
+                                    <li><b>16:00</b> Coffee with Dana</li>
+                                </ul>
+                            </div>
+
+                            <div class="tb__view" data-view="2">
+                                <p class="tb__label">Focus</p>
+                                <p class="tb__huge">25:00</p>
+                                <div class="tb__dots"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+                                <div class="tb__rule"></div>
+                                <p class="tb__head">Draft the proposal</p>
+                                <p class="tb__small">Notifications held until 13:25</p>
+                            </div>
+
+                            <div class="tb__view" data-view="3">
+                                <img class="tb__cover" src="images/cover-midnight-city.png" alt="" width="180" height="180" loading="lazy">
+                                <p class="tb__head">Midnight City</p>
+                                <p class="tb__small">M83</p>
+                                <div class="tb__controls"><svg viewBox="0 0 24 24"><path d="M6 5v14M19 5L9 12l10 7z"/></svg><span class="tb__play"><svg viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg></span><svg viewBox="0 0 24 24"><path d="M18 5v14M5 5l10 7-10 7z"/></svg></div>
+                            </div>
+
+                            <div class="tb__view tb__view--night" data-view="4">
+                                <p class="tb__quote">Enough <em>for today.</em></p>
+                                <div class="tb__rule"></div>
+                                <p class="tb__small"><b>Tomorrow</b> 07:30 Run</p>
+                            </div>
+                        </div>
+                        <div class="tb__flash"></div>
+                    </div>
+                </div>
+                <ol class="day__steps">
+                    <li class="day__step is-on" data-step="0" data-time="07:00">
+                        <span class="day__time">07:00</span>
+                        <h3>The weather, not the inbox.</h3>
+                        <p>The first thing you see is whether to take a jacket. The emails can wait until you sit down.</p>
+                    </li>
+                    <li class="day__step" data-step="1" data-time="09:15">
+                        <span class="day__time">09:15</span>
+                        <h3>The day, at a glance.</h3>
+                        <p>Your next meeting, in one line, on the back of the phone you left face down on the desk.</p>
+                    </li>
+                    <li class="day__step" data-step="2" data-time="13:00">
+                        <span class="day__time">13:00</span>
+                        <h3>Focus, without the glow.</h3>
+                        <p>A quiet timer and a single task. No badges and no banners. The phone stays face down.</p>
+                    </li>
+                    <li class="day__step" data-step="3" data-time="18:30">
+                        <span class="day__time">18:30</span>
+                        <h3>What's playing.</h3>
+                        <p>Skip a track on the walk home without unlocking anything or getting pulled into a feed.</p>
+                    </li>
+                    <li class="day__step" data-step="4" data-time="23:00">
+                        <span class="day__time">23:00</span>
+                        <h3>Then it goes quiet.</h3>
+                        <p>The last picture stays on the glass all night, using no power and giving off no light.</p>
+                    </li>
+                </ol>
+                <div class="day__rail" aria-hidden="true"><span class="is-on">07:00</span><span>09:15</span><span>13:00</span><span>18:30</span><span>23:00</span></div>
+                </div>
+            </div>
         </section>
 
         <section class="section" id="drawing" data-theme="paper">
@@ -383,6 +474,7 @@
             <nav class="footer__links" aria-label="Footer">
                 <a href="#screens">Screens</a>
                 <a href="#why">Why e-ink</a>
+                <a href="#day">A day</a>
                 <a href="#drawing">Specs</a>
                 <a href="#how">How it works</a>
                 <a href="#integrations">Integrations</a>

@@ -369,6 +369,91 @@
     steps.forEach((step) => io.observe(step));
   }
 
+  /* ---------- Dimensional drawing: drawn in, line by line ----------
+     Outlines trace themselves in document order (front, side, back, notes);
+     fills, dimensions and lettering follow just behind the pen. */
+
+  function wireDrawing() {
+    const fig = $('.drawing');
+    const svg = $('.drawing__svg');
+    if (!fig || !svg || reduceMotion || !('IntersectionObserver' in window)) return;
+    const items = [...svg.children].filter((el) => !/^(defs|title|desc)$/.test(el.tagName));
+    items.forEach((el, k) => {
+      const t = k * 0.018;
+      const drawn = el.matches('.dw-line, .dw-thin') && el.getTotalLength && !el.matches('.dw-sheet:not(.dw-line)');
+      el.dataset.k = drawn ? 'draw' : 'fade';
+      if (drawn) el.style.setProperty('--len', (el.getTotalLength() + 1).toFixed(1));
+      el.style.setProperty('--d', t.toFixed(3) + 's');
+      el.style.setProperty('--df', (t + (drawn ? 0.55 : 0.35)).toFixed(3) + 's');
+    });
+    fig.classList.add('drawing--ready');
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      fig.classList.add('is-play');
+      io.disconnect();
+    }, { threshold: 0.3 });
+    io.observe(fig);
+  }
+
+  /* ---------- A day with TidBit ----------
+     The step at the middle of the screen picks the picture. On phones the
+     section is one sticky scene, so progress through it picks instead. */
+
+  function wireDay() {
+    const day = $('.day');
+    if (!day) return;
+    const steps = $$('.day__step', day);
+    const views = $$('.tb__view', day);
+    const ticks = $$('.day__rail span', day);
+    const tb = $('.tb', day);
+    const clock = $('.tb__clock', day);
+    const phone = matchMedia('(max-width: 799px)');
+    let current = 0;
+    let swapTimer = 0;
+    let queued = false;
+
+    day.classList.add('day--ready');
+
+    function draw(i) {
+      views.forEach((v, k) => v.classList.toggle('is-on', k === i));
+      clock.textContent = steps[i].dataset.time;
+    }
+
+    function show(i) {
+      if (i === current) return;
+      current = i;
+      steps.forEach((s, k) => s.classList.toggle('is-on', k === i));
+      ticks.forEach((t, k) => t.classList.toggle('is-on', k === i));
+      clearTimeout(swapTimer);
+      if (reduceMotion) return draw(i);
+      tb.classList.remove('is-refreshing');
+      void tb.offsetWidth; // restart the flash
+      tb.classList.add('is-refreshing');
+      swapTimer = setTimeout(() => draw(current), 115); // on the white frame
+    }
+
+    function pick() {
+      queued = false;
+      let i = 0;
+      if (phone.matches) {
+        const r = day.getBoundingClientRect();
+        const p = -r.top / Math.max(1, r.height - innerHeight);
+        i = Math.min(steps.length - 1, Math.max(0, Math.floor(p * steps.length)));
+      } else {
+        const mid = innerHeight / 2;
+        steps.forEach((s, k) => { if (s.getBoundingClientRect().top < mid) i = k; });
+      }
+      show(i);
+    }
+
+    tb.addEventListener('animationend', () => tb.classList.remove('is-refreshing'));
+    addEventListener('scroll', () => {
+      if (!queued) { queued = true; requestAnimationFrame(pick); }
+    }, { passive: true });
+    addEventListener('resize', pick);
+    pick();
+  }
+
   /* ---------- Go ---------- */
 
   buildEdges();
@@ -376,6 +461,8 @@
   setInterval(tickClock, 20000);
   wireSignup();
   wireHowItWorks();
+  wireDay();
+  wireDrawing();
 
   demo.addEventListener('load', onDemoReady);
   if (demo.contentDocument?.readyState === 'complete') onDemoReady();
