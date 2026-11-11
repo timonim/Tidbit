@@ -140,7 +140,7 @@ a(f'<g transform="translate({tx + 16} {ty + 18}) scale(0.9)"><rect class="dw-lin
 a(f'<text class="dw-brand" x="{tx + 50}" y="{ty + 44}">TidBit</text>')
 a(f'<text class="dw-text" x="{tx + 18}" y="{ty + 70}">E-PAPER MAGSAFE DISPLAY</text>')
 a(f'<text class="dw-text dw-text--muted" x="{tx + 18}" y="{ty + 88}">CONCEPT. DO NOT SCALE.</text>')
-for i, (k, v) in enumerate([("UNITS", "MM"), ("FITS", "iPHONE 18 PRO"), ("SHEET", "1 OF 1 · REV A")]):
+for i, (k, v) in enumerate([("UNITS", "MM"), ("FITS", "ANY MAGSAFE"), ("SHEET", "1 OF 1 · REV A")]):
     yy = ty + i * th / 3
     a(f'<text class="dw-text dw-text--muted" x="{tx + 234}" y="{yy + 21:.1f}">{k}</text>')
     a(f'<text class="dw-text dw-text--bold" x="{tx + tw - 12}" y="{yy + 21:.1f}" text-anchor="end">{v}</text>')
