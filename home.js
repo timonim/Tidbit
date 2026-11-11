@@ -412,6 +412,26 @@
     let swapTimer = 0;
     let queued = false;
 
+    // The 6.4mm side, as stacked slices under the face, plus a polished chamfer.
+    const shot = $('.tb3d', day);
+    const SLICES = 16;
+    const layers = document.createDocumentFragment();
+    for (let k = 0; k <= SLICES; k++) {
+      const el = document.createElement('div');
+      el.className = 'tb__layer' + (k === SLICES ? ' tb__layer--chamfer' : '');
+      el.style.setProperty('--k', k === SLICES ? SLICES - 0.25 : k);
+      el.style.setProperty('--t', (k / SLICES).toFixed(3));
+      layers.appendChild(el);
+    }
+    shot.insertBefore(layers, tb);
+    // Each moment turns the device a touch, like picking it up through the day.
+    const TILTS = [[16, 22], [12, 14], [18, 8], [12, 18], [20, 26]];
+    const tilt = (i) => {
+      shot.style.setProperty('--tilt-x', TILTS[i][0] + 'deg');
+      shot.style.setProperty('--tilt-y', TILTS[i][1] + 'deg');
+    };
+    tilt(0);
+
     day.classList.add('day--ready');
 
     function draw(i) {
@@ -424,6 +444,7 @@
       current = i;
       steps.forEach((s, k) => s.classList.toggle('is-on', k === i));
       ticks.forEach((t, k) => t.classList.toggle('is-on', k === i));
+      tilt(i);
       clearTimeout(swapTimer);
       if (reduceMotion) return draw(i);
       tb.classList.remove('is-refreshing');

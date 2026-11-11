@@ -1154,6 +1154,104 @@ img, svg, iframe { display: block; }
     letter-spacing: -0.02em;
 }
 
+/* ---------- Product shot: the TidBit under a desk lamp ----------
+   home.js adds the edge layers (the 6.4mm graphite side) and .day--ready.
+   The shot is tilted in 3D, then rolled a little in the frame like a photo. */
+
+#day {
+    position: relative;
+    overflow-x: clip;
+    background-image:
+        radial-gradient(42% 40% at 72% 42%, rgba(255, 176, 96, 0.17), transparent 70%),
+        radial-gradient(60% 50% at 20% 0%, rgba(255, 196, 128, 0.06), transparent 70%);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.day__device { isolation: isolate; }
+
+/* The lamp's pool of light, behind the device. */
+.day__device::before {
+    content: "";
+    position: absolute;
+    inset: -30% -45%;
+    z-index: -1;
+    background: radial-gradient(closest-side, rgba(255, 170, 90, 0.22), rgba(255, 170, 90, 0.06) 60%, transparent);
+    pointer-events: none;
+}
+
+.tb3d {
+    display: grid;
+    width: 316px;
+    container-type: inline-size;
+}
+
+.tb3d > * { grid-area: 1 / 1; }
+.tb3d .tb { width: 100%; }
+
+.tb__shadow { display: none; }
+
+.tb__sheen {
+    position: absolute;
+    inset: 3.53%;
+    border-radius: 11.4% / 7.6%;
+    pointer-events: none;
+    background:
+        linear-gradient(128deg, rgba(255, 236, 206, 0.32) 0%, rgba(255, 236, 206, 0.08) 26%, transparent 42%, transparent 72%, rgba(40, 20, 0, 0.12) 100%);
+}
+
+.day--ready .day__device {
+    perspective: 1400px;
+    transform: rotate(-5deg);
+}
+
+.day--ready .tb3d {
+    transform-style: preserve-3d;
+    transform: rotateX(var(--tilt-x, 16deg)) rotateY(var(--tilt-y, 22deg));
+    transition: transform 1.2s cubic-bezier(.23, 1, .32, 1);
+}
+
+.day--ready .tb {
+    transform: translateZ(9.8cqw);
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* The side: graphite, catching the lamp at the top-left, darker as it goes down. */
+.tb__layer {
+    border-radius: 14.1% / 9.45%;
+    transform: translateZ(calc(var(--k) * 0.6cqw));
+    background: linear-gradient(110deg,
+        hsl(32 8% calc(34% + var(--t) * 26%)) 0%,
+        hsl(30 5% calc(20% + var(--t) * 14%)) 45%,
+        hsl(30 4% calc(9% + var(--t) * 6%)) 100%);
+}
+
+/* A polished chamfer right under the face. */
+.tb__layer--chamfer {
+    background: linear-gradient(110deg, #e6dfd3 0%, #8d887f 45%, #3a3936 100%);
+}
+
+.day--ready .tb__shadow {
+    display: block;
+    border-radius: 14.1% / 9.45%;
+    background: rgba(8, 4, 0, 0.7);
+    transform: translateZ(-2px) translate(10%, 8%);
+    filter: blur(22px);
+}
+
+@media (max-width: 799px) {
+    .day--ready .tb3d { width: min(222px, 29.5svh); }
+    .day--ready .day__device { transform: rotate(-4deg); }
+    #day { background-image: none; }
+    .day__device::before { inset: -18% -40%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .day--ready .tb3d { transition: none; }
+}
+
 /* Redraw: a few hard frames, the way a panel actually refreshes. */
 .tb__flash {
     pointer-events: none;
@@ -1182,7 +1280,7 @@ img, svg, iframe { display: block; }
         justify-self: center;
     }
 
-    .tb { width: min(250px, 62vw); }
+    .tb3d { width: min(250px, 62vw); }
 
     .day__step,
     .day__step:first-child,
@@ -1207,7 +1305,6 @@ img, svg, iframe { display: block; }
         row-gap: 22px;
     }
 
-    .day--ready .tb { width: min(222px, 29.5svh); }
 
     .day--ready .day__steps { display: grid; }
 
