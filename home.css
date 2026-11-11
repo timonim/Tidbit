@@ -39,10 +39,10 @@
     --fg: #f1ebe3;
     --muted: #b0a79c;
     --line: rgba(241, 235, 227, 0.16);
-    --soft: rgba(226, 119, 90, 0.10);
-    --brand: #d9643f;      /* terracotta: buttons and fills */
-    --on-brand: #1a1310;
-    --accent: #e2775a;     /* emphasis and small marks */
+    --soft: rgba(201, 160, 138, 0.10);
+    --brand: #d2ab97;      /* adobe: soft, sun-dried clay */
+    --on-brand: #1a1512;
+    --accent: #d2ab97;     /* emphasis and small marks */
     color-scheme: dark;
 }
 
@@ -54,18 +54,18 @@
     --muted: #5c554d;
     --line: rgba(28, 25, 22, 0.2);
     --soft: rgba(28, 25, 22, 0.05);
-    --brand: #b44a2e;      /* terracotta, deep enough for white text */
-    --on-brand: #fbf1e8;
-    --accent: #a9442a;
+    --brand: #2a2522;      /* quiet charcoal for buttons and fills */
+    --on-brand: #f4eee7;
+    --accent: #9a6450;     /* clay, kept to words and small marks */
     color-scheme: light;
 }
 
 /* Clay: the brand colour at full strength, for one bold band. */
 [data-theme="clay"] {
-    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.08 0 0 0 0 0.04 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    --bg: #b5533a;
-    --fg: #fbf1e8;
-    --muted: #f3d3c3;
+    --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.22 0 0 0 0 0.13 0 0 0 0 0.09 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    --bg: #a47b68;
+    --fg: #fbf4ee;
+    --muted: #f1e1d7;
     --line: rgba(251, 241, 232, 0.28);
     --soft: rgba(251, 241, 232, 0.08);
     --brand: #1f1714;
@@ -77,14 +77,14 @@
 /* Sand: a pale wash of terracotta, for a quieter band between paper sections. */
 [data-theme="sand"] {
     --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.09 0 0 0 0 0.06 0 0 0 1.5 -0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    --bg: #ead8cb;
-    --fg: #1f1714;
-    --muted: #5e4c42;
+    --bg: #e9ded4;
+    --fg: #1f1a17;
+    --muted: #5f534b;
     --line: rgba(31, 23, 20, 0.18);
     --soft: rgba(31, 23, 20, 0.05);
-    --brand: #b44a2e;
-    --on-brand: #fbf1e8;
-    --accent: #a3412a;
+    --brand: #2a2522;
+    --on-brand: #f4eee7;
+    --accent: #93604d;
     color-scheme: light;
 }
 
@@ -335,7 +335,7 @@ img, svg, iframe { display: block; }
     inset: 0;
     background:
         radial-gradient(55% 50% at 50% 46%, var(--soft), transparent 72%),
-        radial-gradient(90% 70% at 60% 20%, rgba(240, 160, 120, 0.05), transparent 70%);
+        radial-gradient(90% 70% at 60% 20%, rgba(220, 180, 160, 0.05), transparent 70%);
 }
 
 .turn__field { display: none; }
@@ -1342,8 +1342,8 @@ img, svg, iframe { display: block; }
     position: relative;
     overflow-x: clip;
     background-image:
-        radial-gradient(42% 40% at 72% 42%, rgba(226, 119, 90, 0.07), transparent 70%),
-        radial-gradient(60% 50% at 20% 0%, rgba(240, 160, 120, 0.05), transparent 70%);
+        radial-gradient(42% 40% at 72% 42%, rgba(201, 160, 138, 0.07), transparent 70%),
+        radial-gradient(60% 50% at 20% 0%, rgba(220, 180, 160, 0.05), transparent 70%);
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
@@ -1356,7 +1356,7 @@ img, svg, iframe { display: block; }
     position: absolute;
     inset: -30% -45%;
     z-index: -1;
-    background: radial-gradient(closest-side, rgba(226, 119, 90, 0.10), rgba(226, 119, 90, 0.03) 60%, transparent);
+    background: radial-gradient(closest-side, rgba(201, 160, 138, 0.10), rgba(201, 160, 138, 0.03) 60%, transparent);
     pointer-events: none;
 }
 
