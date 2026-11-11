@@ -15,6 +15,9 @@
 
     --gutter: clamp(20px, 6vw, 104px);
     --measure: 1240px;
+    /* Where the centred content column starts, so full-bleed parts (nav, first
+       screen) line up with the sections below. --sbw is the scrollbar (home.js). */
+    --edge: max(var(--gutter), (100vw - var(--sbw, 0px) - var(--measure)) / 2);
     --nav-h: 64px;
     --alarm: #ff453a; /* the only colour outside the phone: notification red */
 
@@ -263,7 +266,7 @@ img, svg, iframe { display: block; }
     inset: 0 0 auto 0;
     z-index: 40;
     height: var(--nav-h);
-    padding: 0 var(--gutter);
+    padding: 0 var(--edge);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -596,7 +599,7 @@ img, svg, iframe { display: block; }
 .step {
     min-height: 64vh;
     min-height: 64svh;
-    padding: 28px var(--gutter) 40px;
+    padding: 28px var(--edge) 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -708,7 +711,7 @@ img, svg, iframe { display: block; }
         min-height: 100svh;
         justify-content: center;
         gap: 26px;
-        padding: calc(var(--nav-h) + 24px) clamp(24px, 4vw, 64px) 48px var(--gutter);
+        padding: calc(var(--nav-h) + 24px) clamp(24px, 4vw, 64px) 48px var(--edge);
         scroll-margin-top: 0;
     }
 
@@ -1552,7 +1555,7 @@ img, svg, iframe { display: block; }
 /* Dimensional drawing */
 
 .drawing {
-    margin: 0;
+    margin-block: 0;
 }
 
 .drawing__frame {

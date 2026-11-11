@@ -681,6 +681,11 @@
 
   /* ---------- Go ---------- */
 
+  // The scrollbar's width, so full-bleed parts line up with the centred column.
+  const sbw = () => root.style.setProperty('--sbw', (innerWidth - document.documentElement.clientWidth) + 'px');
+  sbw();
+  addEventListener('resize', sbw);
+
   buildEdges();
   tickClock();
   setInterval(tickClock, 20000);
