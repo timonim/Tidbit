@@ -1764,7 +1764,7 @@ html[data-color="burgundy"] {
     max-width: none;
     height: auto;
     aspect-ratio: 1;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     border-radius: 8px;
     box-shadow: none;
     filter: none;
@@ -1965,3 +1965,7 @@ html[data-color="burgundy"] {
     font-size: 12px;
     color: var(--text-color-secondary);
 }
+
+/* The music screen fills the space above the buttons, so the controls sit low
+   with room around them, as on the home page's "One day" TidBit. */
+.epaper-display .widget.media { height: calc(100% - 60px); }
