@@ -525,21 +525,6 @@
     render();
   }
 
-  /* ---------- Why e-ink: the redraw timeline plays once, on arrival ---------- */
-
-  function wireRedraw() {
-    const fig = $('#redraw');
-    if (!fig || reduceMotion || !('IntersectionObserver' in window)) return;
-    $$('.redraw__track--tb li', fig).forEach((li, n) => li.style.setProperty('--n', n));
-    fig.classList.add('redraw--ready');
-    const io = new IntersectionObserver((entries) => {
-      if (!entries.some((e) => e.isIntersecting)) return;
-      fig.classList.add('is-play');
-      io.disconnect();
-    }, { threshold: 0.45 });
-    io.observe(fig);
-  }
-
   /* ---------- Dimensional drawing: drawn in, line by line ----------
      Outlines trace themselves in document order (front, side, back, notes);
      fills, dimensions and lettering follow just behind the pen. */
@@ -705,7 +690,6 @@
   wireHowItWorks();
   wireDay();
   wireHeld();
-  wireRedraw();
   wireDrawing();
   wireCalmField();
 

@@ -786,19 +786,6 @@ img, svg, iframe { display: block; }
     display: grid;
     gap: 10px;
     align-content: start;
-    padding-top: 24px;
-}
-
-/* The top rule, drawn as an element so it can draw across. */
-.how__step::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform-origin: left;
 }
 
 .how__art {
@@ -820,8 +807,6 @@ img, svg, iframe { display: block; }
    .is-play on each step with its --delay). The rule draws across, the line
    art sketches stroke by stroke, dashed signal lines blink on, then the
    words arrive. Without JS or with reduced motion, all of it just shows. */
-.how--ready .how__step::before { transform: scaleX(0); }
-
 .how--ready .how__art > * {
     stroke-dasharray: var(--len) var(--len);
     stroke-dashoffset: var(--len);
@@ -839,11 +824,6 @@ img, svg, iframe { display: block; }
 .how--ready .how__step p {
     opacity: 0;
     transform: translateY(6px);
-}
-
-.how--ready .how__step.is-play::before {
-    transform: none;
-    transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1) var(--delay, 0s);
 }
 
 .how--ready .how__step.is-play .how__art > * {
@@ -1817,157 +1797,6 @@ img, svg, iframe { display: block; }
 .tb.is-night .tb__sheen { opacity: 0.12; }
 
 /* ==========================================================
-   Why e-ink: a day of redraws, then the two screens side by side
-   ========================================================== */
-
-.redraw {
-    display: grid;
-    gap: 28px;
-    margin: 0 0 clamp(96px, 10vw, 128px);
-}
-
-.redraw__row {
-    display: grid;
-    gap: 12px;
-}
-
-.redraw__label {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 4px 16px;
-    font-size: 0.9375rem;
-}
-
-.redraw__label b { font-weight: 800; }
-.redraw__label span { color: var(--muted); font-weight: 600; }
-
-.redraw__track {
-    position: relative;
-    height: 56px;
-    border-radius: 6px;
-    background: var(--bg-2);
-}
-
-/* The phone: a solid band of hairlines, one per redraw, packed too close to count. */
-.redraw__track--phone i {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: repeating-linear-gradient(90deg, var(--fg) 0 1px, var(--bg-2) 1px 3px);
-    clip-path: inset(0 0 0 0);
-}
-
-/* TidBit: five marks, the five pictures of the day. */
-.redraw__track--tb {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.redraw__track--tb li {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: calc(10px + var(--x) * (100% - 20px));
-    width: 3px;
-    margin-left: -1.5px;
-    background: var(--accent);
-}
-
-.redraw__track--tb b,
-.redraw__track--tb span {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    font-size: 0.8125rem;
-}
-
-.redraw__track--tb b { top: calc(100% + 8px); font-weight: 800; }
-.redraw__track--tb span { top: calc(100% + 26px); color: var(--muted); font-weight: 600; }
-.redraw__track--tb li:first-child b,
-.redraw__track--tb li:first-child span { left: 0; transform: none; }
-.redraw__track--tb li:last-child b,
-.redraw__track--tb li:last-child span { left: auto; right: 0; transform: none; }
-
-
-
-@media (max-width: 640px) {
-    .redraw__track--tb span { display: none; }
-    .redraw__track--tb li:nth-child(2) b,
-    .redraw__track--tb li:nth-child(4) b { display: none; }
-}
-
-/* On scroll: the phone band floods in, then TidBit's marks land one by one. */
-.redraw--ready .redraw__track--phone i { clip-path: inset(0 100% 0 0); }
-.redraw--ready .redraw__track--tb li { transform: scaleY(0); transform-origin: bottom; }
-.redraw--ready .redraw__track--tb li > * { opacity: 0; }
-
-.redraw--ready.is-play .redraw__track--phone i {
-    clip-path: inset(0 0 0 0);
-    transition: clip-path 1.1s cubic-bezier(.45, 0, .2, 1);
-}
-.redraw--ready.is-play .redraw__track--tb li {
-    transform: none;
-    transition: transform 0.28s steps(3, jump-end) calc(1.2s + var(--n) * 0.32s);
-}
-.redraw--ready.is-play .redraw__track--tb li > * {
-    opacity: 1;
-    transition: opacity 0.2s steps(2) calc(1.35s + var(--n) * 0.32s);
-}
-
-/* The two screens, as two solid cards. */
-.versus {
-    display: grid;
-    gap: 16px;
-}
-
-@media (min-width: 800px) {
-    .versus { grid-template-columns: 1fr 1fr; gap: 20px; }
-}
-
-.versus__card {
-    margin: 0;
-    padding: clamp(24px, 3vw, 40px);
-    border-radius: 20px;
-    background-image: none;
-}
-
-.versus__name {
-    margin-bottom: 18px;
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 3.4vw, 3rem);
-    line-height: 1;
-    letter-spacing: -0.02em;
-}
-
-.versus__card--tb .versus__name { font-style: italic; }
-
-.versus__card > div {
-    display: grid;
-    grid-template-columns: 7.5em 1fr;
-    gap: 16px;
-    padding: 14px 0;
-    border-top: 1px solid var(--line);
-}
-
-.versus__card dt {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--muted);
-    padding-top: 0.2em;
-}
-
-.versus__card dd {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: clamp(1.25rem, 1.7vw, 1.5rem);
-    line-height: 1.15;
-}
-
-/* ==========================================================
    Held: two trays, and names that move between them
    ========================================================== */
 
@@ -2052,9 +1881,6 @@ img, svg, iframe { display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .redraw--ready .redraw__track--phone i,
-    .redraw--ready .redraw__track--tb li,
-    .redraw--ready .redraw__track--tb li > * { clip-path: none; transform: none; opacity: 1; }
     .chip.is-new { animation: none; }
 }
 
