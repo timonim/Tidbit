@@ -672,6 +672,7 @@
       views.forEach((v, k) => v.classList.toggle('is-on', k === i));
       clock.textContent = steps[i].dataset.screenTime || steps[i].dataset.time;
       if (nav) nav.dataset.tab = steps[i].dataset.tab;
+      tb.classList.toggle('is-night', steps[i].dataset.tab === 'none');
     }
 
     function show(i) {
