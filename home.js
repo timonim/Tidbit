@@ -140,7 +140,7 @@
     }
     if (root.dataset.theme !== theme) {
       root.dataset.theme = theme;
-      $('meta[name="theme-color"]')?.setAttribute('content', ({ paper: '#e8e8e1', mist: '#d6e3dd' })[theme] || '#0e1a18');
+      $('meta[name="theme-color"]')?.setAttribute('content', ({ paper: '#e8e8e1', lichen: '#dde2d2' })[theme] || '#121710');
     }
     nav.classList.toggle('nav--solid', window.scrollY > 24);
   }
@@ -402,44 +402,95 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function ring(x, y, w, h, r) {
-      r = Math.min(r, w / 2, h / 2);
+    // A fixed, gentle terrain: smooth value noise, laid out in page pixels
+    // so the land stays put while the phone turns above it.
+    const rnd = (i, j) => { const v = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return v - Math.floor(v); };
+    const smooth = (a) => a * a * (3 - 2 * a);
+    function noise(x, y) {
+      const i = Math.floor(x), j = Math.floor(y), fx = smooth(x - i), fy = smooth(y - j);
+      const a = rnd(i, j), b = rnd(i + 1, j), c = rnd(i, j + 1), d = rnd(i + 1, j + 1);
+      return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+    }
+    const terrain = (x, y) => noise(x / 260, y / 260) * 0.65 + noise(x / 110 + 9, y / 110 + 4) * 0.35 - 0.5;
+
+    // Distance from a point to the phone's rounded outline (0 on the edge).
+    function edge(x, y, hw, hh, r) {
+      const qx = Math.abs(x) - hw + r, qy = Math.abs(y) - hh + r;
+      return Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r;
+    }
+
+    // Contour lines: the phone is the summit; the land falls away around it
+    // in uneven steps, the way a map draws a quiet hill.
+    const STEP = 9;
+    let gw = 0, gh = 0, ground = null, elev = null, gx0 = 0, gy0 = 0;
+    function grid(s) {
+      gw = Math.ceil(W / STEP) + 1;
+      gh = Math.ceil(H / STEP) + 1;
+      ground = new Float32Array(gw * gh);
+      elev = new Float32Array(gw * gh);
+      gx0 = s.left + scrollX;
+      gy0 = s.top + scrollY;
+      for (let j = 0; j < gh; j++) for (let i = 0; i < gw; i++) ground[j * gw + i] = terrain(gx0 + i * STEP, j * STEP);
+    }
+
+    function contour(level) {
       ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.arcTo(x + w, y, x + w, y + h, r);
-      ctx.arcTo(x + w, y + h, x, y + h, r);
-      ctx.arcTo(x, y + h, x, y, r);
-      ctx.arcTo(x, y, x + w, y, r);
-      ctx.closePath();
+      for (let j = 0; j < gh - 1; j++) {
+        for (let i = 0; i < gw - 1; i++) {
+          const k = j * gw + i;
+          const a = elev[k], b = elev[k + 1], c = elev[k + gw + 1], d = elev[k + gw];
+          const idx = (a > level) | ((b > level) << 1) | ((c > level) << 2) | ((d > level) << 3);
+          if (idx === 0 || idx === 15) continue;
+          const x = i * STEP, y = j * STEP;
+          const pts = [];
+          if ((a > level) !== (b > level)) pts.push([x + STEP * (level - a) / (b - a), y]);
+          if ((b > level) !== (c > level)) pts.push([x + STEP, y + STEP * (level - b) / (c - b)]);
+          if ((d > level) !== (c > level)) pts.push([x + STEP * (level - d) / (c - d), y + STEP]);
+          if ((a > level) !== (d > level)) pts.push([x, y + STEP * (level - a) / (d - a)]);
+          ctx.moveTo(pts[0][0], pts[0][1]);
+          ctx.lineTo(pts[1][0], pts[1][1]);
+          if (pts.length === 4) { ctx.moveTo(pts[2][0], pts[2][1]); ctx.lineTo(pts[3][0], pts[3][1]); }
+        }
+      }
       ctx.stroke();
     }
 
     function draw(t) {
       ctx.clearRect(0, 0, W, H);
       const s = canvas.getBoundingClientRect();
+      if (!ground || gw !== Math.ceil(W / STEP) + 1) grid(s);
       const p = phone.getBoundingClientRect();
       const cx = p.left + p.width / 2 - s.left;
       const cy = p.top + p.height / 2 - s.top;
       const ink = turn.dataset.theme === 'ink';
 
-      // 0 → 1 → 0 over one breath, eased like air in and out. It holds while
-      // the phone shows its front, and the lines fade back.
+      // 0 → 1 → 0 over one breath. The lines settle a little outward and back,
+      // slow as breathing. It holds while the phone shows its front.
       calm += ((phone.classList.contains('is-front') ? 0.3 : 1) - calm) * 0.08;
       const live = reduceMotion ? 0.5 : (1 - Math.cos((t / BREATH) * Math.PI * 2)) / 2;
       if (calm > 0.95) held = live;
       const breath = calm > 0.95 ? live : held;
       const hw = p.width / 2;
       const hh = p.height / 2;
-      const gap = 30 + breath * 6;
+      const r = Math.min(hw, hh) * 0.35;
+      for (let j = 0; j < gh; j++) {
+        for (let i = 0; i < gw; i++) {
+          const k = j * gw + i;
+          const d = edge(i * STEP - cx, j * STEP - cy, hw, hh, r);
+          elev[k] = d + ground[k] * (30 + Math.max(d, 0) * 0.45);
+        }
+      }
+      const gap = 34;
+      const reach = Math.max(W, H) * 0.8; // fades out before it reaches the words
+      const rgb = ink ? '232, 235, 224' : '22, 28, 18';
+      const peak = ink ? 0.085 : 0.07;
       ctx.lineWidth = 1;
-      const rgb = ink ? '230, 239, 235' : '17, 32, 29';
-      const peak = ink ? 0.08 : 0.065;
-      const reach = Math.max(W, H) * 0.75; // fades out before it reaches the words
-      for (let off = 26 + breath * 12; off < reach; off += gap) {
-        const a = peak * calm * Math.pow(1 - off / reach, 1.6);
+      ctx.lineJoin = 'round';
+      for (let n = 0, off = 22 + breath * 8; off < reach; n++, off += gap) {
+        const a = peak * calm * Math.pow(1 - off / reach, 1.4) * (n % 5 === 4 ? 1.7 : 1);
         if (a < 0.004) break;
         ctx.strokeStyle = `rgba(${rgb}, ${a.toFixed(3)})`;
-        ring(cx - hw - off, cy - hh - off, (hw + off) * 2, (hh + off) * 2, Math.min(hw, hh) * 0.35 + off * 0.9);
+        contour(off);
       }
     }
 
@@ -451,7 +502,7 @@
     }
 
     size();
-    addEventListener('resize', size);
+    addEventListener('resize', () => { size(); ground = null; });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(turn);
     }
