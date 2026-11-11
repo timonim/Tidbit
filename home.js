@@ -334,12 +334,48 @@
     );
   }
 
+  /* ---------- Snap, Pair, Glance: one by one ---------- */
+
+  function wireHowItWorks() {
+    const how = $('.how');
+    if (!how || reduceMotion || !('IntersectionObserver' in window)) return;
+    const steps = $$('.how__step', how);
+    steps.forEach((step) => {
+      $$('.how__art > *', step).forEach((el, i) => {
+        el.style.setProperty('--i', i);
+        if (!el.classList.contains('dash') && el.getTotalLength) {
+          el.style.setProperty('--len', (el.getTotalLength() + 1).toFixed(1));
+        }
+      });
+    });
+    how.classList.add('how--ready');
+
+    // Steps that come into view together play in order; on a phone, where
+    // they are stacked, each plays as it is reached.
+    const io = new IntersectionObserver(
+      (entries) => {
+        const arriving = entries
+          .filter((e) => e.isIntersecting)
+          .map((e) => e.target)
+          .sort((a, b) => steps.indexOf(a) - steps.indexOf(b));
+        arriving.forEach((step, k) => {
+          step.style.setProperty('--delay', k * 0.9 + 's');
+          step.classList.add('is-play');
+          io.unobserve(step);
+        });
+      },
+      { threshold: 0.45 }
+    );
+    steps.forEach((step) => io.observe(step));
+  }
+
   /* ---------- Go ---------- */
 
   buildEdges();
   tickClock();
   setInterval(tickClock, 20000);
   wireSignup();
+  wireHowItWorks();
 
   demo.addEventListener('load', onDemoReady);
   if (demo.contentDocument?.readyState === 'complete') onDemoReady();

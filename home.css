@@ -779,11 +779,23 @@ img, svg, iframe { display: block; }
 }
 
 .how__step {
+    position: relative;
     display: grid;
     gap: 10px;
     align-content: start;
     padding-top: 24px;
-    border-top: 1px solid var(--line);
+}
+
+/* The top rule, drawn as an element so it can draw across. */
+.how__step::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--line);
+    transform-origin: left;
 }
 
 .how__art {
@@ -800,6 +812,65 @@ img, svg, iframe { display: block; }
 
 .how__art .fill { fill: var(--bg); }
 .how__art .dash { stroke-dasharray: 3 5; }
+
+/* Snap, Pair, Glance play one by one (home.js adds .how--ready, then
+   .is-play on each step with its --delay). The rule draws across, the line
+   art sketches stroke by stroke, dashed signal lines blink on, then the
+   words arrive. Without JS or with reduced motion, all of it just shows. */
+.how--ready .how__step::before { transform: scaleX(0); }
+
+.how--ready .how__art > * {
+    stroke-dasharray: var(--len) var(--len);
+    stroke-dashoffset: var(--len);
+}
+
+.how--ready .how__art > .dash {
+    stroke-dasharray: 3 5;
+    stroke-dashoffset: 0;
+    opacity: 0;
+}
+
+.how--ready .how__art > .fill { fill-opacity: 0; }
+
+.how--ready .how__step h3,
+.how--ready .how__step p {
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+.how--ready .how__step.is-play::before {
+    transform: none;
+    transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1) var(--delay, 0s);
+}
+
+.how--ready .how__step.is-play .how__art > * {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.7s cubic-bezier(0.23, 1, 0.32, 1) calc(var(--delay, 0s) + 0.15s + var(--i) * 0.16s);
+}
+
+.how--ready .how__step.is-play .how__art > .fill {
+    fill-opacity: 1;
+    transition:
+        stroke-dashoffset 0.7s cubic-bezier(0.23, 1, 0.32, 1) calc(var(--delay, 0s) + 0.15s + var(--i) * 0.16s),
+        fill-opacity 0.3s ease-out calc(var(--delay, 0s) + 0.45s + var(--i) * 0.16s);
+}
+
+.how--ready .how__step.is-play .how__art > .dash {
+    opacity: 1;
+    transition: opacity 0.2s steps(2, jump-none) calc(var(--delay, 0s) + 0.15s + var(--i) * 0.16s);
+}
+
+.how--ready .how__step.is-play h3,
+.how--ready .how__step.is-play p {
+    opacity: 1;
+    transform: none;
+    transition:
+        opacity 0.35s ease-out var(--text-delay),
+        transform 0.5s cubic-bezier(0.23, 1, 0.32, 1) var(--text-delay);
+}
+
+.how--ready .how__step.is-play h3 { --text-delay: calc(var(--delay, 0s) + 0.55s); }
+.how--ready .how__step.is-play p { --text-delay: calc(var(--delay, 0s) + 0.65s); }
 
 .how__step h3 {
     font-family: var(--font-display);
