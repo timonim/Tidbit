@@ -449,7 +449,7 @@
       const ink = turn.dataset.theme === 'ink';
 
       if (ink && glow) {
-        ctx.globalAlpha = 0.085 * calm;
+        ctx.globalAlpha = 0.045 * calm;
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(glow.c, cx - glow.R, cy - glow.R, glow.R * 2, glow.R * 2);
       }
@@ -466,7 +466,7 @@
       ctx.globalAlpha = 1;
       ctx.lineWidth = 1;
       const rgb = ink ? '242, 232, 217' : '22, 22, 19';
-      const peak = ink ? 0.11 : 0.085;
+      const peak = ink ? 0.08 : 0.065;
       const reach = Math.max(W, H) * 0.75; // fades out before it reaches the words
       for (let off = 26 + breath * 12; off < reach; off += gap) {
         const a = peak * calm * Math.pow(1 - off / reach, 1.6);
