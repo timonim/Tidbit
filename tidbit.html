@@ -8,7 +8,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Font Awesome 6.4.0 (solid icons), bundled so the screen works without the CDN -->
+    <link rel="stylesheet" href="vendor/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="vendor/fontawesome/css/solid.min.css">
+    <!-- ?flat: embedded on the home page, which supplies its own 3D turn -->
+    <script>
+        if (location.search.includes('flat')) document.documentElement.classList.add('flat');
+        // ?color=black|silver|blue|burgundy picks the phone's finish.
+        const finish = new URLSearchParams(location.search).get('color');
+        if (finish) document.documentElement.dataset.color = finish;
+        // ?layer=back|tidbit: the home page stacks the phone's back and the TidBit
+        // as two layers, so the TidBit can stand off the glass in 3D.
+        const layer = new URLSearchParams(location.search).get('layer');
+        if (layer) document.documentElement.dataset.layer = layer;
+    </script>
+    <style>
+        .flat body { align-items: flex-start; perspective: none; }
+        .flat .iphone-mock,
+        .flat .iphone-mock:hover { transform: none !important; transition: none !important; box-shadow: none; }
+        /* Back layer: the phone without its TidBit. */
+        [data-layer="back"] .magsafe-container { visibility: hidden; }
+        [data-layer="back"] body,
+        [data-layer="back"] .iphone-mock { background: none !important; }
+        /* TidBit layer: only the TidBit, on a clear background; its depth and shadow come from the page. */
+        [data-layer="tidbit"] body,
+        [data-layer="tidbit"] .iphone-mock { background: none !important; box-shadow: none !important; }
+        [data-layer="tidbit"] .iphone-mock::before,
+        [data-layer="tidbit"] .iphone-mock::after,
+        [data-layer="tidbit"] .camera { display: none !important; }
+        [data-layer="tidbit"] .magsafe-container {
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.26), inset 0 -1px 1px rgba(0, 0, 0, 0.5) !important;
+        }
+    </style>
     </head>
 <body>
     <div class="iphone-mock">
@@ -129,7 +160,7 @@
 
                         <section class="widget media" role="region" aria-label="Media Player">
                             <div class="media-content">
-                                <img src="midnight_city.jpeg" alt="Album cover: M83 - Midnight City" class="album-cover">
+                                <img src="images/cover-midnight-city.png" alt="Album cover: M83 - Midnight City" class="album-cover">
                                 <div class="track-info">
                                     <h2 class="track-title">Midnight City</h2>
                                     <span class="text">M83</span>
@@ -142,39 +173,17 @@
                             </div>
                         </section>
 
-                        <section class="widget productivity-widget" role="region">
-                            <!-- <header class="header">
-                                <h1 id="productivity-widget-title"><i class="fas fa-brain"></i> Productivity</h1>
-                            </header> -->
-                            <div class="productivity-content">
-                                <div class="pomodoro-section">
-                                    <h2 class="productivity-section-title"><i class="fas fa-clock"></i> Pomodoro Timer</h2>
-                                    <div class="pomodoro-timer">
-                                        <div class="pomodoro-info">
-                                            <span class="pomodoro-session-type">Work</span>
-                                            <h1 class="pomodoro-time">25:00</h1>
-                                            <span class="pomodoro-sessions-completed" title="Pomodoros completed" aria-label="Pomodoros completed" style="display:inline-block;margin-top:4px;font-size:0.9em;"></span>
-                                        </div>
-                                        <div class="pomodoro-controls">
-                                            <button class="pomodoro-start" aria-label="Start timer"><i class="fas fa-play"></i></button>
-                                            <button class="pomodoro-pause" aria-label="Pause timer" style="display: none;"><i class="fas fa-pause"></i></button>
-                                            <button class="pomodoro-reset" aria-label="Reset timer"><i class="fas fa-redo"></i></button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <hr class="productivity-divider">
-
-                                <div class="mindfulness-section">
-                                    <h2 class="productivity-section-title ds-section-title"><i class="fas fa-leaf"></i> Mindful Moment</h2>
-                                    <div class="mindfulness-prompt-display ds-text-container">
-                                        <p class="mindfulness-prompt-text">Take a deep breath and notice your surroundings.</p>
-                                        <button class="mindfulness-new-prompt-btn" aria-label="Get new mindfulness prompt">
-                                            <i class="fas fa-sync-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                        <section class="widget productivity-widget focus" role="region" aria-label="Focus">
+                            <span class="focus__label pomodoro-session-type">Focus</span>
+                            <p class="focus__time"><span class="pomodoro-time">25</span><span class="focus__unit">min</span></p>
+                            <span class="focus__dots pomodoro-sessions-completed" role="img" aria-label="0 of 4 sessions done"></span>
+                            <hr class="focus__rule">
+                            <p class="focus__task">Draft the proposal</p>
+                            <p class="focus__note">Press play to hold notifications</p>
+                            <div class="pomodoro-controls">
+                                <button class="pomodoro-start" aria-label="Start focus"><i class="fas fa-play"></i></button>
+                                <button class="pomodoro-pause" aria-label="Pause focus" style="display: none;"><i class="fas fa-pause"></i></button>
+                                <button class="pomodoro-reset" aria-label="Reset focus"><i class="fas fa-redo"></i></button>
                             </div>
                         </section>
                     </div>

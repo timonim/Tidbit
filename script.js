@@ -8,31 +8,7 @@ const CONFIG = {
   // Timing settings
   refreshInterval: 120000,        // Widget refresh interval (2 minutes)
   timeUpdateInterval: 60000,      // Clock update interval (1 minute)
-  demoTimeOffsetHours: -12,       // ponytail: demo offset; real device should use local time.
-
-  // E-ink display settings
-  eink: {
-    refreshStages: [
-      {
-        contrast: '140%',    // Strong flash to reset pixels
-        brightness: '100%',
-        sepia: '10%',
-        duration: 150
-      },
-      {
-        contrast: '70%',     // Dark phase
-        brightness: '90%',
-        sepia: '10%',
-        duration: 200
-      },
-      {
-        contrast: '100%',    // Final image
-        brightness: '100%',
-        sepia: '10%',
-        duration: 150
-      }
-    ]
-  },
+  demoTimeOffsetHours: 0,         // Shift the demo clock in hours; 0 shows the visitor's local time.
 
   // Visual indicators
   indicators: {
@@ -58,7 +34,7 @@ const CONFIG = {
         { chance: 30, description: 'Slight chance of rain', icon: '<i class="fas fa-cloud-sun"></i>' },
         { chance: 10, description: 'Clear skies ahead', icon: '<i class="fas fa-sun"></i>' }
     ],
-    locations: ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Tel Aviv'],
+    location: 'New York',
     tempRange: { min: 30, max: 95 },
     tomorrow: {
         conditions: [
@@ -71,16 +47,6 @@ const CONFIG = {
         ]
     }
   },
-
-  // This seems redundant as CONFIG.mediaPlayer.tracks is used for the media player.
-  // If it serves another purpose, it should be documented or used. Otherwise, consider removing.
-  // mediaItems: [
-  //   { title: 'Midnight City', artist: 'M83', album: 'Hurry Up, We\'re Dreaming', cover: 'midnight_city.jpeg' },
-  //   { title: 'Starboy', artist: 'The Weeknd', album: 'Starboy', cover: 'starboy.jpg' },
-  //   { title: 'Another Sky', artist: 'Novo Amor', album: 'Birthplace', cover: 'novoamor.webp' },
-  //   { title: 'Circles', artist: 'Post Malone', album: 'Hollywood\'s Bleeding', cover: 'circles.jpg' },
-  //   { title: 'Blinding Lights', artist: 'The Weeknd', album: 'After Hours', cover: 'blinding_lights.jpg' }
-  // ],
 
   // This array of strings is not directly used; updateNotifications generates its own.
   // If it's for reference or future use, it's fine. Otherwise, consider removing.
@@ -133,19 +99,19 @@ const CONFIG = {
         title: 'Midnight City',
         artist: 'M83',
         album: 'Hurry Up, We\'re Dreaming',
-        cover: 'midnight_city.jpeg'
+        cover: 'images/cover-midnight-city.png'
       },
       {
         title: 'Starboy',
         artist: 'The Weeknd',
         album: 'Starboy',
-        cover: 'starboy.jpg'
+        cover: 'images/cover-starboy.png'
       },
       {
         title: 'Another Sky',
         artist: 'Novo Amor',
         album: 'Birthplace',
-        cover: 'novoamor.webp'
+        cover: 'images/cover-another-sky.png'
       }
     ]
   },
@@ -173,7 +139,9 @@ const CONFIG = {
     "Wiggle your toes and fingers.",
     "Recall a pleasant memory for a moment."
   ],
-  currentMindfulnessPromptIndex: 0
+  currentMindfulnessPromptIndex: 0,
+  // The top task from your to-do app (Todoist in the integrations list).
+  focusTask: 'Draft the proposal'
 };
 
 // Store element references and state
@@ -187,6 +155,25 @@ const state = {
   // rotationPaused: false, // Removed as unused
   // rotationPauseTimeout: null // Removed as unused
 };
+
+/**
+ * Repeatable pseudo-random numbers for a key, so the demo shows the same
+ * weather all day and the same notifications all hour, like a real feed.
+ */
+function seededRandom(key) {
+  let h = 2166136261;
+  for (const ch of String(key)) {
+    h ^= ch.charCodeAt(0);
+    h = Math.imul(h, 16777619);
+  }
+  return () => {
+    h += 0x6d2b79f5;
+    let t = h;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 /**
  * Initialize the application
@@ -325,6 +312,8 @@ function cacheElements() {
   elements.pomodoroResetBtn = document.querySelector('.pomodoro-reset');
   elements.pomodoroSessionsCompleted = document.querySelector('.pomodoro-sessions-completed');
 
+  elements.focusTask = document.querySelector('.focus__task');
+  elements.focusNote = document.querySelector('.focus__note');
   elements.mindfulnessPromptText = document.querySelector('.mindfulness-prompt-text');
   elements.newPromptButton = document.querySelector('.mindfulness-new-prompt-btn');
 }
@@ -458,16 +447,18 @@ function updateNotifications() {
     { type: 'battery', icon: '<i class="fas fa-battery-quarter"></i>', category: 'Alerts', texts: ['Battery low: AirPods at 15%', 'Battery low: Apple Watch needs charging'] }
   ];
 
-  const count = Math.floor(Math.random() * 3) + 1; // 1-3 important notifications
-  const quietCount = Math.floor(Math.random() * 4) + 2;
+  const now = getDisplayDate();
+  const rnd = seededRandom(`notifications ${now.toDateString()} ${now.getHours()}`);
+  const count = Math.floor(rnd() * 3) + 1; // 1-3 important notifications
+  const quietCount = Math.floor(rnd() * 4) + 2;
   const generatedNotifications = [];
 
   for (let i = 0; i < count; i++) {
-    const typeIndex = Math.floor(Math.random() * importantNotificationTypes.length);
+    const typeIndex = Math.floor(rnd() * importantNotificationTypes.length);
     const notificationType = importantNotificationTypes[typeIndex];
-    const textIndex = Math.floor(Math.random() * notificationType.texts.length);
+    const textIndex = Math.floor(rnd() * notificationType.texts.length);
     const text = notificationType.texts[textIndex];
-    const minutes = Math.floor(Math.random() * 60) + 1;
+    const minutes = Math.floor(rnd() * 60) + 1;
     const timeText = minutes === 1 ? '1m ago' : `${minutes}m ago`;
 
     generatedNotifications.push({
@@ -485,7 +476,7 @@ function updateNotifications() {
   }
 
   const title = notificationWidget.querySelector('.header .title');
-  if (title) title.textContent = `${quietCount} quiet hidden`;
+  if (title) title.textContent = 'From people you chose';
 
   const categories = {};
   generatedNotifications.forEach(notification => {
@@ -510,6 +501,8 @@ function updateNotifications() {
       </li>
     `;
   });
+  // Everything else is counted, never shown: it waits for the phone.
+  notificationsHTML += `<li class="notification-held">${quietCount} more held for later</li>`;
 
   notificationList.innerHTML = notificationsHTML;
 
@@ -707,37 +700,39 @@ function updateTime() {
 }
 
 /**
- * Simulate e-ink display refresh with realistic stages
+ * Simulate an e-ink refresh.
+ * Full: the panel inverts, goes black, goes white, then shows the new image.
+ * Partial (small changes such as a timer tick): one faint flicker.
  */
-function simulateEinkRefresh() {
-  if (!elements.display || state.isRefreshing) return;
+function simulateEinkRefresh(full = true) {
+  const display = elements.display;
+  if (!display || state.isRefreshing) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  if (!display.querySelector('.eink-flash')) {
+    const flash = document.createElement('div');
+    flash.className = 'eink-flash';
+    flash.setAttribute('aria-hidden', 'true');
+    display.appendChild(flash);
+  }
+
+  const frames = full
+    ? [['invert', 70], ['black', 90], ['white', 90]]
+    : [['ghost', 60]];
 
   state.isRefreshing = true;
-  elements.display.style.transition = 'filter 0.3s'; // Adjust transition time if needed
-
-  const stages = CONFIG.eink.refreshStages;
-  if (!stages || stages.length === 0) {
-    state.isRefreshing = false;
-    return;
-  }
-
-  let currentStageIndex = 0;
-
-  function applyStage(stageIndex) {
-    if (stageIndex < stages.length) {
-      const stage = stages[stageIndex];
-      elements.display.style.filter = `grayscale(100%) contrast(${stage.contrast}) brightness(${stage.brightness}) sepia(${stage.sepia})`;
-      setTimeout(() => applyStage(stageIndex + 1), stage.duration);
-    } else {
-      // After all animation stages, apply the final configured resting state (last stage properties)
-      const finalStage = stages[stages.length - 1];
-       elements.display.style.filter = `grayscale(100%) contrast(${finalStage.contrast}) brightness(${finalStage.brightness}) sepia(${finalStage.sepia})`;
-      // Or a specific "settled" look if desired, e.g.:
-      // elements.display.style.filter = `grayscale(100%) contrast(110%) brightness(90%) sepia(10%)`;
+  let index = 0;
+  const next = () => {
+    if (index >= frames.length) {
+      delete display.dataset.flash;
       state.isRefreshing = false;
+      return;
     }
-  }
-  applyStage(currentStageIndex);
+    const [frame, duration] = frames[index++];
+    display.dataset.flash = frame;
+    setTimeout(next, duration);
+  };
+  next();
 }
 
 /**
@@ -746,28 +741,27 @@ function simulateEinkRefresh() {
 function updateWeather() {
   if (!elements.weatherTemp || !elements.weatherDesc || !elements.weatherIcon || !elements.weatherLocation) return;
 
-  const { conditions, precipitation, locations, tempRange } = CONFIG.weatherData;
-  const temp = Math.floor(Math.random() * (tempRange.max - tempRange.min + 1) + tempRange.min);
-  const locationIndex = Math.floor(Math.random() * locations.length);
+  const { conditions, precipitation, location, tempRange } = CONFIG.weatherData;
+  const rnd = seededRandom(`weather ${getDisplayDate().toDateString()}`);
+  const temp = Math.round(48 + rnd() * 30);
 
   const condition = conditions.find(c => temp >= c.temp.min && temp <= c.temp.max) || conditions[0];
-  const precip = precipitation[Math.floor(Math.random() * precipitation.length)];
-  const weatherInfo = Math.random() > 0.5 ? condition : precip;
+  const rainy = precipitation.filter(p => p.chance >= 50);
+  const weatherInfo = rnd() < 0.35 ? rainy[Math.floor(rnd() * rainy.length)] : condition;
 
-  const highTemp = Math.min(temp + Math.floor(Math.random() * 8) + 2, tempRange.max);
-  const lowTemp = Math.max(temp - Math.floor(Math.random() * 8) - 2, tempRange.min);
+  const highTemp = Math.min(temp + 3 + Math.floor(rnd() * 5), tempRange.max);
+  const lowTemp = Math.max(temp - 6 - Math.floor(rnd() * 5), tempRange.min);
 
   elements.weatherTemp.textContent = `${temp}°`;
   elements.weatherDesc.textContent = weatherInfo.description;
   elements.weatherIcon.innerHTML = weatherInfo.icon;
-  elements.weatherLocation.textContent = locations[locationIndex];
+  elements.weatherLocation.textContent = location;
   if (elements.weatherHighLow) elements.weatherHighLow.textContent = `High ${highTemp}° • Low ${lowTemp}°`;
   if (elements.weatherHigh) elements.weatherHigh.textContent = `${highTemp}°`;
   if (elements.weatherLow) elements.weatherLow.textContent = `${lowTemp}°`;
 
-  // Update tomorrow's forecast using cached elements
   if (elements.weatherTomorrowPreview && elements.weatherTomorrowForecast && elements.weatherTomorrowIcon) {
-    const tempDiff = Math.floor(Math.random() * 15) - 7;
+    const tempDiff = Math.floor(rnd() * 15) - 7;
     const tomorrowTemp = Math.min(Math.max(temp + tempDiff, tempRange.min), tempRange.max);
     const tomorrowCondition = CONFIG.weatherData.tomorrow.conditions.find(
         c => tomorrowTemp >= c.temp.min && tomorrowTemp <= c.temp.max
@@ -950,22 +944,17 @@ function updateStatusBar() {
   }
 
   if (elements.batteryStatus) {
-    if (!state.batteryLevel || Math.random() < 0.1) { // Update battery level occasionally
-      state.batteryLevel = Math.floor(Math.random() * 81) + 20; // 20-100%
-    }
-    const isCharging = Math.random() > 0.7; // Simulate charging status
-
+    // E-ink sips power, so TidBit reports its charge in days, counting down slowly.
+    const dayNumber = Math.floor(getDisplayDate().getTime() / 86400000);
+    const daysLeft = 21 - (dayNumber % 14);
     let batteryIconClass = 'fas fa-battery-full';
-    if (isCharging) batteryIconClass = 'fas fa-bolt';
-    else if (state.batteryLevel <= 20) batteryIconClass = 'fas fa-battery-empty';
-    else if (state.batteryLevel <= 50) batteryIconClass = 'fas fa-battery-half';
+    if (daysLeft <= 7) batteryIconClass = 'fas fa-battery-half';
+    else if (daysLeft <= 14) batteryIconClass = 'fas fa-battery-three-quarters';
 
     elements.batteryStatus.innerHTML = `
       <span class="battery-icon"><i class="${batteryIconClass}"></i></span>
-      <span class="battery-level">${state.batteryLevel}%</span>
+      <span class="battery-level">${daysLeft} days</span>
     `;
-    elements.batteryStatus.classList.toggle('low-battery', state.batteryLevel <= 20 && !isCharging);
-    elements.batteryStatus.classList.toggle('charging', isCharging);
   }
   updateStatusBarNotifications(); // Also update notification indicators in status bar
 }
@@ -1070,11 +1059,10 @@ function startPomodoro() {
         return; // Exit interval callback
     }
     
-    // Only update display and refresh e-ink every 15 seconds to accommodate low refresh rate
-    if (CONFIG.pomodoro.remainingTime % 15 === 0 || CONFIG.pomodoro.remainingTime === 0) {
+    // The screen shows whole minutes, so it only needs redrawing once a minute.
+    if (CONFIG.pomodoro.remainingTime % 60 === 0 || CONFIG.pomodoro.remainingTime === 0) {
       updatePomodoroDisplay();
-      simulateEinkRefresh();
-      console.log("Refreshing e-ink display for Pomodoro timer every 15s");
+      simulateEinkRefresh(false);
     }
 
     if (CONFIG.pomodoro.remainingTime === 0) {
@@ -1157,6 +1145,7 @@ function handlePomodoroSessionEnd() {
       CONFIG.pomodoro.currentSessionType = 'shortBreak';
       CONFIG.pomodoro.remainingTime = CONFIG.pomodoro.shortBreakDuration;
     }
+    CONFIG.currentMindfulnessPromptIndex = (CONFIG.currentMindfulnessPromptIndex + 1) % CONFIG.mindfulnessPrompts.length;
   } else { // End of a break
     CONFIG.pomodoro.currentSessionType = 'work';
     CONFIG.pomodoro.remainingTime = CONFIG.pomodoro.workDuration;
@@ -1185,28 +1174,41 @@ function handlePomodoroSessionEnd() {
 
 
 function updatePomodoroDisplay() {
-  if (!elements.pomodoroTime || !elements.pomodoroSessionType || !elements.pomodoroSessionsCompleted) {
-    console.warn('Pomodoro display elements not found during updatePomodoroDisplay.');
-    return;
+  if (!elements.pomodoroTime || !elements.pomodoroSessionType || !elements.pomodoroSessionsCompleted) return;
+  const p = CONFIG.pomodoro;
+  const total = getCurrentSessionTotalDuration();
+  const isBreak = p.currentSessionType !== 'work';
+  const isReady = !p.isRunning && p.remainingTime === total;
+
+  // Whole minutes only: an e-ink screen shouldn't tick through seconds.
+  elements.pomodoroTime.textContent = String(Math.ceil(p.remainingTime / 60));
+
+  const names = { work: 'Focus', shortBreak: 'Short break', longBreak: 'Long break' };
+  elements.pomodoroSessionType.textContent = names[p.currentSessionType] + (!p.isRunning && !isReady ? ' · paused' : '');
+
+  // Four sessions to a long break, one dot each.
+  const done = p.sessionsCompleted % p.sessionsBeforeLongBreak;
+  elements.pomodoroSessionsCompleted.innerHTML = Array.from({ length: p.sessionsBeforeLongBreak },
+    (_, i) => `<i class="${i < done ? 'on' : ''}"></i>`).join('');
+  elements.pomodoroSessionsCompleted.setAttribute('aria-label', `${done} of ${p.sessionsBeforeLongBreak} sessions done`);
+
+  // Work shows the top task; a break shows something to do away from the screen.
+  if (elements.focusTask) {
+    elements.focusTask.textContent = isBreak
+      ? CONFIG.mindfulnessPrompts[CONFIG.currentMindfulnessPromptIndex]
+      : CONFIG.focusTask;
   }
-  // console.log(`Updating pomodoro display: ${CONFIG.pomodoro.remainingTime}s, Running: ${CONFIG.pomodoro.isRunning}`);
-
-  const minutes = Math.floor(CONFIG.pomodoro.remainingTime / 60);
-  const seconds = CONFIG.pomodoro.remainingTime % 60;
-  elements.pomodoroTime.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-  const stateLabel = CONFIG.pomodoro.isRunning ? "[ACTIVE]" : (CONFIG.pomodoro.remainingTime === getCurrentSessionTotalDuration() ? "[READY]" : "[PAUSED]");
-  const formattedSessionType = CONFIG.pomodoro.currentSessionType.replace(/([A-Z])/g, ' $1').trim(); // e.g. "shortBreak" -> "short Break"
-  elements.pomodoroSessionType.textContent = `${formattedSessionType.charAt(0).toUpperCase() + formattedSessionType.slice(1)} ${stateLabel}`;
-  elements.pomodoroSessionsCompleted.textContent = CONFIG.pomodoro.sessionsCompleted;
-
-  const pomodoroTimer = document.querySelector('.pomodoro-timer');
-  if (pomodoroTimer) {
-    pomodoroTimer.classList.toggle('running', CONFIG.pomodoro.isRunning);
+  if (elements.focusNote) {
+    const until = new Date(getDisplayDate().getTime() + p.remainingTime * 1000)
+      .toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    if (p.isRunning) elements.focusNote.textContent = isBreak ? `Back to focus at ${until}` : `Notifications held until ${until}`;
+    else if (isReady) elements.focusNote.textContent = isBreak ? 'Press play to start the break' : 'Press play to hold notifications';
+    else elements.focusNote.textContent = 'Paused. Notifications come through.';
   }
-  updatePomodoroProgressIndicator();
+
+  const focus = document.querySelector('.focus');
+  if (focus) focus.classList.toggle('running', p.isRunning);
 }
-
 
 function updatePomodoroProgressIndicator() {
   const productivityWidget = document.querySelector('.widget.productivity');
@@ -1253,12 +1255,8 @@ function getCurrentSessionTotalDuration() {
  * ===================================================================================
  */
 function initMindfulness() {
-  if (!elements.newPromptButton || !elements.mindfulnessPromptText) {
-    console.warn('Mindfulness elements not found. Skipping initialization.');
-    return;
-  }
-  elements.newPromptButton.addEventListener('click', () => showNewMindfulnessPrompt(true)); // Announce on button click
-  showNewMindfulnessPrompt(false); // Don't announce on initial load
+  // Prompts show on the focus screen during breaks; pick a fresh one each time a break starts.
+  CONFIG.currentMindfulnessPromptIndex = Math.floor(Math.random() * CONFIG.mindfulnessPrompts.length);
 }
 
 function showNewMindfulnessPrompt(announce = true) {
