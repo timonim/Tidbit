@@ -762,6 +762,13 @@
   wireDrawing();
   wireCalmField();
 
+  // The entrance runs on CSS alone; take the class off once it has played, so
+  // nothing of it lingers (a hash link or a reload mid-page skips it in the head).
+  if (root.classList.contains('intro')) {
+    if (scrollY > 40) root.classList.remove('intro');
+    else setTimeout(() => root.classList.remove('intro'), 3000);
+  }
+
   demo.addEventListener('load', onDemoReady);
   if (demo.contentDocument?.readyState === 'complete') onDemoReady();
 
