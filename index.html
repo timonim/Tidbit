@@ -28,7 +28,13 @@
     <link rel="stylesheet" href="vendor/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="vendor/fontawesome/css/solid.min.css">
     <link rel="stylesheet" href="home.css">
-    <script>document.documentElement.classList.add('js');</script>
+    <script>
+        document.documentElement.classList.add('js');
+        // The entrance plays when you arrive at the top, unless you've asked for less motion.
+        if (!location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('intro');
+        }
+    </script>
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
