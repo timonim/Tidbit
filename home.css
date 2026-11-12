@@ -441,20 +441,15 @@ img, svg, iframe { display: block; }
 
 .phone__tbside { position: absolute; inset: 0; transform-style: preserve-3d; }
 
-.phone__tbslice {
+/* One strip of the side, standing on the glass (home.js places it): graphite,
+   darker toward the glass, with a polished chamfer where it meets the face. */
+.phone__tbstrip {
     position: absolute;
-    inset: 0;
-    border-radius: var(--tb-r);
-    transform: translateZ(calc(var(--k) * var(--tb-depth)));
-    background: linear-gradient(115deg,
-        hsl(30 6% calc(30% + var(--k) * 22%)) 0%,
-        hsl(28 4% calc(17% + var(--k) * 12%)) 45%,
-        hsl(28 4% calc(8% + var(--k) * 6%)) 100%);
-}
-
-/* A polished chamfer right under the face. */
-.phone__tbslice--chamfer {
-    background: linear-gradient(115deg, #e6dfd3 0%, #8d887f 45%, #3a3936 100%);
+    background: linear-gradient(180deg,
+        hsl(28 4% calc(7% + var(--lit) * 10%)) 0%,
+        hsl(29 5% calc(14% + var(--lit) * 26%)) 82%,
+        hsl(32 8% calc(30% + var(--lit) * 58%)) 88%,
+        hsl(32 8% calc(24% + var(--lit) * 50%)) 100%);
 }
 
 .phone__tbface {

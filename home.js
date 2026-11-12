@@ -21,6 +21,9 @@
   const NAV_H = 64;
   // Where the TidBit sits inside the phone, in design pixels. Re-measured once the demo loads.
   let puck = { x: 17.5, y: 263, w: 340, h: 508 };
+  // The TidBit's corner radius and its 6.4mm depth, in design pixels (match home.css).
+  const TB_R = 48;
+  const TB_DEPTH = 33;
 
   const steps = $$('.step').map((el) => ({
     el,
@@ -63,12 +66,12 @@
     const dark = rgb('--phone-frame-dark', [108, 125, 149]);
     const light = rgb('--phone-frame-light', [223, 231, 242]);
     const frag = document.createDocumentFragment();
-    // Long straight sides go in short pieces: Chrome sorts small planes reliably,
-    // but a single 650px strip can be drawn over the TidBit standing on the back.
+    // Long straight sides go in a few pieces, so Chrome sorts them cleanly against
+    // the TidBit standing on the back; few planes keeps the turn smooth.
     const segs = [];
     points.forEach(([x1, y1], i) => {
       const [x2, y2] = points[(i + 1) % points.length];
-      const n = Math.max(1, Math.ceil(Math.hypot(x2 - x1, y2 - y1) / 60));
+      const n = Math.max(1, Math.ceil(Math.hypot(x2 - x1, y2 - y1) / 240));
       for (let s = 0; s < n; s++) {
         segs.push([x1 + ((x2 - x1) * s) / n, y1 + ((y2 - y1) * s) / n, x1 + ((x2 - x1) * (s + 1)) / n, y1 + ((y2 - y1) * (s + 1)) / n]);
       }
@@ -172,17 +175,44 @@
   }
 
   // The TidBit's 6.4mm side: slices from the glass up to the face, then a chamfer.
+  // The TidBit's 6.4mm side: a ring of strips around its outline, each shaded by
+  // which way it faces, dark at the glass and catching light at a polished chamfer.
+  // A ring is a few dozen thin planes, so the turn stays smooth.
   function buildTbSide() {
     const host = $('#phoneTbSide');
     if (!host) return;
-    const SLICES = 22;
-    const frag = document.createDocumentFragment();
-    for (let k = 0; k <= SLICES; k++) {
-      const el = document.createElement('div');
-      el.className = 'phone__tbslice' + (k === SLICES ? ' phone__tbslice--chamfer' : '');
-      el.style.setProperty('--k', ((k === SLICES ? SLICES - 0.3 : k) / SLICES).toFixed(3));
-      frag.appendChild(el);
+    host.textContent = '';
+    const { w, h } = puck;
+    const r = Math.min(TB_R, w / 2, h / 2);
+    const d = TB_DEPTH;
+    const corners = [
+      [w - r, r, -90],
+      [w - r, h - r, 0],
+      [r, h - r, 90],
+      [r, r, 180],
+    ];
+    const points = [];
+    for (const [cx, cy, start] of corners) {
+      for (let i = 0; i <= 5; i++) {
+        const a = ((start + (90 * i) / 5) * Math.PI) / 180;
+        points.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+      }
     }
+    const frag = document.createDocumentFragment();
+    points.forEach(([x1, y1], i) => {
+      const [x2, y2] = points[(i + 1) % points.length];
+      const len = Math.hypot(x2 - x1, y2 - y1);
+      if (len < 0.01) return;
+      const angle = Math.atan2(y2 - y1, x2 - x1);
+      const lit = 0.5 + 0.5 * Math.cos(angle - Math.PI / 2 + (Math.PI * 3) / 4);
+      const el = document.createElement('div');
+      el.className = 'phone__tbstrip';
+      el.style.cssText =
+        `width:${len + 1}px;height:${d}px;left:${-(len + 1) / 2}px;top:${-d / 2}px;` +
+        `--lit:${lit.toFixed(3)};` +
+        `transform:translate3d(${(x1 + x2) / 2}px,${(y1 + y2) / 2}px,${d / 2}px) rotateZ(${angle}rad) rotateX(90deg);`;
+      frag.appendChild(el);
+    });
     host.appendChild(frag);
   }
 
@@ -191,6 +221,7 @@
     phone.style.setProperty('--tb-y', puck.y + 'px');
     phone.style.setProperty('--tb-w', puck.w + 'px');
     phone.style.setProperty('--tb-h', puck.h + 'px');
+    buildTbSide();
   }
 
   function onDemoReady() {
