@@ -2064,28 +2064,10 @@ img, svg, iframe { display: block; }
 }
 
 /* The TidBit is never blank: like e-paper, it holds its last image (a poster of the
-   screen) until the live screen is ready, then refreshes with a black-white flash
-   and swaps to it (home.js adds .is-refresh, then .is-live). */
+   screen) until the live screen is ready, then home.js swaps it in (.is-live). */
 .phone__tbface { background: url(images/tidbit-screen.webp) center / 100% 100% no-repeat; }
 .js .phone__tbface .phone__demo { visibility: hidden; }
 .js .phone__tbface.is-live .phone__demo { visibility: visible; }
-.phone__tbface::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: #1d1b19;
-    opacity: 0;
-    pointer-events: none;
-}
-.phone__tbface.is-refresh::after { animation: tb-refresh 0.46s linear both; }
-@keyframes tb-refresh {
-    0%, 22% { opacity: 1; background: #1d1b19; }
-    23%, 44% { opacity: 1; background: #e8e5de; }
-    45%, 66% { opacity: 1; background: #1d1b19; }
-    67%, 80% { opacity: 1; background: #e8e5de; }
-    100% { opacity: 0; background: #e8e5de; }
-}
 
 .intro .step--hero h1,
 .intro .step--hero .lede,

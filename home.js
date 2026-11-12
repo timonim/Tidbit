@@ -224,19 +224,9 @@
     buildTbSide();
   }
 
-  // Swap the screen's poster for the live screen with an e-paper refresh; during the
-  // entrance, wait until the phone has landed so the flash is seen.
-  let tbAwake = false;
+  // Swap the screen's poster for the live screen as soon as it's ready.
   function wakeTb() {
-    if (tbAwake) return;
-    tbAwake = true;
-    const face = $('.phone__tbface');
-    if (reduceMotion) { face.classList.add('is-live'); return; }
-    const wait = root.classList.contains('intro') ? Math.max(0, 1700 - performance.now()) : 0;
-    setTimeout(() => {
-      face.classList.add('is-refresh');
-      setTimeout(() => face.classList.add('is-live'), 110);
-    }, wait);
+    $('.phone__tbface').classList.add('is-live');
   }
 
   function onDemoReady() {
