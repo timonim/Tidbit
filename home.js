@@ -224,6 +224,21 @@
     buildTbSide();
   }
 
+  // Swap the screen's poster for the live screen with an e-paper refresh; during the
+  // entrance, wait until the phone has landed so the flash is seen.
+  let tbAwake = false;
+  function wakeTb() {
+    if (tbAwake) return;
+    tbAwake = true;
+    const face = $('.phone__tbface');
+    if (reduceMotion) { face.classList.add('is-live'); return; }
+    const wait = root.classList.contains('intro') ? Math.max(0, 1700 - performance.now()) : 0;
+    setTimeout(() => {
+      face.classList.add('is-refresh');
+      setTimeout(() => face.classList.add('is-live'), 110);
+    }, wait);
+  }
+
   function onDemoReady() {
     try {
       demoWin = demo.contentWindow;
@@ -233,9 +248,11 @@
         // Measured in the demo's own page, which is the phone's back at design size.
         if (r.width > 100) puck = { x: r.left, y: r.top, w: r.width, h: r.height };
         placeTb();
+        wakeTb();
       }
     } catch (err) {
       demoWin = null;
+      wakeTb();
     }
     measure();
     update(false);

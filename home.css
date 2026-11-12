@@ -2063,36 +2063,39 @@ img, svg, iframe { display: block; }
     to { translate: 0 0; rotate: y 0deg; }
 }
 
-/* The TidBit wakes up. */
+/* The TidBit is never blank: like e-paper, it holds its last image (a poster of the
+   screen) until the live screen is ready, then refreshes with a black-white flash
+   and swaps to it (home.js adds .is-refresh, then .is-live). */
+.phone__tbface { background: url(images/tidbit-screen.webp) center / 100% 100% no-repeat; }
+.js .phone__tbface .phone__demo { visibility: hidden; }
+.js .phone__tbface.is-live .phone__demo { visibility: visible; }
 .phone__tbface::after {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: #e8e5de;
+    background: #1d1b19;
     opacity: 0;
     pointer-events: none;
 }
-.intro .phone__tbface::after { animation: intro-wake 2.6s linear both; }
-@keyframes intro-wake {
-    0%, 62% { opacity: 1; background: #e8e5de; }
-    63% { background: #1d1b19; }
-    67% { background: #e8e5de; }
-    71% { background: #1d1b19; }
-    75% { background: #e8e5de; opacity: 1; }
+.phone__tbface.is-refresh::after { animation: tb-refresh 0.46s linear both; }
+@keyframes tb-refresh {
+    0%, 22% { opacity: 1; background: #1d1b19; }
+    23%, 44% { opacity: 1; background: #e8e5de; }
+    45%, 66% { opacity: 1; background: #1d1b19; }
+    67%, 80% { opacity: 1; background: #e8e5de; }
     100% { opacity: 0; background: #e8e5de; }
 }
 
-.intro .step--hero h1 em { display: inline-block; }
 .intro .step--hero h1,
-.intro .step--hero h1 em,
 .intro .step--hero .lede,
 .intro .step--hero .actions,
 .intro .step--hero .specline {
     animation: intro-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--in, 0s) both;
 }
 .intro .step--hero h1 { --in: 0.55s; }
-.intro .step--hero h1 em { --in: 0.75s; }
+/* The italic half follows a beat later (it's inline, so it fades rather than rises). */
+.intro .step--hero h1 em { animation: intro-fade 1.1s ease-out 0.85s both; }
 .intro .step--hero .lede { --in: 0.95s; }
 .intro .step--hero .actions { --in: 1.1s; }
 .intro .step--hero .specline { --in: 1.25s; }
